@@ -1,0 +1,6 @@
+content:
+  - name: homepage
+    label: 首页
+    type: file
+    path: index.html
+    format: code
