@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>文章 - 我的个人博客</title>
 
   <style>
@@ -31,7 +32,10 @@
       text-decoration: underline;
     }
 
-    /* 顶部 */
+    /* =========================
+       顶部
+    ========================= */
+
     .topbar {
       background: #8b0000;
       color: #fff;
@@ -42,9 +46,11 @@
       max-width: 1100px;
       margin: 0 auto;
       padding: 8px 20px;
+
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       gap: 20px;
     }
 
@@ -55,22 +61,29 @@
 
     .site-info {
       font-size: 12px;
-      text-align: right;
       line-height: 1.6;
+      text-align: right;
     }
 
-    /* 主体 */
+    /* =========================
+       页面主体
+    ========================= */
+
     .container {
       max-width: 1100px;
       margin: 18px auto;
       padding: 0 20px;
     }
 
+    /* 面包屑 */
+
     .crumb {
       margin-bottom: 12px;
       padding: 8px 12px;
+
       background: #fff;
       border: 1px solid #d8d1c2;
+
       font-size: 13px;
     }
 
@@ -78,21 +91,29 @@
       color: #666;
     }
 
+    /* 文章 */
+
     .article-box {
       background: #fff;
       border: 1px solid #d2c9b8;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .article-header {
       padding: 22px 26px 18px;
-      border-bottom: 3px solid #8b0000;
+
       background: #faf8f2;
+
+      border-bottom: 3px solid #8b0000;
     }
 
     .article-title {
       margin: 0 0 12px;
+
       color: #7a0000;
+
       font-size: 25px;
       line-height: 1.5;
     }
@@ -106,11 +127,15 @@
       margin-right: 18px;
     }
 
+    /* 正文 */
+
     .article-content {
-      padding: 28px 30px 40px;
-      line-height: 2;
-      font-size: 15px;
       min-height: 300px;
+
+      padding: 28px 30px 40px;
+
+      font-size: 15px;
+      line-height: 2;
     }
 
     .article-content p {
@@ -120,9 +145,11 @@
     .article-content h1,
     .article-content h2,
     .article-content h3 {
-      color: #7a0000;
       margin-top: 28px;
       margin-bottom: 14px;
+
+      color: #7a0000;
+
       line-height: 1.5;
     }
 
@@ -131,21 +158,15 @@
     }
 
     .article-content h2 {
-      font-size: 20px;
-      border-left: 5px solid #8b0000;
       padding-left: 10px;
+
+      border-left: 5px solid #8b0000;
+
+      font-size: 20px;
     }
 
     .article-content h3 {
       font-size: 17px;
-    }
-
-    .article-content blockquote {
-      margin: 20px 0;
-      padding: 10px 18px;
-      background: #f5f1e7;
-      border-left: 4px solid #b69b5e;
-      color: #666;
     }
 
     .article-content ul,
@@ -157,34 +178,50 @@
       margin: 6px 0;
     }
 
+    .article-content blockquote {
+      margin: 20px 0;
+      padding: 10px 18px;
+
+      background: #f5f1e7;
+      border-left: 4px solid #b69b5e;
+
+      color: #666;
+    }
+
     .article-content code {
       padding: 2px 5px;
+
       background: #eee;
       border: 1px solid #ddd;
+
       font-family: Consolas, monospace;
       font-size: 13px;
     }
 
     .article-content pre {
       padding: 15px;
+
       overflow-x: auto;
+
       background: #272822;
       color: #eee;
-      border-radius: 2px;
+
       line-height: 1.6;
     }
 
     .article-content pre code {
       padding: 0;
+
       border: 0;
       background: transparent;
       color: inherit;
     }
 
     .article-content hr {
+      margin: 30px 0;
+
       border: 0;
       border-top: 1px solid #ddd;
-      margin: 30px 0;
     }
 
     .article-content img {
@@ -192,47 +229,73 @@
       height: auto;
     }
 
-    /* 错误提示 */
+    /* =========================
+       错误
+    ========================= */
+
     .error-box {
       padding: 40px 25px;
-      text-align: center;
+
       color: #777;
+
+      text-align: center;
     }
 
     .error-title {
       margin-bottom: 10px;
+
       color: #8b0000;
+
       font-size: 20px;
       font-weight: bold;
     }
 
-    /* 底部 */
-    .footer {
-      max-width: 1100px;
-      margin: 20px auto;
-      padding: 18px 20px;
-      border-top: 1px solid #ccc;
-      color: #777;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.8;
-    }
+    /* =========================
+       返回按钮
+    ========================= */
 
     .back-home {
       display: inline-block;
+
       margin-top: 15px;
       padding: 7px 15px;
+
       background: #8b0000;
       color: #fff;
+
       border: 1px solid #6d0000;
     }
 
     .back-home:hover {
       background: #6d0000;
+      color: #fff;
       text-decoration: none;
     }
 
+    /* =========================
+       底部
+    ========================= */
+
+    .footer {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 18px 20px;
+
+      border-top: 1px solid #ccc;
+
+      color: #777;
+
+      font-size: 12px;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* =========================
+       手机
+    ========================= */
+
     @media (max-width: 700px) {
+
       .topbar-inner {
         display: block;
       }
@@ -264,82 +327,164 @@
 
 <body>
 
+  <!-- =========================
+       顶部
+  ========================== -->
+
   <div class="topbar">
+
     <div class="topbar-inner">
-      <div class="site-name">我的个人博客 · 个人信息门户</div>
+
+      <div class="site-name">
+        我的个人博客 · 个人信息门户
+      </div>
 
       <div class="site-info">
-        <div id="currentDate">正在获取日期……</div>
-        <div id="runningDays">本站已运行 0 天</div>
+
+        <div id="currentDate">
+          正在获取日期……
+        </div>
+
+        <div id="runningDays">
+          本站已运行 0 天
+        </div>
+
       </div>
+
     </div>
+
   </div>
+
+
+  <!-- =========================
+       主体
+  ========================== -->
 
   <main class="container">
 
+    <!-- 面包屑 -->
+
     <div class="crumb">
-      <a href="index.html">首页</a>
+
+      <a href="index.html">
+        首页
+      </a>
+
      　&gt;　
-      <span id="crumbTitle">文章</span>
+
+      <span id="crumbTitle">
+        文章
+      </span>
+
     </div>
+
+
+    <!-- 文章 -->
 
     <article class="article-box">
 
       <header class="article-header">
-        <h1 class="article-title" id="articleTitle">
+
+        <h1
+          class="article-title"
+          id="articleTitle"
+        >
           正在读取文章……
         </h1>
 
         <div class="article-meta">
-          <span id="articleDate">日期：--</span>
-          <span id="articleCategory">分类：--</span>
+
+          <span id="articleDate">
+            日期：--
+          </span>
+
+          <span id="articleCategory">
+            分类：--
+          </span>
+
         </div>
+
       </header>
 
-      <div class="article-content" id="articleContent">
+
+      <div
+        class="article-content"
+        id="articleContent"
+      >
         正在从本站读取文章……
+
       </div>
 
     </article>
 
   </main>
 
+
+  <!-- =========================
+       底部
+  ========================== -->
+
   <footer class="footer">
+
     <div>
-      © <span id="footerYear"></span> 我的个人博客
+      © <span id="footerYear"></span>
+      我的个人博客
     </div>
 
     <div>
       一个简单、便宜、长期维护的个人小站
     </div>
 
-    <a class="back-home" href="index.html">
+    <a
+      class="back-home"
+      href="index.html"
+    >
       ← 返回首页
     </a>
+
   </footer>
 
 
 <script>
-/* =========================================================
-   基本设置
-========================================================= */
+
+/* =====================================================
+   1. 网站基本设置
+===================================================== */
 
 const START_DATE = "2026-09-26";
 
-const REPO_RAW =
-  "https://raw.githubusercontent.com/Liu-tangguo/Liu-tangguo.github.io/main/content/posts/";
+
+/*
+ * 文章目录
+ *
+ * 注意：
+ * 这里使用的是 GitHub Pages 自己的网站地址。
+ *
+ * 不再使用：
+ * raw.githubusercontent.com
+ */
+
+const POSTS_PATH = "content/posts/";
 
 
-/* =========================================================
-   顶部日期
-========================================================= */
+/* =====================================================
+   2. 顶部日期
+===================================================== */
 
 function updateSiteInfo() {
+
   const now = new Date();
 
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
+
+  const month =
+    String(now.getMonth() + 1)
+      .padStart(2, "0");
+
+  const day =
+    String(now.getDate())
+      .padStart(2, "0");
+
 
   const weekNames = [
     "星期日",
@@ -351,60 +496,69 @@ function updateSiteInfo() {
     "星期六"
   ];
 
-  const week = weekNames[now.getDay()];
 
-  document.getElementById("currentDate").textContent =
+  const week =
+    weekNames[now.getDay()];
+
+
+  document.getElementById(
+    "currentDate"
+  ).textContent =
     `${year}-${month}-${day} ${week}`;
 
-  const start = new Date(START_DATE + "T00:00:00");
-  const today = new Date(
-    year + "-" + month + "-" + day + "T00:00:00"
-  );
 
-  const diff = today - start;
-  const days = Math.max(
-    0,
-    Math.floor(diff / (1000 * 60 * 60 * 24))
-  );
+  /*
+   * 计算本站运行天数
+   */
 
-  document.getElementById("runningDays").textContent =
+  const start =
+    new Date(
+      START_DATE + "T00:00:00"
+    );
+
+
+  const today =
+    new Date(
+      `${year}-${month}-${day}T00:00:00`
+    );
+
+
+  const diff =
+    today - start;
+
+
+  const days =
+    Math.max(
+      0,
+      Math.floor(
+        diff /
+        (1000 * 60 * 60 * 24)
+      )
+    );
+
+
+  document.getElementById(
+    "runningDays"
+  ).textContent =
     `本站已运行 ${days} 天`;
 
-  document.getElementById("footerYear").textContent = year;
+
+  document.getElementById(
+    "footerYear"
+  ).textContent =
+    year;
 }
+
 
 updateSiteInfo();
 
 
-/* =========================================================
-   Markdown 处理
-========================================================= */
-
-/*
-  这里只处理博客目前需要的常见 Markdown：
-
-  # 标题
-  ## 二级标题
-  ### 三级标题
-
-  **粗体**
-  *斜体*
-  [链接](网址)
-
-  - 列表
-  1. 有序列表
-
-  > 引用
-
-  `代码`
-
-  ```代码块```
-
-  ---
-*/
-
+/* =====================================================
+   3. HTML 转义
+===================================================== */
 
 function escapeHtml(text) {
+
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -414,78 +568,129 @@ function escapeHtml(text) {
 }
 
 
+/* =====================================================
+   4. Markdown 行内格式
+===================================================== */
+
 function inlineMarkdown(text) {
 
-  let result = escapeHtml(text);
+  let result =
+    escapeHtml(text);
 
-  // 链接
-  result = result.replace(
-    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener">$1</a>'
-  );
 
-  // 粗体
-  result = result.replace(
-    /\*\*(.*?)\*\*/g,
-    "<strong>$1</strong>"
-  );
+  /*
+   * 链接
+   */
 
-  // 斜体
-  result = result.replace(
-    /(?<!\*)\*([^*]+)\*(?!\*)/g,
-    "<em>$1</em>"
-  );
+  result =
+    result.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener">$1</a>'
+    );
 
-  // 行内代码
-  result = result.replace(
-    /`([^`]+)`/g,
-    "<code>$1</code>"
-  );
+
+  /*
+   * 粗体
+   */
+
+  result =
+    result.replace(
+      /\*\*(.*?)\*\*/g,
+      "<strong>$1</strong>"
+    );
+
+
+  /*
+   * 斜体
+   */
+
+  result =
+    result.replace(
+      /(?<!\*)\*([^*]+)\*(?!\*)/g,
+      "<em>$1</em>"
+    );
+
+
+  /*
+   * 行内代码
+   */
+
+  result =
+    result.replace(
+      /`([^`]+)`/g,
+      "<code>$1</code>"
+    );
+
 
   return result;
 }
 
 
+/* =====================================================
+   5. Markdown 转 HTML
+===================================================== */
+
 function markdownToHtml(markdown) {
 
-  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const lines =
+    markdown
+      .replace(/\r\n/g, "\n")
+      .split("\n");
+
 
   let html = "";
 
   let inCodeBlock = false;
+
   let codeContent = "";
 
   let inUl = false;
+
   let inOl = false;
+
 
   function closeLists() {
 
     if (inUl) {
+
       html += "</ul>";
+
       inUl = false;
     }
 
+
     if (inOl) {
+
       html += "</ol>";
+
       inOl = false;
     }
   }
 
 
-  for (let i = 0; i < lines.length; i++) {
+  for (
+    let i = 0;
+    i < lines.length;
+    i++
+  ) {
 
     const line = lines[i];
 
 
-    /* 代码块 */
+    /*
+     * 代码块
+     */
 
-    if (line.trim().startsWith("```")) {
+    if (
+      line.trim().startsWith("```")
+    ) {
 
       if (!inCodeBlock) {
 
         closeLists();
 
         inCodeBlock = true;
+
         codeContent = "";
 
       } else {
@@ -496,6 +701,7 @@ function markdownToHtml(markdown) {
           "</code></pre>";
 
         inCodeBlock = false;
+
         codeContent = "";
       }
 
@@ -505,47 +711,28 @@ function markdownToHtml(markdown) {
 
     if (inCodeBlock) {
 
-      codeContent += line + "\n";
+      codeContent +=
+        line + "\n";
+
       continue;
     }
 
 
-    /* 空行 */
+    /*
+     * 空行
+     */
 
     if (line.trim() === "") {
 
       closeLists();
-      continue;
-    }
-
-
-    /* 标题 */
-
-    if (line.startsWith("### ")) {
-
-      closeLists();
-
-      html +=
-        "<h3>" +
-        inlineMarkdown(line.substring(4)) +
-        "</h3>";
 
       continue;
     }
 
 
-    if (line.startsWith("## ")) {
-
-      closeLists();
-
-      html +=
-        "<h2>" +
-        inlineMarkdown(line.substring(3)) +
-        "</h2>";
-
-      continue;
-    }
-
+    /*
+     * 一级标题
+     */
 
     if (line.startsWith("# ")) {
 
@@ -553,87 +740,165 @@ function markdownToHtml(markdown) {
 
       html +=
         "<h1>" +
-        inlineMarkdown(line.substring(2)) +
+        inlineMarkdown(
+          line.substring(2)
+        ) +
         "</h1>";
 
       continue;
     }
 
 
-    /* 无序列表 */
+    /*
+     * 二级标题
+     */
 
-    if (/^\s*[-*]\s+/.test(line)) {
+    if (line.startsWith("## ")) {
+
+      closeLists();
+
+      html +=
+        "<h2>" +
+        inlineMarkdown(
+          line.substring(3)
+        ) +
+        "</h2>";
+
+      continue;
+    }
+
+
+    /*
+     * 三级标题
+     */
+
+    if (line.startsWith("### ")) {
+
+      closeLists();
+
+      html +=
+        "<h3>" +
+        inlineMarkdown(
+          line.substring(4)
+        ) +
+        "</h3>";
+
+      continue;
+    }
+
+
+    /*
+     * 无序列表
+     */
+
+    if (
+      /^\s*[-*]\s+/.test(line)
+    ) {
 
       if (inOl) {
+
         html += "</ol>";
+
         inOl = false;
       }
 
+
       if (!inUl) {
+
         html += "<ul>";
+
         inUl = true;
       }
 
-      const content = line.replace(
-        /^\s*[-*]\s+/,
-        ""
-      );
+
+      const content =
+        line.replace(
+          /^\s*[-*]\s+/,
+          ""
+        );
+
 
       html +=
         "<li>" +
         inlineMarkdown(content) +
         "</li>";
 
+
       continue;
     }
 
 
-    /* 有序列表 */
+    /*
+     * 有序列表
+     */
 
-    if (/^\s*\d+\.\s+/.test(line)) {
+    if (
+      /^\s*\d+\.\s+/.test(line)
+    ) {
 
       if (inUl) {
+
         html += "</ul>";
+
         inUl = false;
       }
 
+
       if (!inOl) {
+
         html += "<ol>";
+
         inOl = true;
       }
 
-      const content = line.replace(
-        /^\s*\d+\.\s+/,
-        ""
-      );
+
+      const content =
+        line.replace(
+          /^\s*\d+\.\s+/,
+          ""
+        );
+
 
       html +=
         "<li>" +
         inlineMarkdown(content) +
         "</li>";
 
+
       continue;
     }
 
 
-    /* 引用 */
+    /*
+     * 引用
+     */
 
-    if (line.startsWith("> ")) {
+    if (
+      line.startsWith("> ")
+    ) {
 
       closeLists();
 
       html +=
         "<blockquote>" +
-        inlineMarkdown(line.substring(2)) +
+        inlineMarkdown(
+          line.substring(2)
+        ) +
         "</blockquote>";
 
       continue;
     }
 
 
-    /* 分割线 */
+    /*
+     * 分割线
+     */
 
-    if (/^---+$/.test(line.trim())) {
+    if (
+      /^---+$/.test(
+        line.trim()
+      )
+    ) {
 
       closeLists();
 
@@ -643,7 +908,9 @@ function markdownToHtml(markdown) {
     }
 
 
-    /* 普通段落 */
+    /*
+     * 普通段落
+     */
 
     closeLists();
 
@@ -655,6 +922,11 @@ function markdownToHtml(markdown) {
 
 
   closeLists();
+
+
+  /*
+   * 防止代码块没有闭合
+   */
 
   if (inCodeBlock) {
 
@@ -669,98 +941,217 @@ function markdownToHtml(markdown) {
 }
 
 
-/* =========================================================
-   YAML Front Matter
-========================================================= */
+/* =====================================================
+   6. 读取 YAML Front Matter
+===================================================== */
 
 function parseFrontMatter(text) {
 
   const result = {
+
     title: "",
+
     date: "",
+
     category: "",
+
     body: text
+
   };
 
 
-  if (!text.startsWith("---")) {
+  /*
+   * 如果没有 Front Matter
+   */
+
+  if (
+    !text.startsWith("---")
+  ) {
+
     return result;
   }
 
 
-  const endIndex = text.indexOf(
-    "\n---",
-    3
-  );
+  /*
+   * 找第二个 ---
+   */
+
+  const endIndex =
+    text.indexOf(
+      "\n---",
+      3
+    );
 
 
-  if (endIndex === -1) {
+  if (
+    endIndex === -1
+  ) {
+
     return result;
   }
 
 
-  const frontMatter = text.substring(
-    3,
-    endIndex
-  );
+  const frontMatter =
+    text.substring(
+      3,
+      endIndex
+    );
 
 
-  const body = text.substring(
-    endIndex + 4
-  );
+  const body =
+    text.substring(
+      endIndex + 4
+    );
 
+
+  /*
+   * 解析 Front Matter
+   */
 
   frontMatter
     .split("\n")
     .forEach(line => {
 
-      const match = line.match(
-        /^([^:]+):\s*(.*)$/
-      );
+      const match =
+        line.match(
+          /^([^:]+):\s*(.*)$/
+        );
+
 
       if (!match) {
         return;
       }
 
-      const key = match[1].trim();
-      let value = match[2].trim();
 
-      value = value
-        .replace(/^["']/, "")
-        .replace(/["']$/, "");
+      const key =
+        match[1].trim();
 
-      if (key === "title") {
-        result.title = value;
+
+      let value =
+        match[2].trim();
+
+
+      /*
+       * 去掉可能存在的引号
+       */
+
+      value =
+        value
+          .replace(/^["']/, "")
+          .replace(/["']$/, "");
+
+
+      if (
+        key === "title"
+      ) {
+
+        result.title =
+          value;
       }
 
-      if (key === "date") {
-        result.date = value;
+
+      if (
+        key === "date"
+      ) {
+
+        result.date =
+          value;
       }
 
-      if (key === "category") {
-        result.category = value;
+
+      if (
+        key === "category"
+      ) {
+
+        result.category =
+          value;
       }
+
     });
 
 
-  result.body = body.trim();
+  result.body =
+    body.trim();
+
 
   return result;
 }
 
 
-/* =========================================================
-   读取文章
-========================================================= */
+/* =====================================================
+   7. 显示错误
+===================================================== */
+
+function showError(
+  title,
+  message
+) {
+
+  document.getElementById(
+    "articleTitle"
+  ).textContent =
+    title;
+
+
+  document.getElementById(
+    "articleDate"
+  ).textContent =
+    "";
+
+
+  document.getElementById(
+    "articleCategory"
+  ).textContent =
+    "";
+
+
+  document.getElementById(
+    "articleContent"
+  ).innerHTML =
+
+    `
+      <div class="error-box">
+
+        <div class="error-title">
+          ${title}
+        </div>
+
+        <div>
+          ${message}
+        </div>
+
+      </div>
+    `;
+}
+
+
+/* =====================================================
+   8. 读取文章
+===================================================== */
 
 async function loadArticle() {
 
-  const params = new URLSearchParams(
-    window.location.search
-  );
+  /*
+   * 获取 URL 中的 ?post=
+   *
+   * 例如：
+   *
+   * post.html?post=2026-09-26
+   */
 
-  const post = params.get("post");
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
 
+
+  const post =
+    params.get("post");
+
+
+  /*
+   * 没有文章名称
+   */
 
   if (!post) {
 
@@ -773,46 +1164,98 @@ async function loadArticle() {
   }
 
 
+  /*
+   * 文章地址
+   *
+   * 这里非常重要：
+   *
+   * 直接从当前 GitHub Pages
+   * 网站读取 Markdown。
+   */
+
   const url =
-    REPO_RAW +
+    POSTS_PATH +
     encodeURIComponent(post) +
     ".md";
 
 
   try {
 
-    const response = await fetch(
-      url + "?v=" + Date.now()
+    console.log(
+      "正在读取文章：",
+      url
     );
 
 
-    if (!response.ok) {
+    const response =
+      await fetch(
+        url + "?v=" + Date.now()
+      );
+
+
+    /*
+     * HTTP 状态不是 200
+     */
+
+    if (
+      !response.ok
+    ) {
 
       throw new Error(
-        "HTTP " + response.status
+        "HTTP " +
+        response.status
       );
     }
 
+
+    /*
+     * 获取 Markdown
+     */
 
     const markdown =
       await response.text();
 
 
+    console.log(
+      "文章读取成功"
+    );
+
+
+    /*
+     * 解析文章
+     */
+
     const article =
-      parseFrontMatter(markdown);
+      parseFrontMatter(
+        markdown
+      );
 
 
-    if (!article.title) {
+    /*
+     * 标题
+     */
+
+    if (
+      !article.title
+    ) {
 
       article.title =
         "未命名文章";
     }
 
 
+    /*
+     * 浏览器标题
+     */
+
     document.title =
       article.title +
       " - 我的个人博客";
 
+
+    /*
+     * 页面标题
+     */
 
     document.getElementById(
       "articleTitle"
@@ -820,76 +1263,77 @@ async function loadArticle() {
       article.title;
 
 
+    /*
+     * 面包屑
+     */
+
     document.getElementById(
       "crumbTitle"
     ).textContent =
       article.title;
 
 
+    /*
+     * 日期
+     */
+
     document.getElementById(
       "articleDate"
     ).textContent =
       "日期：" +
-      (article.date || "--");
+      (
+        article.date ||
+        "--"
+      );
 
+
+    /*
+     * 分类
+     */
 
     document.getElementById(
       "articleCategory"
     ).textContent =
       "分类：" +
-      (article.category || "未分类");
+      (
+        article.category ||
+        "未分类"
+      );
 
+
+    /*
+     * 正文
+     */
 
     document.getElementById(
       "articleContent"
     ).innerHTML =
-      markdownToHtml(article.body);
+      markdownToHtml(
+        article.body
+      );
+
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "文章读取失败：",
+      error
+    );
+
 
     showError(
       "文章读取失败",
       "找不到这篇文章，请检查 GitHub 上的 Markdown 文件。"
     );
+
   }
+
 }
 
 
-/* =========================================================
-   错误页面
-========================================================= */
-
-function showError(title, message) {
-
-  document.getElementById(
-    "articleTitle"
-  ).textContent = title;
-
-  document.getElementById(
-    "articleDate"
-  ).textContent = "";
-
-  document.getElementById(
-    "articleCategory"
-  ).textContent = "";
-
-  document.getElementById(
-    "articleContent"
-  ).innerHTML =
-    `
-      <div class="error-box">
-        <div class="error-title">${title}</div>
-        <div>${message}</div>
-      </div>
-    `;
-}
-
-
-/* =========================================================
-   启动
-========================================================= */
+/* =====================================================
+   9. 启动
+===================================================== */
 
 loadArticle();
 
