@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>占位符志 · 个人博客</title>
+<style>
+:root{--red:#b81c1c;--red2:#8a0f0f;--red3:#6b0a0a;--bg:#f0f0f0;--bd:#d6d6d6;--bd2:#ececec;--t1:#222;--t2:#555;--t3:#999;--hei:'Microsoft YaHei','SimHei',Arial,sans-serif;--song:SimSun,'宋体',serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--t1);font-family:var(--song);font-size:14px;line-height:1.75}
+a{color:var(--t1);text-decoration:none}
+a:hover{color:var(--red);text-decoration:underline}
+ul,ol{list-style:none}
+h1,h2,h3,h4{font-weight:400}
+table{border-collapse:collapse;width:100%}
+button,input{font-family:inherit;font-size:inherit;outline:0}
+.wrap{width:1180px;margin:0 auto}
+.topbar{background:#6b0a0a;color:#e6cbcb;font-size:12.5px;border-bottom:2px solid var(--red2)}
+.tb{display:flex;align-items:center;justify-content:space-between;height:32px;gap:10px}
+.tb-l,.tb-r{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar a{color:#e6cbcb}
+.topbar a:hover{color:#fff}
+.tb i{font-style:normal;color:#9c6a6a;margin:0 8px}
+.lang a{margin:0 3px}
+.site{width:1180px;margin:0 auto;background:#fff;border:1px solid var(--bd);border-top:0}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 16px;border-bottom:1px solid var(--bd2)}
+.logo{display:flex;align-items:center;gap:13px;min-width:0}
+.logo-mark{flex:0 0 52px;width:52px;height:52px;background:var(--red);color:#fff;font-family:var(--hei);font-size:26px;font-weight:700;line-height:52px;text-align:center;border-radius:2px}
+.logo b{display:block;font-family:var(--hei);font-size:25px;font-weight:700;color:var(--red2);letter-spacing:3px;line-height:1.35}
+.logo em{display:block;font-style:normal;font-size:13px;color:var(--t3);letter-spacing:.5px}
+.hd-r{flex:0 0 auto;text-align:right}
+.search{display:flex;border:1px solid var(--bd);height:34px}
+.search input{flex:1 1 auto;width:246px;border:0;padding:0 10px;font-size:13.5px;color:var(--t1);background:#fff}
+.search button{flex:0 0 72px;width:72px;border:0;background:var(--red);color:#fff;font-family:var(--hei);font-size:14px;letter-spacing:3px;cursor:pointer;padding-left:3px}
+.search button:hover{background:var(--red2)}
+.hot{margin-top:7px;font-size:12.5px;color:var(--t3)}
+.hot a{color:var(--t3);margin-left:9px}
+.nav{background:linear-gradient(#b81c1c,#8a0f0f);border-top:1px solid #cf5a5a;border-bottom:2px solid #590707}
+.nv{display:flex}
+.nv a{flex:0 0 auto;font-family:var(--hei);font-size:15px;color:#fff;line-height:42px;padding:0 26px;letter-spacing:1px;border-right:1px solid rgba(255,255,255,.16)}
+.nv a:hover{background:rgba(0,0,0,.2);color:#fff;text-decoration:none}
+.nv a.on{background:#6b0a0a;font-weight:700}
+.body{padding:12px 14px 0}
+.strip{display:flex;align-items:center;gap:9px;background:#fffdf4;border:1px solid #e6d9b8;padding:6px 10px;font-size:13px}
+.strip-tag{flex:0 0 auto;background:var(--red);color:#fff;font-family:var(--hei);font-size:12.5px;padding:0 8px;line-height:20px}
+.strip p{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.strip p a{color:#8a6a1c}
+.more{flex:0 0 auto;font-size:12.5px;color:var(--red);font-family:var(--hei)}
+.crumb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 2px;font-size:13px;color:var(--t2);border-bottom:1px solid var(--bd2);margin-bottom:12px}
+.crumb .c-r{color:var(--t3);font-size:12.5px}
+.main{display:flex;gap:16px;align-items:flex-start}
+.col-l{flex:1 1 auto;min-width:0}
+.col-r{flex:0 0 320px;width:320px}
+.panel{border:1px solid var(--bd);margin-bottom:16px;background:#fff}
+.ph{display:flex;align-items:center;gap:10px;height:39px;padding:0 12px;background:linear-gradient(#fff,#f7f7f7);border-bottom:1px solid var(--bd)}
+.ph h2{flex:0 0 auto;font-family:var(--hei);font-size:15.5px;font-weight:700;color:var(--red2);letter-spacing:1px;line-height:1;padding-left:9px;border-left:4px solid var(--red)}
+.ph .more{margin-left:auto}
+.ph.cream{background:#fffaf0;border-bottom:1px dashed #e2d3a8}
+.ph.cream h2{color:#9a6a06}
+.tabs{display:flex;gap:2px;margin-left:4px}
+.tabs li{font-size:12.5px;color:var(--t2);padding:2px 9px;cursor:pointer;border:1px solid transparent}
+.tabs li:hover{color:var(--red)}
+.tabs li.on{color:var(--red);background:#fff;border-color:var(--bd);font-weight:700}
+.top-news{display:flex;gap:14px;padding:14px 12px;border-bottom:1px dashed var(--bd)}
+.tn-fig{position:relative;flex:0 0 200px;height:132px;border:1px solid var(--bd);background:linear-gradient(135deg,#e9e9e9,#d0d0d0);display:flex;align-items:center;justify-content:center;color:#9a9a9a;font-family:var(--hei);font-size:13px;letter-spacing:3px}
+.tn-fig i{position:absolute;left:0;top:0;background:var(--red);color:#fff;font-style:normal;font-family:var(--hei);font-size:12.5px;padding:0 7px;line-height:20px;letter-spacing:1px}
+.tn-txt{min-width:0}
+.tn-txt h3{font-family:var(--hei);font-size:18px;font-weight:700;line-height:1.55}
+.tn-txt h3 a{color:#111}
+.tn-txt .sum{margin-top:7px;font-size:13.5px;color:var(--t2);line-height:1.85}
+.tn-txt .meta{margin-top:8px;font-size:12.5px;color:var(--t3)}
+.tn-txt .meta em{font-style:normal;margin:0 6px;color:#bbb}
+.newslist li{display:flex;align-items:baseline;gap:10px;padding:7px 12px}
+.newslist li+li{border-top:1px dotted #dcdcdc}
+.newslist li:hover{background:#fcfafa}
+.newslist li a{flex:1 1 auto;min-width:0;font-size:14px;line-height:1.7}
+.newslist.nowrap li a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.newslist .d{flex:0 0 auto;color:var(--t3);font-size:12.5px;font-family:var(--hei)}
+.duo{display:flex;gap:16px}
+.duo>.panel{flex:1 1 0;min-width:0;margin-bottom:16px}
+.rp th,.rp td{border:1px solid var(--bd2);padding:7px 10px;text-align:left;font-size:13.5px}
+.rp th{background:#fafafa;font-family:var(--hei);font-weight:400;color:var(--t2);font-size:13px;white-space:nowrap}
+.rp td:last-child,.rp th:last-child{text-align:right;white-space:nowrap}
+.rp tbody tr:hover td{background:#fcfafa}
+.rp td a{color:var(--t2)}
+.st{display:inline-block;font-family:var(--hei);font-size:12.5px;padding:0 6px;border:1px solid #e0b3b3;color:var(--red);line-height:18px}
+.st.g{border-color:var(--bd);color:var(--t3)}
+.zt li+li{border-top:1px dotted #dcdcdc}
+.zt a{display:block;padding:9px 12px}
+.zt a:hover{background:#fcfafa;text-decoration:none}
+.zt b{display:block;font-family:var(--hei);font-size:14px;font-weight:700}
+.zt span{display:block;font-size:12.5px;color:var(--t3);margin-top:2px}
+.dyn li{display:flex;gap:8px;align-items:baseline;padding:7px 12px}
+.dyn li+li{border-top:1px dotted #dcdcdc}
+.dyn .t{flex:0 0 auto;color:var(--red);font-family:var(--hei);font-size:12.5px}
+.dyn .x{flex:1 1 auto;min-width:0;color:var(--t2);font-size:13.5px;line-height:1.7}
+.stat li{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:7px 12px;font-size:13.5px}
+.stat li+li{border-top:1px dotted #dcdcdc}
+.stat li b{font-family:var(--hei);color:var(--red);font-weight:700}
+.stat .exec{padding:8px 12px;border-top:1px solid var(--bd2);background:#fbfbfb;font-size:12.5px;color:var(--t3);text-align:center}
+.about{padding:12px;font-size:13.5px;color:var(--t2);line-height:1.9}
+.links{display:flex;flex-wrap:wrap;padding:6px}
+.links a{flex:0 0 50%;font-size:13px;color:var(--t2);padding:6px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.links a:before{content:'';display:inline-block;width:4px;height:4px;background:var(--red);margin-right:7px;vertical-align:2px}
+.footer{margin:4px 0 14px;border:1px solid var(--bd);border-top:2px solid var(--red);background:#fafafa;padding:12px 14px}
+.f-nav{display:flex;flex-wrap:wrap;justify-content:center;padding-bottom:9px;border-bottom:1px dotted #d6d6d6;font-size:13px}
+.f-nav a{padding:0 12px;line-height:1;border-right:1px solid #dcdcdc}
+.f-nav a:last-child{border-right:0}
+.f-copy{text-align:center;font-size:12.5px;color:var(--t2);line-height:2;margin-top:9px}
+.f-time{text-align:center;font-size:12.5px;color:var(--t3)}
+#toTop{display:none;position:fixed;right:18px;bottom:24px;width:38px;height:38px;border:1px solid var(--red2);background:#fff;color:var(--red2);font-size:16px;cursor:pointer}
+#toTop:hover{background:var(--red);color:#fff}
+.empty{display:none;padding:18px 12px;text-align:center;color:var(--t3);font-size:13px}
+@media (max-width:1203px){
+.wrap,.site{width:auto}
+.site{margin:0 10px}
+}
+@media (max-width:900px){
+.hd{flex-direction:column;align-items:flex-start;gap:12px}
+.hd-r{text-align:left;width:100%}
+.search input{width:auto}
+.main{flex-direction:column}
+.col-r{flex:0 0 auto;width:auto;align-self:stretch}
+.duo{flex-direction:column}
+.top-news{flex-direction:column}
+.tn-fig{flex:0 0 auto;width:100%;height:150px}
+}
+@media (max-width:640px){
+.site{margin:0 6px}
+.body{padding:10px 10px 0}
+.logo-mark{flex:0 0 42px;width:42px;height:42px;line-height:42px;font-size:21px}
+.logo b{font-size:20px;letter-spacing:2px}
+.logo em{font-size:12.5px}
+.nv{flex-wrap:wrap}
+.nv a{flex:0 0 25%;text-align:center;padding:0;font-size:13px;line-height:36px;letter-spacing:0;border-bottom:1px solid rgba(255,255,255,.16)}
+.tb-r,.hs{display:none}
+.f-nav a{padding:0 8px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap tb">
+    <div class="tb-l">
+      <span>今天是 2026年9月26日 星期六</span>
+      <i>|</i>
+      <span class="hs">农历八月初六</span>
+      <i class="hs">|</i>
+      <span class="hs">本站已运行 1284 天</span>
+    </div>
+    <div class="tb-r">
+      <a href="#">设为首页</a><i>|</i>
+      <a href="#">加入收藏</a><i>|</i>
+      <a href="#">站点地图</a><i>|</i>
+      <a href="#">无障碍浏览</a><i>|</i>
+      <span class="lang"><a href="#">简</a><a href="#">繁</a><a href="#">EN</a></span>
+    </div>
+  </div>
+</div>
+
+<div class="site">
+
+  <div class="hd">
+    <a class="logo" href="#">
+      <span class="logo-mark">占</span>
+      <span>
+        <b>占位符志</b>
+        <em>一个人的博客　·　记录技术、阅读与生活　·　内容陆续填充中</em>
+      </span>
+    </a>
+    <div class="hd-r">
+      <div class="search">
+        <input id="q" type="text" placeholder="请输入关键词搜索本站文章">
+        <button id="qbtn" type="button">搜索</button>
+      </div>
+      <p class="hot">热门搜索：<a href="#">占位符</a><a href="#">待填</a><a href="#">还没想好</a><a href="#">咖啡</a></p>
+    </div>
+  </div>
+
+  <div class="nav">
+    <div class="nv">
+      <a class="on" href="#">首　页</a>
+      <a href="#">要闻动态</a>
+      <a href="#">技术文章</a>
+      <a href="#">随笔杂记</a>
+      <a href="#">项目记录</a>
+      <a href="#">阅读摘抄</a>
+      <a href="#">通知公告</a>
+      <a href="#">关于本站</a>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="strip">
+      <span class="strip-tag">站内公告</span>
+      <p><a href="#">【占位】本公告栏正在施工，第一条正式公告将于某个晴朗的日子发布，敬请期待。</a></p>
+      <a class="more" href="#">更多 &gt;&gt;</a>
+    </div>
+
+    <div class="crumb">
+      <p>当前位置：<a href="#">首页</a> &gt; <a href="#">要闻动态</a></p>
+      <p class="c-r">最后更新：2026-09-26 10:24</p>
+    </div>
+
+    <div class="main">
+      <div class="col-l">
+
+        <div class="panel">
+          <div class="ph">
+            <h2>要闻动态</h2>
+            <ul class="tabs" id="tabs">
+              <li class="on" data-t="0">最新发布</li>
+              <li data-t="1">热门阅读</li>
+            </ul>
+            <a class="more" href="#">更多 &gt;&gt;</a>
+          </div>
+          <div class="top-news">
+            <div class="tn-fig"><i>头条</i>图片占位</div>
+            <div class="tn-txt">
+              <h3><a href="#">【占位】这篇文章的标题我还没想好，但这个位置必须留给最显眼的那一篇</a></h3>
+              <p class="sum">这里是摘要区域。等我想清楚要写什么的时候，它会换成一段看起来很像样的话；在此之前，它只负责占住这块地方，并假装自己很有内容。</p>
+              <p class="meta">2026-09-26 <em>|</em> 分类：<a href="#">技术文章</a> <em>|</em> 阅读 1337 <em>|</em> 评论 0</p>
+            </div>
+          </div>
+          <ul class="newslist nowrap js-list" data-panel="0">
+            <li><a href="#">【占位】一篇关于咖啡与代码的文章</a><span class="d">09-26</span></li>
+            <li><a href="#">【占位】我决定重新整理这个站点的当天发生的事</a><span class="d">09-24</span></li>
+            <li><a href="#">【占位】标题写了一半就被猫踩了键盘</a><span class="d">09-21</span></li>
+            <li><a href="#">【占位】关于某个技术问题的一点不成熟的想法</a><span class="d">09-18</span></li>
+            <li><a href="#">【占位】这本书我只读了前三章</a><span class="d">09-15</span></li>
+            <li><a href="#">【占位】记录一次不太成功的尝试</a><span class="d">09-11</span></li>
+            <li><a href="#">【占位】一些还没舍得删掉的草稿</a><span class="d">09-08</span></li>
+            <li><a href="#">【占位】二〇二六年九月的第一篇</a><span class="d">09-03</span></li>
+          </ul>
+          <ul class="newslist nowrap js-list" data-panel="1" style="display:none">
+            <li><a href="#">【占位】那篇被误认为很有深度的文章</a><span class="d">07-12</span></li>
+            <li><a href="#">【占位】目前阅读量最高的一篇，因为它最短</a><span class="d">06-30</span></li>
+            <li><a href="#">【占位】被搜索引擎误解得最彻底的一篇</a><span class="d">06-14</span></li>
+            <li><a href="#">【占位】写完之后自己又读了三遍的那篇</a><span class="d">05-27</span></li>
+            <li><a href="#">【占位】标题很唬人、内容很温和的一篇</a><span class="d">05-09</span></li>
+            <li><a href="#">【占位】评论区至今空无一人的一篇</a><span class="d">04-22</span></li>
+          </ul>
+          <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
+        </div>
+
+        <div class="duo">
+          <div class="panel">
+            <div class="ph">
+              <h2>技术文章</h2>
+              <a class="more" href="#">更多 &gt;&gt;</a>
+            </div>
+            <ul class="newslist nowrap">
+              <li><a href="#">【占位】关于把博客搬到静态页面的念头</a><span class="d">09-26</span></li>
+              <li><a href="#">【占位】一次尚未解决的报错</a><span class="d">09-19</span></li>
+              <li><a href="#">【占位】记录一份配置文件的三次修改</a><span class="d">09-12</span></li>
+              <li><a href="#">【占位】关于缓存的一点经验与教训</a><span class="d">09-05</span></li>
+              <li><a href="#">【占位】为什么我又换回了旧键盘</a><span class="d">08-28</span></li>
+              <li><a href="#">【占位】一个没有复现成功的 Bug</a><span class="d">08-20</span></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="ph">
+              <h2>随笔杂记</h2>
+              <a class="more" href="#">更多 &gt;&gt;</a>
+            </div>
+            <ul class="newslist nowrap">
+              <li><a href="#">【占位】一个普通的周六早晨</a><span class="d">09-20</span></li>
+              <li><a href="#">【占位】写在秋天开头的几行字</a><span class="d">09-13</span></li>
+              <li><a href="#">【占位】楼下那家店不开了</a><span class="d">09-06</span></li>
+              <li><a href="#">【占位】关于专注，我只做到了一半</a><span class="d">08-30</span></li>
+              <li><a href="#">【占位】雨天和一杯凉掉的咖啡</a><span class="d">08-22</span></li>
+              <li><a href="#">【占位】最近话变少了</a><span class="d">08-15</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="ph">
+            <h2>项目记录</h2>
+            <a class="more" href="#">更多 &gt;&gt;</a>
+          </div>
+          <div style="padding:12px">
+            <table class="rp">
+              <thead>
+                <tr><th>项目名称</th><th>当前状态</th><th>技术栈</th><th>最近更新</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><a href="#">【占位】本博客站本身</a></td><td><span class="st">持续维护</span></td><td>HTML / CSS / JS</td><td>2026-09-26</td></tr>
+                <tr><td><a href="#">【占位】一个还没开始的项目</a></td><td><span class="st g">规划中</span></td><td>待定</td><td>2026-09-18</td></tr>
+                <tr><td><a href="#">【占位】做到一半就停下的项目</a></td><td><span class="st g">搁置中</span></td><td>若干</td><td>2026-08-30</td></tr>
+                <tr><td><a href="#">【占位】只有一份 README 的项目</a></td><td><span class="st g">已完成(假的)</span></td><td>Markdown</td><td>2026-07-14</td></tr>
+                <tr><td><a href="#">【占位】等等看还能不能捡起来</a></td><td><span class="st g">待定</span></td><td>待定</td><td>2025-12-31</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="ph">
+            <h2>专题专栏</h2>
+            <a class="more" href="#">更多 &gt;&gt;</a>
+          </div>
+          <ul class="zt">
+            <li><a href="#"><b>【专题占位】我的阅读计划</b><span>共 12 篇　·　最近更新 2026-09-20　·　状态：又推迟了</span></a></li>
+            <li><a href="#"><b>【专题占位】把旧电脑再用起来</b><span>共 6 篇　·　最近更新 2026-08-11　·　状态：进行中</span></a></li>
+            <li><a href="#"><b>【专题占位】城市漫步记录</b><span>共 9 篇　·　最近更新 2026-07-02　·　状态：天气太热</span></a></li>
+            <li><a href="#"><b>【专题占位】还没起好名字的系列</b><span>共 3 篇　·　最近更新 2026-06-18　·　状态：占位中</span></a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="col-r">
+
+        <div class="panel">
+          <div class="ph cream">
+            <h2>通知公告</h2>
+            <a class="more" href="#">更多 &gt;&gt;</a>
+          </div>
+          <ul class="newslist">
+            <li><a href="#">【公告】本公告栏正在施工，敬请期待</a><span class="d">09-26</span></li>
+            <li><a href="#">【通知】本站评论功能暂时关闭，因为还没有评论功能</a><span class="d">09-22</span></li>
+            <li><a href="#">【公告】关于一个占位符的若干说明</a><span class="d">09-18</span></li>
+            <li><a href="#">【通知】站点已完成一次备份（其实没有）</a><span class="d">09-10</span></li>
+            <li><a href="#">【公告】友情链接长期招租，条件是没有条件</a><span class="d">08-30</span></li>
+            <li><a href="#">【通知】页面加载速度提升了 0.001 秒</a><span class="d">08-21</span></li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <div class="ph">
+            <h2>最新动态</h2>
+            <a class="more" href="#">更多 &gt;&gt;</a>
+          </div>
+          <ul class="dyn">
+            <li><span class="t">10:24</span><span class="x">更新了首页的占位文字</span></li>
+            <li><span class="t">09:58</span><span class="x">把一段 CSS 改了三遍又改回去</span></li>
+            <li><span class="t">昨天</span><span class="x">调整了侧栏栏目的顺序</span></li>
+            <li><span class="t">09-24</span><span class="x">发布了一篇文章（内容待补）</span></li>
+            <li><span class="t">09-20</span><span class="x">更换了页脚的措辞</span></li>
+            <li><span class="t">09-16</span><span class="x">删掉了两条没有用上的样式</span></li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <div class="ph"><h2>本站统计</h2></div>
+          <ul class="stat">
+            <li><span>文章总数</span><b>42 篇</b></li>
+            <li><span>评论总数</span><b>0 条</b></li>
+            <li><span>标签数量</span><b>13 个</b></li>
+            <li><span>运行天数</span><b>1284 天</b></li>
+            <li><span>今日访问</span><b>00137</b></li>
+            <li><span>总访问量</span><b>000133700</b></li>
+          </ul>
+          <p class="exec">页面执行时间：0.013 秒　|　本站由一台旧笔记本驱动</p>
+        </div>
+
+        <div class="panel">
+          <div class="ph">
+            <h2>关于本站</h2>
+            <a class="more" href="#">更多 &gt;&gt;</a>
+          </div>
+          <div class="about">
+            <p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，只差内容慢慢填进来。</p>
+            <p>建站原则有两条：一是不着急，二是不着急。</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="ph"><h2>友情链接</h2></div>
+          <div class="links">
+            <a href="#">占位符的另一个站点</a>
+            <a href="#">打不开的链接</a>
+            <a href="#">朋友的博客</a>
+            <a href="#">很久没更新的站</a>
+            <a href="#">待交换</a>
+            <a href="#">待交换</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="f-nav">
+        <a href="#">关于本站</a>
+        <a href="#">联系方式</a>
+        <a href="#">版权声明</a>
+        <a href="#">RSS 订阅</a>
+        <a href="#">站点地图</a>
+        <a href="#">无障碍浏览</a>
+      </div>
+      <p class="f-copy">版权所有 &copy; 2026 占位符志 · 个人博客　保留一切权利　京ICP备00000000号-1（占位）</p>
+      <p class="f-copy">本站所有内容均为占位符，如有雷同，说明你也还没开始写。</p>
+      <p class="f-time">页面执行时间 0.013 秒　|　今日访问 00137　|　总访问 000133700　|　由一杯凉掉的咖啡提供动力</p>
+    </div>
+
+  </div>
+</div>
+
+<button id="toTop" type="button" title="返回顶部">&and;</button>
+
+<script>
+(function(){
+  var tabs=document.querySelectorAll('#tabs li');
+  var lists=document.querySelectorAll('.js-list');
+  var empty=document.getElementById('empty');
+  var q=document.getElementById('q');
+  var qbtn=document.getElementById('qbtn');
+  var cur='0';
+
+  function curList(){
+    for(var i=0;i<lists.length;i++){ if(lists[i].getAttribute('data-panel')===cur){ return lists[i]; } }
+    return null;
+  }
+  function filter(){
+    var kw=(q.value||'').replace(/^s+|s+$/g,'').toLowerCase();
+    var list=curList(); if(!list){ return; }
+    var items=list.getElementsByTagName('li');
+    var show=0;
+    for(var i=0;i<items.length;i++){
+      var hit=!kw||items[i].textContent.toLowerCase().indexOf(kw)>-1;
+      items[i].style.display=hit?'':'none';
+      if(hit){ show++; }
+    }
+    empty.style.display=(kw&&show===0)?'block':'none';
+  }
+  for(var i=0;i<tabs.length;i++){
+    tabs[i].onclick=function(){
+      for(var k=0;k<tabs.length;k++){ tabs[k].className=(tabs[k]===this)?'on':''; }
+      cur=this.getAttribute('data-t');
+      for(var m=0;m<lists.length;m++){
+        lists[m].style.display=(lists[m].getAttribute('data-panel')===cur)?'':'none';
+      }
+      filter();
+    };
+  }
+  if(qbtn){ qbtn.onclick=filter; }
+  if(q){ q.onkeyup=function(e){ if(e.keyCode===13){ filter(); } }; q.oninput=filter; }
+
+  var top=document.getElementById('toTop');
+  window.onscroll=function(){
+    var y=window.pageYOffset||document.documentElement.scrollTop;
+    top.style.display=(y>300)?'block':'none';
+  };
+  top.onclick=function(){ window.scrollTo(0,0); };
+})();
+</script>
+</body>
+</html>
