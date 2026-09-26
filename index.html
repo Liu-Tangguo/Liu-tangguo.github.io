@@ -201,16 +201,6 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .cat .newslist li a{font-size:15px}
 .catempty{max-width:980px;margin:0 auto;color:var(--ink-3);font-size:15px;text-align:center}
 
-/* ---------- 搜索 ---------- */
-.searchres{max-width:760px;margin:34px auto 0;text-align:left}
-.srch-head{font-size:13px;color:var(--ink-3);margin-bottom:4px}
-.srch-head b{color:var(--ink);font-weight:600}
-.newslist li.srch-item{display:block}
-.srch-row{display:flex;align-items:baseline;gap:14px}
-.srch-row a{flex:1 1 auto;min-width:0}
-.srch-row .d{flex:0 0 auto}
-.srch-snip{margin-top:6px;font-size:13px;color:var(--ink-3);line-height:1.65}
-mark{background:var(--mark-bg);color:inherit;padding:0 2px;border-radius:3px}
 .f-name{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.04em;margin-bottom:8px}
 
 
@@ -309,12 +299,8 @@ mark{background:var(--mark-bg);color:inherit;padding:0 2px;border-radius:3px}
 <!-- ===== 文章列表 ===== -->
 <section class="tile" id="articles">
   <div class="tile-in">
-    <div class="sec-head"><h2 class="sec-title">要闻动态</h2><p class="sec-sub" id="listHint">按时间倒序排列；上方搜索框支持全文搜索（标题与正文）。</p></div>
+    <div class="sec-head"><h2 class="sec-title">要闻动态</h2><p class="sec-sub" id="listHint">按时间倒序排列，最新发布在前；搜索请用上方搜索框。</p></div>
     <ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">全部文章</li></ul>
-    <div class="searchres" id="searchres" hidden>
-      <p class="srch-head" id="srchHead"></p>
-      <ul class="newslist" id="srchList"></ul>
-    </div>
     <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts"></ul>
     <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts"></ul>
     <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
@@ -640,70 +626,23 @@ window.OC = window.OC || {};
 })();
 </script>
 <script>
-/* 全文搜索：标题 + 正文 + 分类，命中处高亮，附正文片段 */
+/* 首页搜索框：跳转到独立的搜索页（不再就地筛选） */
 (function(){
-  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
-  function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
-  function norm(s){ return String(s==null?'':s).toLowerCase(); }
-  function plain(md){ return String(md||'').replace(/```[\s\S]*?```/g,' ').replace(/[#>*_`\[\]()!]/g,'').replace(/\s+/g,' ').trim(); }
-  function ready(fn){ if(window.OCReady) window.OCReady.then(fn); }
-
-  ready(function(OC){
+  function go(){
+    var q=document.getElementById('q');
+    if(!q) return;
+    var v=q.value.replace(/^\s+|\s+$/g,'');
+    location.href = v ? ('search.html?q='+encodeURIComponent(v)) : 'search.html';
+  }
+  function bind(){
     var q=document.getElementById('q'), btn=document.getElementById('qbtn');
-    var box=document.getElementById('searchres'), head=document.getElementById('srchHead'), list=document.getElementById('srchList');
-    var tabs=document.getElementById('tabs'), lp=document.getElementById('latestPosts'), ap=document.getElementById('allPosts'), empty=document.getElementById('empty');
-    if(!q||!box||!list) return;
-
-    function hl(text, kw){
-      var safe=esc(text);
-      if(!kw) return safe;
-      try{
-        var re=new RegExp('('+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
-        return safe.replace(re,'<mark>$1</mark>');
-      }catch(e){ return safe; }
-    }
-    function snippet(body, kw){
-      var t=plain(body);
-      var i=norm(t).indexOf(kw);
-      var start=i>36?i-36:0;
-      var out=t.slice(start,start+110);
-      return (start>0?'…':'')+out+(t.length>start+110?'…':'');
-    }
-    function reset(){
-      box.hidden=true;
-      if(tabs) tabs.style.display='';
-      if(lp) lp.style.display='';
-      if(ap) ap.style.display='none';
-      if(empty) empty.style.display='none';
-    }
-    function run(){
-      var raw=q.value.replace(/^\s+|\s+$/g,'');
-      var kw=norm(raw);
-      if(!kw){ reset(); return; }
-      var posts=(OC.posts||[]);
-      var hits=posts.filter(function(p){
-        return norm(p.title).indexOf(kw)>-1 || norm(p.body).indexOf(kw)>-1 || norm(p.category).indexOf(kw)>-1;
-      });
-      if(tabs) tabs.style.display='none';
-      if(lp) lp.style.display='none';
-      if(ap) ap.style.display='none';
-      if(empty) empty.style.display='none';
-      box.hidden=false;
-      head.innerHTML='关键词 <b>'+esc(raw)+'</b>　找到 <b>'+hits.length+'</b> 篇';
-      list.innerHTML = hits.length ? hits.map(function(p){
-        var inBody = norm(p.body).indexOf(kw)>-1;
-        var sn = inBody ? snippet(p.body, kw) : '';
-        return '<li class="srch-item"><div class="srch-row"><a href="post.html?post='+encodeURIComponent(p.slug)+'">'+hl(p.title||p.slug,kw)+'</a><span class="d">'+sd(p.date)+'</span></div>'+(sn?'<p class="srch-snip">'+hl(sn,kw)+'</p>':'')+'</li>';
-      }).join('') : '<li class="srch-item"><div class="srch-row"><span>没有匹配的文章，换个词试试</span></div></li>';
-    }
-    /* 覆盖原脚本的属性型筛选，改为全文搜索 */
-    q.oninput=run;
-    q.onkeyup=function(e){ if(e.keyCode===13) run(); };
-    if(btn) btn.onclick=function(e){ if(e&&e.preventDefault) e.preventDefault(); run(); };
-    if(tabs) tabs.addEventListener('click',function(){ if(q.value){ q.value=''; reset(); } });
-    var f=document.getElementById('q');
-    run();
-  });
+    if(!q) return;
+    q.oninput=null; q.onkeyup=null;
+    q.onkeydown=function(e){ if(e.keyCode===13){ e.preventDefault(); go(); } };
+    if(btn) btn.onclick=function(e){ if(e&&e.preventDefault) e.preventDefault(); go(); };
+  }
+  bind();
+  setTimeout(bind,300);
 })();
 </script>
 <script>

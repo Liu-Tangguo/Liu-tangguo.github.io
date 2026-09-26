@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>搜索 · Tangguo的Blog</title>
+<meta name="color-scheme" content="light dark">
+<style>
+:root{
+  --black:#000; --white:#fff; --gray:#f5f5f7;
+  --bg:#fff; --nav-bg:rgba(255,255,255,.72);
+  --fill-1:rgba(0,0,0,.05); --fill-2:rgba(0,0,0,.08); --fill-solid:#fff;
+  --border-strong:rgba(0,0,0,.16); --mark-bg:rgba(255,214,10,.35);
+  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --line:rgba(0,0,0,.08);
+  --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc;
+  --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;letter-spacing:.011em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;transition:color .2s var(--ease)}
+a:hover{color:var(--link)}
+img{max-width:100%;height:auto}
+input,button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;outline:0}
+::selection{background:var(--blue);color:#fff}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+
+.topbar{position:sticky;top:0;z-index:30;background:var(--nav-bg);border-bottom:1px solid var(--line);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.topbar-inner{max-width:1040px;margin:0 auto;padding:0 22px;height:48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.site-name{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.site-name:hover{color:var(--link)}
+.site-name img{width:26px;height:26px;border-radius:8px;display:block;flex:0 0 auto}
+.site-info{font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.container{max-width:1040px;margin:0 auto;padding:52px 22px 80px}
+.crumb-line{margin-bottom:26px}
+.crumb-line a{font-size:14px;color:var(--link)}
+.page-title{font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.014em;margin-bottom:22px}
+
+.searchbox{display:flex;gap:10px;max-width:640px}
+.searchbox input{flex:1 1 auto;min-width:0;font-size:17px;padding:14px 20px;border-radius:980px;border:1px solid var(--line);background:var(--bg);color:var(--ink);transition:border-color .2s var(--ease)}
+.searchbox input:focus{border-color:var(--blue)}
+.searchbox input::placeholder{color:var(--ink-3)}
+.searchbox button{flex:0 0 auto;font-size:16px;padding:14px 26px;border-radius:980px;background:var(--blue);color:#fff;cursor:pointer;transition:background .2s var(--ease)}
+.searchbox button:hover{background:var(--blue-h)}
+
+.status{font-size:14px;color:var(--ink-3);margin:22px 0 6px}
+.status b{color:var(--ink);font-weight:600}
+.hint{font-size:14px;color:var(--ink-3);margin-top:26px;line-height:1.8}
+
+.results{max-width:760px;list-style:none}
+.results li{padding:20px 0;border-top:1px solid var(--line)}
+.results li:first-child{border-top:0}
+.results .title{font-size:19px;font-weight:600;letter-spacing:-.012em;line-height:1.45}
+.results .meta{margin-top:7px;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink-3)}
+.results .snip{margin-top:9px;font-size:14.5px;color:var(--ink-2);line-height:1.7}
+.results .none{color:var(--ink-3);font-size:15px}
+mark{background:var(--mark-bg);color:inherit;padding:0 2px;border-radius:3px}
+
+footer{background:var(--bg);color:var(--ink-2);font-size:12px;padding:36px 0 30px;line-height:1.7;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* ---------- 暗色模式（跟随系统设置） ---------- */
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#000; --gray:#161617;
+    --nav-bg:rgba(0,0,0,.72);
+    --fill-1:rgba(255,255,255,.09); --fill-2:rgba(255,255,255,.16); --fill-solid:#2c2c2e;
+    --border-strong:rgba(255,255,255,.2); --mark-bg:rgba(255,214,10,.3);
+    --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#86868b;
+    --line:rgba(255,255,255,.14);
+    --blue:#0a84ff; --blue-h:#409cff; --link:#0a84ff;
+  }
+  .site-name img{filter:invert(1)}
+  mark{color:#fff}
+}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  .container{padding:32px 16px 60px}
+  .topbar-inner{padding:0 16px}
+  .searchbox{flex-wrap:wrap}
+  .searchbox button{width:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="site-name" href="index.html"><img src="media/logo.svg" alt="" width="26" height="26"><span>Tangguo的Blog</span></a>
+    <div class="site-info"><span id="clock">--:--:--</span></div>
+  </div>
+</div>
+
+<div class="container">
+  <p class="crumb-line"><a href="index.html">‹ 返回首页</a></p>
+  <h1 class="page-title">搜索</h1>
+  <form class="searchbox" id="searchform" role="search">
+    <input id="q" type="search" placeholder="搜索标题、正文或分类" autocomplete="off" aria-label="搜索关键词">
+    <button type="submit">搜索</button>
+  </form>
+  <p class="status" id="status">输入关键词开始搜索</p>
+  <ul class="results" id="results"></ul>
+  <p class="hint">搜索范围：文章标题、正文与分类。结果点击即进入文章页。</p>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>Tangguo的Blog</span>
+    <span>建站日期：2026-09-26</span>
+    <span>2026-09-26</span>
+  </div>
+</footer>
+
+<!-- 搜索页：无原始脚本基线 -->
+<script>
+/* 统一取数：posts / site / notices / updates / projects 只请求一次，供其它脚本复用 */
+window.OC = window.OC || {};
+(function(){
+  function get(url){
+    return fetch(url + '?_=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; });
+  }
+  window.OCReady = Promise.all([
+    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json')
+  ]).then(function(a){
+    var OC = window.OC;
+    OC.posts = Array.isArray(a[0]) ? a[0].filter(function(p){ return p && p.slug; }) : [];
+    OC.site = a[1] || {};
+    OC.notices = Array.isArray(a[2]) ? a[2] : [];
+    OC.updates = Array.isArray(a[3]) ? a[3] : [];
+    OC.projects = Array.isArray(a[4]) ? a[4] : [];
+    return OC;
+  }).catch(function(){ return window.OC; });
+})();
+</script>
+<script>
+/* 时钟：顶部工具条里的本地时间 */
+(function(){
+  var el=document.getElementById('clock');
+  if(!el) return;
+  function p(n){ return n<10?'0'+n:''+n; }
+  function tick(){
+    var d=new Date();
+    el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+  }
+  tick();
+  setInterval(tick,1000);
+})();
+</script>
+<script>
+/* 搜索页：读 ?q= 渲染结果（标题+正文+分类，命中高亮 + 正文片段） */
+(function(){
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function norm(s){ return String(s==null?'':s).toLowerCase(); }
+  function plain(md){ return String(md||'').replace(/```[\s\S]*?```/g,' ').replace(/[#>*_`\[\]()!]/g,'').replace(/\s+/g,' ').trim(); }
+  function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? v : ''; }
+  function hl(text, kw){
+    var safe=esc(text);
+    if(!kw) return safe;
+    try{
+      var re=new RegExp('('+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+      return safe.replace(re,'<mark>$1</mark>');
+    }catch(e){ return safe; }
+  }
+  function snippet(body, kw){
+    var t=plain(body);
+    var i=norm(t).indexOf(kw);
+    var start=i>36?i-36:0;
+    var out=t.slice(start,start+110);
+    return (start>0?'…':'')+out+(t.length>start+110?'…':'');
+  }
+  var form=document.getElementById('searchform');
+  var q=document.getElementById('q');
+  var st=document.getElementById('status');
+  var list=document.getElementById('results');
+  if(!form||!q||!list) return;
+
+  function syncUrl(raw){
+    try{ history.replaceState(null,'', raw ? ('search.html?q='+encodeURIComponent(raw)) : 'search.html'); }catch(e){}
+  }
+  function run(){
+    var raw=q.value.replace(/^\s+|\s+$/g,'');
+    var kw=norm(raw);
+    syncUrl(raw);
+    if(!kw){
+      document.title='搜索 · Tangguo的Blog';
+      st.textContent='输入关键词开始搜索';
+      list.innerHTML='';
+      return;
+    }
+    document.title='搜索：'+raw+' · Tangguo的Blog';
+    if(!window.OCReady){ st.textContent='数据加载失败，请刷新页面'; return; }
+    st.textContent='正在搜索…';
+    window.OCReady.then(function(OC){
+      var posts=OC.posts||[];
+      var hits=posts.filter(function(p){
+        return norm(p.title).indexOf(kw)>-1 || norm(p.body).indexOf(kw)>-1 || norm(p.category).indexOf(kw)>-1;
+      });
+      st.innerHTML='关键词 <b>'+esc(raw)+'</b>　找到 <b>'+hits.length+'</b> 篇';
+      list.innerHTML = hits.length ? hits.map(function(p){
+        var inBody = norm(p.body).indexOf(kw)>-1;
+        var sn = inBody ? snippet(p.body, kw) : '';
+        return '<li><a class="title" href="post.html?post='+encodeURIComponent(p.slug)+'">'+hl(p.title||p.slug,kw)+'</a>'+
+          '<div class="meta"><span>'+esc(p.date||'')+'</span><span>'+esc(p.category||'未分类')+'</span></div>'+
+          (sn?'<p class="snip">'+hl(sn,kw)+'</p>':'')+'</li>';
+      }).join('') : '<li class="none">没有匹配的文章，换个词试试</li>';
+    });
+  }
+  form.addEventListener('submit',function(e){ e.preventDefault(); run(); });
+  var t=null;
+  q.addEventListener('input',function(){ if(t) clearTimeout(t); t=setTimeout(run,260); });
+  var init='';
+  try{ init=String(new URLSearchParams(location.search).get('q')||'').trim(); }catch(e){}
+  if(init){ q.value=init; run(); }
+  else { q.focus(); }
+})();
+</script>
+</body>
+</html>
