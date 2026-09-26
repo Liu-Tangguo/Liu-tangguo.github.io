@@ -165,7 +165,42 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 #toTop{display:none;position:fixed;right:24px;bottom:26px;width:46px;height:46px;border-radius:980px;background:rgba(0,0,0,.7);color:#fff;font-size:15px;cursor:pointer;backdrop-filter:blur(10px);transition:background .2s var(--ease)}
 #toTop:hover{background:var(--blue)}
 
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ---------- 动效（尊重 prefers-reduced-motion） ---------- */
+@keyframes ocUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes ocFade{from{opacity:0}to{opacity:1}}
+@keyframes ocImg{from{opacity:0;transform:scale(1.03)}to{opacity:1;transform:none}}
+@keyframes ocPop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.gnav{transition:box-shadow .3s var(--ease),background .3s var(--ease)}
+.gnav.scrolled{box-shadow:0 1px 0 rgba(0,0,0,.05),0 10px 30px -22px rgba(0,0,0,.35)}
+.btn{will-change:transform}
+.btn-primary,.btn-ghost{transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .18s var(--ease)}
+.btn:active{transform:scale(.97)}
+#toTop{animation:ocPop .3s var(--ease) both}
+.rv{opacity:0;transform:translateY(20px)}
+.rv.in{opacity:1;transform:none;transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+.newslist li{transition:background .22s var(--ease)}
+.newslist .d{transition:transform .22s var(--ease)}
+.newslist li:hover .d{transform:translateX(-4px)}
+.rp tbody tr{transition:background .22s var(--ease)}
+.tabs li{transition:background .22s var(--ease),box-shadow .22s var(--ease),color .22s var(--ease)}
+.links a{transition:border-color .22s var(--ease),color .22s var(--ease),transform .22s var(--ease)}
+.links a:hover{transform:translateY(-2px)}
+
+/* ---------- 分类块（由 posts.json 生成，空分类不会出现） ---------- */
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));max-width:980px;margin:0 auto;padding:0 22px;text-align:left}
+.cat{padding:0 40px}
+.cat+.cat{border-left:1px solid var(--line)}
+.cat h3{font-size:21px;letter-spacing:-.01em}
+.cat .cnt{font-size:12.5px;color:var(--ink-3);font-weight:400;margin-left:9px}
+.cat .newslist{margin-top:16px;max-width:none}
+.cat .newslist li a{font-size:15px}
+.catempty{max-width:980px;margin:0 auto;color:var(--ink-3);font-size:15px;text-align:center}
+@media (max-width:900px){
+  .cats{grid-template-columns:1fr}
+  .cat{padding:0}
+  .cat+.cat{border-left:0;border-top:1px solid var(--line);margin-top:34px;padding-top:34px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1!important;transform:none!important}}
 @media (max-width:900px){
   .gnav .nav{justify-content:flex-start}
   .gsearch input{width:96px}
@@ -202,8 +237,8 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <div class="gnav">
   <div class="wrap">
     <a class="brand" href="index.html">Tangguo的Blog</a>
-    <div class="nav">
-      <a class="on" href="index.html">首页</a><a href="#">要闻动态</a><a href="#">技术文章</a><a href="#">随笔杂记</a><a href="#">项目记录</a><a href="#">阅读摘抄</a><a href="#">通知公告</a><a href="#">关于本站</a>
+    <div class="nav" id="navroot">
+      <a class="on" href="index.html">首页</a><a href="#articles">要闻动态</a><a href="#about" id="navabout">关于本站</a>
     </div>
     <div class="gsearch"><input id="q" type="text" placeholder="搜索"><button id="qbtn" type="button">搜索</button></div>
   </div>
@@ -245,18 +280,12 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   </div>
 </section>
 
-<!-- ===== 分类双栏 ===== -->
-<section class="tile gray">
-  <div class="duo">
-    <div class="panel">
-      <h2>技术文章</h2>
-      <ul class="newslist nowrap catlist" data-cat="技术文章"></ul>
-    </div>
-    <div class="panel">
-      <h2>随笔杂记</h2>
-      <ul class="newslist nowrap catlist" data-cat="随笔杂记"></ul>
-    </div>
+<!-- ===== 分类（由 posts.json 生成，空分类不出现） ===== -->
+<section class="tile gray" id="cats">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">分类</h2></div>
   </div>
+  <div class="cats" id="catwrap"></div>
 </section>
 
 <!-- ===== 统计（黑） ===== -->
@@ -266,7 +295,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       <div class="stat-col"><span>文章总数</span><b class="bignum" id="postCount">1 篇</b></div>
       <div class="stat-col"><span>运行天数</span><b class="bignum" id="runDaysSide">0 天</b></div>
       <div class="stat-col"><span>评论总数</span><b class="bignum">0 条</b></div>
-      <div class="stat-col"><span>标签数量</span><b class="bignum">1 个</b></div>
+      <div class="stat-col"><span>标签数量</span><b class="bignum" id="tagCount">1 个</b></div>
     </div>
     <p class="stat-note">静态页面 · 由 GitHub Pages 驱动</p>
   </div>
@@ -304,15 +333,13 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 </section>
 
 <!-- ===== 关于 + 专栏 ===== -->
-<section class="tile">
+<section class="tile" id="about">
   <div class="tile-in">
     <div class="sec-head"><h2 class="sec-title">关于本站</h2></div>
     <div class="about">
       <p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，内容会慢慢填进来。</p>
       <p>建站原则有两条：一是不着急，二是不着急。</p>
     </div>
-    <div class="sec-head" style="margin-top:72px"><h2 class="sec-title">专题专栏</h2></div>
-    <div class="tile-in"><ul class="zt"></ul></div>
   </div>
 </section>
 
@@ -433,25 +460,103 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 })();
 </script>
 <script>
+/* 分类：由 posts.json 生成，只渲染真实存在的分类；导航分类链接同步生成 */
 (function(){
-  var t=document.getElementById('featuredTitle'), r=document.getElementById('heroRead');
-  if(!t||!r) return;
-  function sync(){ var h=t.getAttribute('href'); if(h && r.getAttribute('href')!==h) r.setAttribute('href',h); }
-  sync();
-  try{ new MutationObserver(sync).observe(t,{attributes:true,attributeFilter:['href']}); }
-  catch(e){ setInterval(sync,300); }
-  window.addEventListener('load',sync);
+  var MAX=6;
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
+  function link(s){ return 'post.html?post='+encodeURIComponent(String(s||'')); }
+  function sortP(a,b){ return String(b.date||'').localeCompare(String(a.date||'')) || String(b.slug||'').localeCompare(String(a.slug||'')); }
+  function done(){ try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){} }
+  fetch('posts.json?v='+Date.now(),{cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(posts){
+      if(!Array.isArray(posts)) return done();
+      posts=posts.filter(function(p){ return p&&p.slug; }).sort(sortP);
+      var order=[], map={};
+      posts.forEach(function(p){
+        var c=String(p.category||'').trim()||'未分类';
+        if(!map[c]){ map[c]=[]; order.push(c); }
+        map[c].push(p);
+      });
+      var wrap=document.getElementById('catwrap');
+      if(wrap){
+        wrap.innerHTML = order.length ? order.map(function(c,i){
+          var items=map[c].slice(0,MAX).map(function(p){
+            return '<li><a href="'+link(p.slug)+'">'+esc(p.title||p.slug)+'</a><span class="d">'+sd(p.date)+'</span></li>';
+          }).join('');
+          return '<div class="cat" id="cat-'+i+'"><h3>'+esc(c)+'<span class="cnt">'+map[c].length+' 篇</span></h3><ul class="newslist nowrap">'+items+'</ul></div>';
+        }).join('') : '<p class="catempty">还没有文章。分类会跟着文章自动出现。</p>';
+      }
+      var nav=document.getElementById('navroot'), about=document.getElementById('navabout');
+      if(nav&&about){
+        var frag=document.createDocumentFragment();
+        order.forEach(function(c,i){
+          var a=document.createElement('a');
+          a.href='#cat-'+i; a.textContent=c; a.setAttribute('data-catlink','1');
+          frag.appendChild(a);
+        });
+        nav.insertBefore(frag,about);
+      }
+      var tc=document.getElementById('tagCount');
+      if(tc) tc.textContent=order.length+' 个';
+      done();
+    })
+    .catch(function(e){ console.error('分类生成失败：',e); done(); });
 })();
 </script>
 <script>
+/* 动效：滚动揭示 + 导航态 + 首屏淡入（尊重 prefers-reduced-motion）
+   注意：进场一律用 JS 加 .rv/.in，不用 CSS animation+both —— 后者在动画未执行时会把内容永久留在 opacity:0 */
 (function(){
-  var t=document.getElementById('featuredTitle'), r=document.getElementById('heroRead');
-  if(!t||!r) return;
-  function sync(){ var h=t.getAttribute('href'); if(h && r.getAttribute('href')!==h) r.setAttribute('href',h); }
-  sync();
-  try{ new MutationObserver(sync).observe(t,{attributes:true,attributeFilter:['href']}); }
-  catch(e){ setInterval(sync,300); }
-  window.addEventListener('load',sync);
+  var reduce=false;
+  try{ reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var SEL='.hero .tn-txt>*,.hero .tn-fig,.sec-head,.newslist,.stat-col,.rp tbody tr,.about p,.cat,.links a,.tabs,.duo>.panel,.tile .empty,.article-header,.article-body,.article-footer';
+  var io=null;
+  if(!reduce && 'IntersectionObserver' in window){
+    io=new IntersectionObserver(function(es){
+      for(var i=0;i<es.length;i++){
+        if(es[i].isIntersecting){ es[i].target.classList.add('in'); io.unobserve(es[i].target); }
+      }
+    },{threshold:0.04,rootMargin:'0px 0px -4% 0px'});
+  }
+  function scan(){
+    if(!io) return;
+    var n=document.querySelectorAll(SEL), i=0;
+    for(;i<n.length;i++){
+      var el=n[i];
+      if(el.getAttribute('data-rv')) continue;
+      el.setAttribute('data-rv','1');
+      el.style.setProperty('--d',(Math.min(i,8)*0.05)+'s');
+      io.observe(el);
+    }
+  }
+  function aboveFold(){
+    var n=document.querySelectorAll('.rv:not(.in)'), i=0, h=window.innerHeight||800;
+    for(;i<n.length;i++){
+      var r=n[i].getBoundingClientRect();
+      if(r.top < h*0.95) n[i].classList.add('in');
+    }
+  }
+  function pass(){ scan(); aboveFold(); }
+  pass();
+  window.addEventListener('oc:content',function(){ setTimeout(pass,0); });
+  window.addEventListener('load',function(){ setTimeout(pass,60); });
+  setTimeout(pass,180); setTimeout(pass,600);
+  if(window.MutationObserver){
+    var t=null;
+    new MutationObserver(function(){
+      if(t) clearTimeout(t);
+      t=setTimeout(function(){ scan(); setTimeout(aboveFold,80); },120);
+    }).observe(document.body,{childList:true,subtree:true});
+  }
+  var nav=document.querySelector('.gnav');
+  function onScroll(){
+    if(!nav) return;
+    var y=window.pageYOffset||document.documentElement.scrollTop;
+    if(y>6) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
 })();
 </script>
 </body>
