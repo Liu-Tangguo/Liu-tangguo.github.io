@@ -52,6 +52,7 @@ jobs:
                   title = ""
                   date = ""
                   category = ""
+                  cover = ""
                   body = text
 
 
@@ -109,6 +110,11 @@ jobs:
                                   category = value
 
 
+                              elif key == "cover":
+
+                                  cover = value
+
+
                   # ==========================================
                   # 文件名去掉 .md 后就是唯一 slug
                   #
@@ -137,6 +143,8 @@ jobs:
                       "date": date or "",
 
                       "category": category or "未分类",
+
+                      "cover": cover,
 
                       "body": body
 
