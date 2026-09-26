@@ -115,7 +115,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 /* ---------- 分享 ---------- */
 .sharebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px}
 .share-label{font-size:13px;color:var(--ink-3);margin-right:2px}
-.share-btn{font-size:13.5px;color:var(--ink);background:var(--fill-1);border-radius:980px;padding:9px 16px;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
+.share-btn{font-size:13.5px;color:var(--ink);background:var(--fill-1);border:0;border-radius:980px;padding:9px 16px;cursor:pointer;font-family:inherit;-webkit-appearance:none;appearance:none;transition:background .2s var(--ease),color .2s var(--ease)}
 .share-btn:hover{background:var(--blue);color:#fff}
 .share-btn-sm{font-size:12.5px;padding:7px 13px;color:var(--ink-2)}
 .share-tip{margin-top:6px;font-size:13px;color:var(--link);width:100%}
@@ -200,14 +200,30 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 })();
 </script>
 <script>
-/* 时钟：顶部工具条里的本地时间 */
+/* 时钟 + 日期/运行天数：只填「还没填过」的占位内容，避免覆盖基线的格式 */
 (function(){
-  var el=document.getElementById('clock');
-  if(!el) return;
+  var WD=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  var START=new Date(2026,8,26); /* 建站日 2026-09-26 */
   function p(n){ return n<10?'0'+n:''+n; }
+  function pad2(v){ return v<10?'0'+v:''+v; }
+  function dateStr(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
+  function days(){
+    var now=new Date();
+    var a=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    return Math.max(0, Math.floor((a-START)/86400000));
+  }
+  function placeholder(el){
+    return !el.textContent || /获取|加载|\.\.\.|--/.test(el.textContent);
+  }
   function tick(){
-    var d=new Date();
-    el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+    var el=document.getElementById('clock'), d=new Date();
+    if(el) el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+    var t=document.getElementById('today');
+    if(t && placeholder(t)) t.textContent=dateStr(d)+' '+WD[d.getDay()];
+    var fd=document.getElementById('footer-date');
+    if(fd && placeholder(fd)) fd.textContent=dateStr(d);
+    var rd=document.getElementById('run-days');
+    if(rd && placeholder(rd)) rd.textContent=String(days());
   }
   tick();
   setInterval(tick,1000);
