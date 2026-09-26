@@ -82,7 +82,8 @@ for u in updates:
 updates.sort(key=lambda x: (x["date"], x["slug"]), reverse=True)
 
 # ---------- 站点设置（content/site 下只应有一个文件） ----------
-settings = load("site", ["aboutHeading"])
+# 注意：load() 只读取这里列出的字段——新增站点设置字段时必须同步加进来
+settings = load("site", ["aboutHeading", "githubUser", "cfToken"])
 about = settings[0] if settings else {}
 if len(settings) > 1:
     print("  ! content/site 下有 %d 个文件，只用第一个：%s" % (len(settings), settings[0]["filename"]))
