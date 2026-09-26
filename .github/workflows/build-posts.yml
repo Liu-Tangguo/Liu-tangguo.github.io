@@ -12,6 +12,9 @@ on:
       - "post.html"
       - ".pages.yml"
 
+  schedule:
+    - cron: "0 22 * * *"
+
   workflow_dispatch:
 
 permissions:
@@ -40,7 +43,7 @@ jobs:
 
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add posts.json notices.json updates.json projects.json site.json
+          git add posts.json notices.json updates.json projects.json site.json contributions.json
 
           if git diff --cached --quiet; then
 

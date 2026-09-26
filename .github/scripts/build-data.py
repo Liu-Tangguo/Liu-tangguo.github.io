@@ -10,6 +10,7 @@ import datetime
 import json
 import re
 import subprocess
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -108,6 +109,27 @@ for p in projects:
         p["updated"] = site["updatedAt"]
 projects.sort(key=lambda x: (x["updated"], x["name"]), reverse=True)
 
+# ---------- GitHub 活跃（构建时抓取；失败则保留上一份，不影响构建） ----------
+def fetch_contributions(user):
+    url = "https://github-contributions-api.jogruber.de/v4/%s?y=last" % user
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "blog-build"})
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+        days = [{"d": x.get("date"), "c": int(x.get("count") or 0), "l": int(x.get("level") or 0)}
+                for x in data.get("contributions", []) if x.get("date")]
+        if not days:
+            print("  ! 贡献数据为空，保留旧文件")
+            return None
+        total = (data.get("total") or {}).get("lastYear")
+        if total is None:
+            total = sum(x["c"] for x in days)
+        return {"user": user, "total": int(total), "days": days}
+    except Exception as e:
+        print("  ! 贡献数据抓取失败（保留旧文件）：%s" % e)
+        return None
+
+
 # ---------- 输出 ----------
 print("build-data:")
 write_json("posts.json", posts)
@@ -115,5 +137,11 @@ write_json("notices.json", notices)
 write_json("updates.json", updates)
 write_json("projects.json", projects)
 write_json("site.json", site)
+gh_user = (about.get("githubUser") or "Liu-Tangguo").strip()
+contrib = fetch_contributions(gh_user)
+if contrib:
+    write_json("contributions.json", contrib)
+else:
+    print("  contributions.json 保持原样")
 print("  posts=%d notices=%d updates=%d projects=%d updatedAt=%s" % (
     len(posts), len(notices), len(updates), len(projects), site_updated))

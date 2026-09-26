@@ -25,6 +25,7 @@
   --bg:#fff; --fill-1:rgba(0,0,0,.05); --fill-2:rgba(0,0,0,.08); --fill-solid:#fff;
   --nav-bg:rgba(255,255,255,.72); --toTop-bg:rgba(0,0,0,.7); --badge-bg:rgba(23,23,26,.82);
   --mark-bg:#FFF2B8; --border-strong:rgba(0,0,0,.16); --tab-shadow:0 3px 8px rgba(0,0,0,.12); --code-bg:#1B1B1F;
+  --hm0:rgba(0,0,0,.06); --hm1:rgba(0,113,227,.22); --hm2:rgba(0,113,227,.45); --hm3:rgba(0,113,227,.7); --hm4:#0071e3;
   --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
   --line:rgba(0,0,0,.08); --line-d:rgba(255,255,255,.14); --subtle:#fafafa;
   --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc; --link-d:#2997ff;
@@ -223,6 +224,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
     --fill-1:rgba(255,255,255,.09); --fill-2:rgba(255,255,255,.16); --fill-solid:#2c2c2e;
     --nav-bg:rgba(0,0,0,.72); --toTop-bg:rgba(255,255,255,.18); --badge-bg:rgba(255,255,255,.18);
     --mark-bg:rgba(255,214,10,.3); --border-strong:rgba(255,255,255,.2);
+    --hm0:rgba(255,255,255,.08); --hm1:rgba(10,132,255,.3); --hm2:rgba(10,132,255,.55); --hm3:rgba(10,132,255,.8); --hm4:#0a84ff;
     --tab-shadow:0 3px 10px rgba(0,0,0,.5);
     --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#86868b;
     --line:rgba(255,255,255,.14); --line-2:rgba(255,255,255,.08); --subtle:#101012;
@@ -249,6 +251,21 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .wx-desc{font-size:19px;color:var(--ink-2)}
 .wx-extra{margin-top:16px;font-size:14px;color:var(--ink-3)}
 .wx-note{margin-top:26px;font-size:12px;color:var(--ink-3)}
+
+/* ---------- GitHub 活跃热力图 ---------- */
+.heat-wrap{overflow-x:auto;overflow-y:hidden;padding:2px 0 6px}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);gap:3px;width:max-content;margin:0 auto}
+.heat i{width:12px;height:12px;border-radius:3px;background:var(--hm0);display:block}
+.heat i[data-l="1"]{background:var(--hm1)}
+.heat i[data-l="2"]{background:var(--hm2)}
+.heat i[data-l="3"]{background:var(--hm3)}
+.heat i[data-l="4"]{background:var(--hm4)}
+.heat-legend{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:18px;font-size:12px;color:var(--ink-3)}
+.heat-legend i{width:12px;height:12px;border-radius:3px;display:block;background:var(--hm0)}
+.heat-legend i[data-l="1"]{background:var(--hm1)}
+.heat-legend i[data-l="2"]{background:var(--hm2)}
+.heat-legend i[data-l="3"]{background:var(--hm3)}
+.heat-legend i[data-l="4"]{background:var(--hm4)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1!important;transform:none!important}}
 @media (max-width:900px){
@@ -351,6 +368,15 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
     <div class="sec-head"><h2 class="sec-title">分类</h2></div>
   </div>
   <div class="cats" id="catwrap"></div>
+</section>
+
+<!-- ===== GitHub 活跃（构建时抓取，访客侧零外部请求） ===== -->
+<section class="tile" id="heat">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">GitHub 活跃</h2><p class="sec-sub" id="heat-sub">最近一年</p></div>
+    <div class="heat-wrap"><div class="heat" id="heatmap"></div></div>
+    <div class="heat-legend"><span>少</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span>多</span></div>
+  </div>
 </section>
 
 <!-- ===== 统计（黑） ===== -->
@@ -515,7 +541,7 @@ window.OC = window.OC || {};
       .catch(function(){ return null; });
   }
   window.OCReady = Promise.all([
-    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json')
+    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json'), get('contributions.json')
   ]).then(function(a){
     var OC = window.OC;
     OC.posts = Array.isArray(a[0]) ? a[0].filter(function(p){ return p && p.slug; }) : [];
@@ -523,6 +549,7 @@ window.OC = window.OC || {};
     OC.notices = Array.isArray(a[2]) ? a[2] : [];
     OC.updates = Array.isArray(a[3]) ? a[3] : [];
     OC.projects = Array.isArray(a[4]) ? a[4] : [];
+    OC.contrib = a[5] || null;
     return OC;
   }).catch(function(){ return window.OC; });
 })();
@@ -657,6 +684,23 @@ window.OC = window.OC || {};
     if(ab && site.aboutBody){
       var html=mdLite(site.aboutBody);
       if(html) ab.innerHTML=html;
+    }
+
+    /* GitHub 活跃热力图（数据由构建脚本抓取，只渲染，不再请求外部） */
+    var hm=document.getElementById('heatmap');
+    if(hm && OC.contrib && OC.contrib.days && OC.contrib.days.length){
+      var days=OC.contrib.days;
+      var first=new Date(days[0].d+'T00:00:00');
+      var pad=isNaN(first.getDay())?0:first.getDay();
+      var html='', i=0;
+      for(;i<pad;i++) html+='<i></i>';
+      for(i=0;i<days.length;i++){
+        var x=days[i];
+        html+='<i data-l="'+x.l+'" title="'+x.d+' · '+x.c+' 次贡献"></i>';
+      }
+      hm.innerHTML=html;
+      var hs=document.getElementById('heat-sub');
+      if(hs) hs.textContent='最近一年共 '+OC.contrib.total+' 次贡献';
     }
 
     try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){}
