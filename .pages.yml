@@ -125,6 +125,31 @@ content:
         sort: date
         order: desc
 
+  - name: site
+    label: 站点设置
+    type: collection
+    path: content/site
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    exclude:
+      - README.md
+
+    fields:
+      - name: aboutHeading
+        label: 「关于本站」里的标题
+        type: string
+
+      - name: body
+        label: 「关于本站」的正文
+        type: rich-text
+        options:
+          format: markdown
+
+    view:
+      primary: aboutHeading
+      fields:
+        - aboutHeading
+
   - name: projects
     label: 项目记录
     type: collection

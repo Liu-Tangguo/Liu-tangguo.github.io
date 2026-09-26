@@ -39,7 +39,8 @@ img{max-width:100%;display:block}
 .utility i{font-style:normal;color:#c7c7cc;margin:0 9px}
 .gnav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.72);border-bottom:1px solid var(--line);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
 .gnav .wrap{display:flex;align-items:center;gap:22px;height:48px}
-.gnav .brand{flex:0 0 auto;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.gnav .brand{flex:0 0 auto;display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.logo-img{width:34px;height:34px;border-radius:10px;display:block;flex:0 0 auto}
 .gnav .nav{flex:1 1 auto;display:flex;justify-content:center;gap:4px;overflow-x:auto;scrollbar-width:none}
 .gnav .nav::-webkit-scrollbar{display:none}
 .gnav .nav a{flex:0 0 auto;font-size:12px;color:var(--ink-2);padding:6px 11px;border-radius:980px;white-space:nowrap;transition:color .2s var(--ease),background .2s var(--ease)}
@@ -79,7 +80,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .hero .tn-txt h3{font-size:clamp(34px,5.4vw,60px);letter-spacing:-.016em;line-height:1.06}
 .hero .tn-txt h3 a{color:var(--ink)}
 .hero .tn-txt h3 a:hover{color:var(--link)}
-.hero .sum{font-size:21px;color:var(--ink-2);max-width:660px;margin:18px auto 0;line-height:1.4}
+.hero .sum{font-size:21px;color:var(--ink-2);max-width:660px;margin:18px auto 0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .hero .meta{font-size:14px;color:var(--ink-3);margin-top:16px}
 .hero .meta em{font-style:normal;margin:0 10px;color:#d2d2d7}
 .hero .meta a{color:var(--link)}
@@ -250,7 +251,7 @@ mark{background:#FFF2B8;color:inherit;padding:0 2px;border-radius:3px}
 
 <div class="gnav">
   <div class="wrap">
-    <a class="brand" href="index.html">Tangguo的Blog</a>
+    <a class="brand" href="index.html"><img class="logo-img" src="media/logo.svg" alt="" width="34" height="34"><span>Tangguo的Blog</span></a>
     <div class="nav" id="navroot">
       <a class="on" href="index.html">首页</a><a href="#articles">要闻动态</a><a href="#about" id="navabout">关于本站</a>
     </div>
@@ -310,7 +311,7 @@ mark{background:#FFF2B8;color:inherit;padding:0 2px;border-radius:3px}
     <div class="stats">
       <div class="stat-col"><span>文章总数</span><b class="bignum" id="postCount">1 篇</b></div>
       <div class="stat-col"><span>运行天数</span><b class="bignum" id="runDaysSide">0 天</b></div>
-      <div class="stat-col"><span>评论总数</span><b class="bignum">0 条</b></div>
+      <div class="stat-col"><span>累计字数</span><b class="bignum" id="wordCount">—</b></div>
       <div class="stat-col"><span>标签数量</span><b class="bignum" id="tagCount">1 个</b></div>
     </div>
     <p class="stat-note">静态页面 · 由 GitHub Pages 驱动</p>
@@ -343,8 +344,8 @@ mark{background:#FFF2B8;color:inherit;padding:0 2px;border-radius:3px}
 <!-- ===== 关于 + 专栏 ===== -->
 <section class="tile" id="about">
   <div class="tile-in">
-    <div class="sec-head"><h2 class="sec-title">关于本站</h2></div>
-    <div class="about">
+    <div class="sec-head"><h2 class="sec-title" id="aboutHeading">关于本站</h2></div>
+    <div class="about" id="aboutBody">
       <p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，内容会慢慢填进来。</p>
       <p>建站原则有两条：一是不着急，二是不着急。</p>
     </div>
@@ -436,7 +437,7 @@ mark{background:#FFF2B8;color:inherit;padding:0 2px;border-radius:3px}
         var ft = document.getElementById('featuredTitle');
         if(ft){ ft.textContent = first.title || first.slug; ft.href = postLink(first.slug); }
         var fs2 = document.getElementById('featuredSummary');
-        if(fs2){ var t = plainText(first.body); fs2.textContent = t ? t.slice(0,140) : '（这篇文章还没有正文）'; }
+        if(fs2){ var t = plainText(first.body); var cut = t.slice(0,140); fs2.textContent = t ? (t.length > 140 ? cut + '…' : cut) : '（这篇文章还没有正文）'; }
         var ff = document.getElementById('featuredFig');
         if(ff && first.cover) ff.innerHTML = '<i>头条</i><img src="' + esc(first.cover) + '" alt="' + esc(first.title || '') + '">';
         var fm = document.getElementById('featuredMeta');
@@ -532,13 +533,31 @@ window.OC = window.OC || {};
 })();
 </script>
 <script>
-/* 渲染：站内公告条 / 通知公告 / 最新动态 / 项目记录（全部来自 JSON 数据） */
+/* 渲染：公告条 / 通知公告 / 最新动态 / 项目记录 / 累计字数 / 关于本站（全部来自 JSON） */
 (function(){
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
+  function plain(md){ return String(md||'').replace(/```[\s\S]*?```/g,' ').replace(/[#>*_`\[\]()!]/g,'').replace(/\s+/g,' ').trim(); }
   function ready(fn){ if(window.OCReady) window.OCReady.then(fn); }
+
+  /* 关于本站：极简 Markdown（段落 + 换行 + 粗体 + 行内代码 + 链接），先转义再套标记 */
+  function inline(s){
+    var t = esc(s);
+    t = t.replace(/`([^`]+)`/g,'<code>$1</code>');
+    t = t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+    return t;
+  }
+  function mdLite(md){
+    var t = String(md||'').replace(/\r\n?/g,'\n').replace(/\s+$/,'');
+    if(!t) return '';
+    return t.split(/\n{2,}/).map(function(par){
+      return '<p>' + par.split('\n').map(inline).join('<br>') + '</p>';
+    }).join('');
+  }
+
   ready(function(OC){
-    var notices=OC.notices||[], updates=OC.updates||[], projects=OC.projects||[];
+    var notices=OC.notices||[], updates=OC.updates||[], projects=OC.projects||[], posts=OC.posts||[], site=OC.site||{};
 
     /* 站内公告条：跟随最新一条通知公告 */
     var strip=document.getElementById('strip'), st=document.getElementById('stripText');
@@ -575,6 +594,23 @@ window.OC = window.OC || {};
         return '<tr><td>'+name+'</td><td>'+(p.status?'<span class="st">'+esc(p.status)+'</span>':'')+'</td><td>'+esc(p.stack||'')+'</td><td>'+esc(p.updated||'')+'</td></tr>';
       }).join('') : '<tr><td colspan="4">还没有项目记录</td></tr>';
     }
+
+    /* 累计字数（正文去掉 Markdown 标记与空白后的字符数） */
+    var wc=document.getElementById('wordCount');
+    if(wc){
+      var total=0, i=0;
+      for(;i<posts.length;i++){ total += plain(posts[i].body).length; }
+      wc.textContent = total >= 10000 ? (total/10000).toFixed(1)+' 万字' : total+' 字';
+    }
+
+    /* 关于本站（内容来自 content/site/site.md，可在后台编辑） */
+    var ah=document.getElementById('aboutHeading'), ab=document.getElementById('aboutBody');
+    if(ah && site.aboutHeading) ah.textContent = site.aboutHeading;
+    if(ab && site.aboutBody){
+      var html=mdLite(site.aboutBody);
+      if(html) ab.innerHTML=html;
+    }
+
     try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){}
   });
 })();

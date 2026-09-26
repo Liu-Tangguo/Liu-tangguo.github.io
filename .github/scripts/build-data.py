@@ -80,6 +80,12 @@ for u in updates:
     u["text"] = u["text"] or u["slug"]
 updates.sort(key=lambda x: (x["date"], x["slug"]), reverse=True)
 
+# ---------- 站点设置（content/site 下只应有一个文件） ----------
+settings = load("site", ["aboutHeading"])
+about = settings[0] if settings else {}
+if len(settings) > 1:
+    print("  ! content/site 下有 %d 个文件，只用第一个：%s" % (len(settings), settings[0]["filename"]))
+
 # ---------- 站点信息 ----------
 content_dates = [x.get("date", "") for x in (posts + notices + updates)]
 content_dates = [d for d in content_dates if d]
@@ -90,6 +96,8 @@ site_updated = max(content_dates) if content_dates else (
 site = {
     "updatedAt": site_updated,
     "posts": len(posts),
+    "aboutHeading": about.get("aboutHeading", "") or "关于本站",
+    "aboutBody": about.get("body", "") or "",
 }
 
 # ---------- 项目记录（updated 填 auto 时取本站更新时间） ----------
