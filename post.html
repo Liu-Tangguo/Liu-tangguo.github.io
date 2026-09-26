@@ -1,379 +1,701 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>文章详情 - 我的个人网站</title>
 
+
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+
         body {
+
             margin: 0;
+
             background: #eeeeee;
+
             color: #333;
+
             font-family:
                 "Microsoft YaHei",
                 "SimSun",
                 Arial,
                 sans-serif;
+
             font-size: 14px;
+
         }
+
 
         a {
+
             color: #8b0000;
+
             text-decoration: none;
+
         }
+
 
         a:hover {
+
             text-decoration: underline;
+
         }
+
+
+        /* =========================
+           顶部
+        ========================= */
 
         .topbar {
+
             background: #7b0000;
+
             color: white;
-            border-bottom: 4px solid #d6b36a;
+
+            border-bottom:
+                4px solid #d6b36a;
+
         }
+
 
         .topbar-inner {
+
             max-width: 1200px;
+
             margin: 0 auto;
+
             padding: 8px 20px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
         }
+
 
         .site-name {
+
             font-size: 20px;
+
             font-weight: bold;
+
         }
+
 
         .site-info {
+
             font-size: 12px;
+
         }
+
+
+        /* =========================
+           主体
+        ========================= */
 
         .container {
+
             max-width: 1200px;
+
             margin: 15px auto;
+
             padding: 0 15px;
+
         }
+
+
+        /* =========================
+           导航
+        ========================= */
 
         .nav {
+
             background: #f8f8f8;
+
             border: 1px solid #ccc;
+
             margin-bottom: 15px;
+
         }
+
 
         .nav-inner {
+
             display: flex;
+
             flex-wrap: wrap;
+
         }
+
 
         .nav a {
+
             display: block;
+
             padding: 10px 18px;
-            border-right: 1px solid #ddd;
+
+            border-right:
+                1px solid #ddd;
+
             color: #333;
+
             font-weight: bold;
+
         }
+
 
         .nav a:hover {
+
             background: #7b0000;
+
             color: white;
+
             text-decoration: none;
+
         }
+
+
+        /* =========================
+           文章
+        ========================= */
 
         .article-box {
+
             background: white;
+
             border: 1px solid #ccc;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+            box-shadow:
+                0 1px 2px
+                rgba(0, 0, 0, 0.05);
+
         }
+
 
         .article-header {
+
             background: #f5f5f5;
-            border-bottom: 1px solid #ccc;
+
+            border-bottom:
+                1px solid #ccc;
+
             padding: 20px 25px;
+
         }
+
 
         .article-title {
-            margin: 0 0 12px;
+
+            margin:
+                0 0 12px;
+
             color: #7b0000;
+
             font-size: 26px;
+
             line-height: 1.5;
+
         }
+
 
         .article-meta {
+
             color: #777;
+
             font-size: 13px;
+
         }
+
 
         .article-meta span {
+
             margin-right: 20px;
+
         }
 
+
         .article-body {
+
             padding: 30px 35px;
+
             line-height: 1.9;
+
             font-size: 16px;
+
             min-height: 300px;
+
         }
+
 
         .article-body h1,
         .article-body h2,
         .article-body h3 {
+
             color: #7b0000;
-            border-left: 5px solid #7b0000;
+
+            border-left:
+                5px solid #7b0000;
+
             padding-left: 10px;
+
         }
 
+
         .article-body p {
+
             margin: 15px 0;
+
         }
+
 
         .article-body ul,
         .article-body ol {
+
             padding-left: 30px;
+
         }
+
 
         .article-body blockquote {
+
             margin: 20px 0;
+
             padding: 10px 15px;
+
             background: #f5f5f5;
-            border-left: 4px solid #999;
+
+            border-left:
+                4px solid #999;
+
             color: #666;
+
         }
+
 
         .article-body code {
+
             background: #f1f1f1;
+
             padding: 2px 5px;
+
             border: 1px solid #ddd;
-            font-family: Consolas, monospace;
+
+            font-family:
+                Consolas,
+                monospace;
+
         }
+
 
         .article-body pre {
+
             background: #272822;
+
             color: #eee;
+
             padding: 15px;
+
             overflow-x: auto;
+
             border-radius: 2px;
+
         }
+
 
         .article-body pre code {
+
             background: transparent;
+
             border: none;
+
             padding: 0;
+
             color: inherit;
+
         }
+
 
         .article-body img {
+
             max-width: 100%;
+
             height: auto;
+
         }
+
+
+        /* =========================
+           底部按钮
+        ========================= */
 
         .article-footer {
+
             padding: 15px 25px;
-            border-top: 1px solid #ddd;
+
+            border-top:
+                1px solid #ddd;
+
             background: #fafafa;
+
         }
+
 
         .back-button {
+
             display: inline-block;
+
             padding: 7px 15px;
+
             background: #7b0000;
+
             color: white;
-            border: 1px solid #600000;
+
+            border:
+                1px solid #600000;
+
         }
+
 
         .back-button:hover {
+
             background: #a00000;
+
             text-decoration: none;
+
         }
+
+
+        /* =========================
+           信息
+        ========================= */
 
         .message {
+
             padding: 60px 20px;
+
             text-align: center;
+
             color: #777;
+
             white-space: pre-line;
+
         }
+
 
         .message h2 {
+
             color: #8b0000;
+
         }
+
 
         .error {
+
             color: #8b0000;
+
         }
 
+
+        /* =========================
+           页脚
+        ========================= */
+
         footer {
+
             margin-top: 20px;
+
             padding: 20px;
+
             background: #ddd;
-            border-top: 3px solid #7b0000;
+
+            border-top:
+                3px solid #7b0000;
+
             text-align: center;
+
             color: #666;
+
             font-size: 12px;
+
             line-height: 1.8;
+
         }
+
+
+        /* =========================
+           手机端
+        ========================= */
 
         @media (max-width: 700px) {
 
             .topbar-inner {
+
                 display: block;
+
             }
+
 
             .site-info {
+
                 margin-top: 5px;
+
             }
+
 
             .nav-inner {
+
                 display: block;
+
             }
+
 
             .nav a {
+
                 border-right: none;
-                border-bottom: 1px solid #ddd;
+
+                border-bottom:
+                    1px solid #ddd;
+
             }
+
 
             .article-title {
+
                 font-size: 22px;
+
             }
 
+
             .article-body {
+
                 padding: 20px;
+
                 font-size: 15px;
+
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="topbar">
 
-    <div class="topbar-inner">
+    <!-- =========================
+         顶部
+    ========================== -->
 
-        <div class="site-name">
-            我的个人网站
-        </div>
+    <div class="topbar">
 
-        <div class="site-info">
-
-            <span id="today">
-                正在获取日期...
-            </span>
-
-            ｜本站已运行
-            <span id="run-days">0</span>
-            天
-
-        </div>
-
-    </div>
-
-</div>
+        <div class="topbar-inner">
 
 
-<div class="container">
+            <div class="site-name">
 
-    <div class="nav">
+                我的个人网站
 
-        <div class="nav-inner">
+            </div>
 
-            <a href="index.html">
-                首页
-            </a>
 
-            <a href="index.html#articles">
-                文章
-            </a>
+            <div class="site-info">
 
-            <a href="index.html#about">
-                关于本站
-            </a>
+                <span id="today">
+                    正在获取日期...
+                </span>
+
+                ｜本站已运行
+
+                <span id="run-days">
+                    0
+                </span>
+
+                天
+
+            </div>
+
 
         </div>
 
     </div>
 
 
-    <div class="article-box">
 
-        <div id="article">
+    <!-- =========================
+         主体
+    ========================== -->
 
-            <div class="message">
-                正在读取文章，请稍候……
+    <div class="container">
+
+
+        <!-- 导航 -->
+
+        <div class="nav">
+
+            <div class="nav-inner">
+
+
+                <a href="index.html">
+
+                    首页
+
+                </a>
+
+
+                <a href="index.html#articles">
+
+                    文章
+
+                </a>
+
+
+                <a href="index.html#about">
+
+                    关于本站
+
+                </a>
+
+
             </div>
 
         </div>
 
+
+
+        <!-- 文章 -->
+
+        <div class="article-box">
+
+            <div id="article">
+
+                <div class="message">
+
+                    正在读取文章，请稍候……
+
+                </div>
+
+            </div>
+
+        </div>
+
+
     </div>
 
-</div>
 
 
-<footer>
+    <!-- =========================
+         页脚
+    ========================== -->
 
-    <div>
-        我的个人网站
-    </div>
+    <footer>
 
-    <div>
-        建站日期：2026-09-26
-    </div>
+        <div>
 
-    <div id="footer-date">
-        2026-09-26
-    </div>
+            我的个人网站
 
-</footer>
+        </div>
+
+
+        <div>
+
+            建站日期：2026-09-26
+
+        </div>
+
+
+        <div id="footer-date">
+
+            2026-09-26
+
+        </div>
+
+    </footer>
+
 
 
 <script>
 
-    /* ================================
+
+    /* ==================================================
        网站设置
-    ================================= */
+    ================================================== */
 
-    const START_DATE = "2026-09-26";
+    const START_DATE =
+        "2026-09-26";
 
-    const POSTS_JSON = "posts.json";
+
+    const POSTS_JSON =
+        "posts.json";
 
 
-    /* ================================
+
+    /* ==================================================
        日期
-    ================================= */
+    ================================================== */
 
     function updateDate() {
 
-        const now = new Date();
 
-        const year = now.getFullYear();
+        const now =
+            new Date();
+
+
+        const year =
+            now.getFullYear();
+
 
         const month =
-            String(now.getMonth() + 1)
-                .padStart(2, "0");
+            String(
+                now.getMonth() + 1
+            ).padStart(2, "0");
+
 
         const day =
-            String(now.getDate())
-                .padStart(2, "0");
+            String(
+                now.getDate()
+            ).padStart(2, "0");
+
 
         const weekdays = [
+
             "星期日",
+
             "星期一",
+
             "星期二",
+
             "星期三",
+
             "星期四",
+
             "星期五",
+
             "星期六"
+
         ];
+
 
         document.getElementById(
             "today"
         ).textContent =
+
             year +
             "-" +
             month +
@@ -386,6 +708,7 @@
         document.getElementById(
             "footer-date"
         ).textContent =
+
             year +
             "-" +
             month +
@@ -393,11 +716,13 @@
             day;
 
 
+
         const start =
             new Date(
                 START_DATE +
                 "T00:00:00"
             );
+
 
         const today =
             new Date(
@@ -409,20 +734,32 @@
                 "T00:00:00"
             );
 
+
         const difference =
             today.getTime() -
             start.getTime();
 
+
         const days =
             Math.floor(
                 difference /
-                (1000 * 60 * 60 * 24)
+                (
+                    1000 *
+                    60 *
+                    60 *
+                    24
+                )
             );
+
 
         document.getElementById(
             "run-days"
         ).textContent =
-            Math.max(0, days);
+
+            Math.max(
+                0,
+                days
+            );
 
     }
 
@@ -430,102 +767,154 @@
     updateDate();
 
 
-    /* ================================
-       Markdown
-    ================================= */
 
-    function markdownToHtml(markdown) {
+    /* ==================================================
+       Markdown 转 HTML
+    ================================================== */
+
+    function markdownToHtml(
+        markdown
+    ) {
+
 
         if (!markdown) {
+
             return "";
+
         }
 
-        let text = markdown;
+
+        let text =
+            markdown;
 
 
-        text = text
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
+
+        /* HTML 转义 */
+
+        text =
+            text
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                );
+
 
 
         /* 代码块 */
 
-        text = text.replace(
-            /```([\s\S]*?)```/g,
-            function(match, code) {
+        text =
+            text.replace(
 
-                return (
-                    "<pre><code>" +
-                    code.trim() +
-                    "</code></pre>"
-                );
+                /```([\s\S]*?)```/g,
 
-            }
-        );
+                function(
+                    match,
+                    code
+                ) {
+
+                    return (
+
+                        "<pre><code>" +
+
+                        code.trim() +
+
+                        "</code></pre>"
+
+                    );
+
+                }
+
+            );
+
 
 
         /* 标题 */
 
-        text = text.replace(
-            /^### (.*)$/gm,
-            "<h3>$1</h3>"
-        );
+        text =
+            text.replace(
+                /^### (.*)$/gm,
+                "<h3>$1</h3>"
+            );
 
-        text = text.replace(
-            /^## (.*)$/gm,
-            "<h2>$1</h2>"
-        );
 
-        text = text.replace(
-            /^# (.*)$/gm,
-            "<h1>$1</h1>"
-        );
+        text =
+            text.replace(
+                /^## (.*)$/gm,
+                "<h2>$1</h2>"
+            );
+
+
+        text =
+            text.replace(
+                /^# (.*)$/gm,
+                "<h1>$1</h1>"
+            );
+
 
 
         /* 粗体 */
 
-        text = text.replace(
-            /\*\*(.*?)\*\*/g,
-            "<strong>$1</strong>"
-        );
+        text =
+            text.replace(
+                /\*\*(.*?)\*\*/g,
+                "<strong>$1</strong>"
+            );
+
 
 
         /* 斜体 */
 
-        text = text.replace(
-            /\*(.*?)\*/g,
-            "<em>$1</em>"
-        );
+        text =
+            text.replace(
+                /\*(.*?)\*/g,
+                "<em>$1</em>"
+            );
+
 
 
         /* 行内代码 */
 
-        text = text.replace(
-            /`([^`]+)`/g,
-            "<code>$1</code>"
-        );
+        text =
+            text.replace(
+                /`([^`]+)`/g,
+                "<code>$1</code>"
+            );
+
 
 
         /* 引用 */
 
-        text = text.replace(
-            /^> (.*)$/gm,
-            "<blockquote>$1</blockquote>"
-        );
+        text =
+            text.replace(
+                /^> (.*)$/gm,
+                "<blockquote>$1</blockquote>"
+            );
 
 
-        /* 列表 */
 
-        text = text.replace(
-            /^\- (.*)$/gm,
-            "<li>$1</li>"
-        );
+        /* 无序列表 */
 
-        text = text.replace(
-            /(<li>.*<\/li>)/gs,
-            "<ul>$1</ul>"
-        );
+        text =
+            text.replace(
+                /^\- (.*)$/gm,
+                "<li>$1</li>"
+            );
+
+
+        text =
+            text.replace(
+                /(<li>.*<\/li>)/gs,
+                "<ul>$1</ul>"
+            );
+
 
 
         /* 普通段落 */
@@ -533,22 +922,31 @@
         const lines =
             text.split(/\n/);
 
+
         const result = [];
 
-        let inPre = false;
+
+        let inPre =
+            false;
 
 
         for (
             let line of lines
         ) {
 
+
             if (
-                line.includes("<pre>")
+                line.includes(
+                    "<pre>"
+                )
             ) {
 
-                inPre = true;
+                inPre =
+                    true;
 
-                result.push(line);
+                result.push(
+                    line
+                );
 
                 continue;
 
@@ -556,12 +954,17 @@
 
 
             if (
-                line.includes("</pre>")
+                line.includes(
+                    "</pre>"
+                )
             ) {
 
-                inPre = false;
+                inPre =
+                    false;
 
-                result.push(line);
+                result.push(
+                    line
+                );
 
                 continue;
 
@@ -570,7 +973,9 @@
 
             if (inPre) {
 
-                result.push(line);
+                result.push(
+                    line
+                );
 
                 continue;
 
@@ -581,7 +986,9 @@
                 line.trim() === ""
             ) {
 
-                result.push("");
+                result.push(
+                    ""
+                );
 
                 continue;
 
@@ -589,15 +996,36 @@
 
 
             if (
-                line.startsWith("<h1>") ||
-                line.startsWith("<h2>") ||
-                line.startsWith("<h3>") ||
-                line.startsWith("<blockquote>") ||
-                line.startsWith("<ul>") ||
-                line.startsWith("<li>")
+
+                line.startsWith(
+                    "<h1>"
+                ) ||
+
+                line.startsWith(
+                    "<h2>"
+                ) ||
+
+                line.startsWith(
+                    "<h3>"
+                ) ||
+
+                line.startsWith(
+                    "<blockquote>"
+                ) ||
+
+                line.startsWith(
+                    "<ul>"
+                ) ||
+
+                line.startsWith(
+                    "<li>"
+                )
+
             ) {
 
-                result.push(line);
+                result.push(
+                    line
+                );
 
                 continue;
 
@@ -605,24 +1033,32 @@
 
 
             result.push(
+
                 "<p>" +
                 line +
                 "</p>"
+
             );
 
         }
 
 
-        return result.join("\n");
+        return result.join(
+            "\n"
+        );
 
     }
 
 
-    /* ================================
-       显示文章
-    ================================= */
 
-    function showArticle(article) {
+    /* ==================================================
+       显示文章
+    ================================================== */
+
+    function showArticle(
+        article
+    ) {
+
 
         const container =
             document.getElementById(
@@ -631,114 +1067,169 @@
 
 
         document.title =
+
             (
                 article.title ||
                 "文章"
             ) +
+
             " - 我的个人网站";
+
 
 
         container.innerHTML = `
 
+
             <div class="article-header">
 
+
                 <h1 class="article-title">
+
                     ${
                         article.title ||
                         "无标题"
                     }
+
                 </h1>
+
+
 
                 <div class="article-meta">
 
+
                     <span>
+
                         日期：
+
                         ${
                             article.date ||
                             "未知"
                         }
+
                     </span>
 
+
+
                     <span>
+
                         分类：
+
                         ${
                             article.category ||
                             "未分类"
                         }
+
                     </span>
+
 
                 </div>
 
+
             </div>
+
 
 
             <div class="article-body">
 
+
                 ${
                     markdownToHtml(
-                        article.body || ""
+                        article.body ||
+                        ""
                     )
                 }
+
 
             </div>
 
 
+
             <div class="article-footer">
+
 
                 <a
                     class="back-button"
                     href="index.html"
                 >
+
                     ← 返回首页
+
                 </a>
 
+
             </div>
+
 
         `;
 
     }
 
 
-    /* ================================
-       错误
-    ================================= */
 
-    function showError(message) {
+    /* ==================================================
+       错误页面
+    ================================================== */
+
+    function showError(
+        message
+    ) {
+
 
         document.getElementById(
             "article"
         ).innerHTML = `
 
+
             <div class="message error">
 
+
                 <h2>
+
                     文章读取失败
+
                 </h2>
 
-                <p>
-                    ${message}
-                </p>
 
                 <p>
-                    <a href="index.html">
-                        返回首页
-                    </a>
+
+                    ${message}
+
                 </p>
+
+
+                <p>
+
+                    <a href="index.html">
+
+                        返回首页
+
+                    </a>
+
+                </p>
+
 
             </div>
+
 
         `;
 
     }
 
 
-    /* ================================
+
+    /* ==================================================
        读取文章
-    ================================= */
+    ================================================== */
 
     async function loadArticle() {
 
+
         try {
+
+
+            /* ------------------------------------------
+               获取 URL 参数
+            ------------------------------------------ */
 
             const params =
                 new URLSearchParams(
@@ -747,78 +1238,113 @@
 
 
             const postSlug =
-                params.get("post");
+                params.get(
+                    "post"
+                );
 
 
             if (!postSlug) {
 
+
                 showError(
                     "没有指定文章。"
                 );
+
 
                 return;
 
             }
 
 
+
             /*
-             * URL 中的 slug
+             * 注意：
+             *
+             * 这里不再删除最后的 -
+             *
+             * slug 是什么，
+             * 就严格匹配什么。
+             *
+             * 例如：
+             *
+             * 2026-09-26-
+             *
+             * 2026-09-26-test
+             *
+             * 都是完全独立的文章。
              */
+
 
             const targetSlug =
-                String(postSlug)
-                    .trim();
+                String(
+                    postSlug
+                ).trim();
 
 
-            /*
-             * 读取 posts.json
-             */
+
+            /* ------------------------------------------
+               读取 posts.json
+            ------------------------------------------ */
 
             const response =
                 await fetch(
+
                     POSTS_JSON +
                     "?v=" +
                     Date.now()
+
                 );
+
 
 
             if (!response.ok) {
 
+
                 throw new Error(
+
                     "posts.json 加载失败。\n" +
+
                     "HTTP 状态码：" +
+
                     response.status
+
                 );
 
             }
+
 
 
             const posts =
                 await response.json();
 
 
-            if (!Array.isArray(posts)) {
+
+            if (
+                !Array.isArray(
+                    posts
+                )
+            ) {
+
 
                 throw new Error(
+
                     "posts.json 格式不正确。"
+
                 );
 
             }
 
 
-            /*
-             * 查找文章
-             *
-             * 这里同时兼容：
-             *
-             * 2026-09-26
-             *
-             * 2026-09-26-
-             */
+
+            /* ------------------------------------------
+               精确匹配 slug
+            ------------------------------------------ */
 
             const article =
                 posts.find(
+
                     function(post) {
+
 
                         const slug =
                             String(
@@ -827,96 +1353,116 @@
                             ).trim();
 
 
-                        const normalizedSlug =
-                            slug.replace(
-                                /-+$/,
-                                ""
-                            );
-
-
                         return (
-                            normalizedSlug ===
+                            slug ===
                             targetSlug
                         );
 
+
                     }
+
                 );
 
 
-            /*
-             * 找不到
-             */
+
+            /* ------------------------------------------
+               找不到
+            ------------------------------------------ */
 
             if (!article) {
 
-                const actualSlugs =
+
+                const availableSlugs =
                     posts.map(
+
                         function(post) {
 
                             return String(
-                                post.slug || ""
+                                post.slug ||
+                                ""
                             );
 
                         }
+
                     );
+
 
 
                 showError(
 
-                    "URL 中的文章编号：\n" +
+                    "找不到文章：" +
 
                     targetSlug +
 
                     "\n\n" +
 
-                    "posts.json 实际读取到的 slug：\n" +
+                    "当前 posts.json 中的文章：\n" +
 
                     (
-                        actualSlugs.length
-                            ? actualSlugs.join("\n")
+
+                        availableSlugs.length
+
+                            ? availableSlugs.join(
+                                "\n"
+                            )
+
                             : "（没有文章）"
+
                     )
 
                 );
+
 
                 return;
 
             }
 
 
-            /*
-             * 找到了
-             */
+
+            /* ------------------------------------------
+               找到了
+            ------------------------------------------ */
 
             showArticle(
                 article
             );
 
 
-        } catch (error) {
+        }
 
-            console.error(error);
+
+        catch (error) {
+
+
+            console.error(
+                error
+            );
 
 
             showError(
 
                 error.message ||
+
                 "读取文章时发生未知错误。"
 
             );
+
 
         }
 
     }
 
 
-    /* ================================
+
+    /* ==================================================
        开始
-    ================================= */
+    ================================================== */
 
     loadArticle();
+
 
 </script>
 
 </body>
+
 </html>
