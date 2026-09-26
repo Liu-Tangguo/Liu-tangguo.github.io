@@ -665,6 +665,12 @@
       for(var i=1;i<parts.length;i+=2){ parts[i] = '<code>'+parts[i]+'</code>'; }
       t = parts.join('');
     }
+    t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, function(_, alt, url){
+      return '<img src="' + url + '" alt="' + alt + '" loading="lazy" style="max-width:100%;height:auto;border-radius:2px;margin:8px 0">';
+    });
+    t = t.replace(/\[([^\]]+)\]\(([^)\s]+)[^)]*\)/g, function(_, txt, url){
+      return '<a href="' + url + '" target="_blank" rel="noopener">' + txt + '</a>';
+    });
     t = t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
     t = t.replace(/\*([^*]+)\*/g,'<em>$1</em>');
     return t;
