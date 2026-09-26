@@ -34,16 +34,21 @@ jobs:
           posts = []
 
           if posts_dir.exists():
-              for file in sorted(posts_dir.glob("*.md"), reverse=True):
 
-                  text = file.read_text(encoding="utf-8")
+              for file in posts_dir.glob("*.md"):
+
+                  text = file.read_text(
+                      encoding="utf-8"
+                  )
 
                   title = ""
                   date = ""
                   category = ""
                   body = text
 
+                  # 读取文章 Front Matter
                   if text.startswith("---"):
+
                       match = re.match(
                           r"^---\s*\n(.*?)\n---\s*\n?(.*)$",
                           text,
@@ -51,39 +56,56 @@ jobs:
                       )
 
                       if match:
+
                           front_matter = match.group(1)
                           body = match.group(2).strip()
 
                           for line in front_matter.splitlines():
+
                               if ":" not in line:
                                   continue
 
-                              key, value = line.split(":", 1)
+                              key, value = line.split(
+                                  ":",
+                                  1
+                              )
 
                               key = key.strip()
                               value = value.strip()
+
                               value = value.strip("\"'")
 
                               if key == "title":
                                   title = value
+
                               elif key == "date":
                                   date = value
+
                               elif key == "category":
                                   category = value
 
+
+                  # 文件名就是文章 slug
+                  slug = file.stem
+
                   posts.append({
-                      "slug": file.stem,
-                      "title": title or file.stem,
-                      "date": date,
+                      "slug": slug,
+                      "filename": file.name,
+                      "title": title or slug,
+                      "date": date or slug,
                       "category": category or "未分类",
                       "body": body
                   })
 
+
+          # 按日期从新到旧排列
           posts.sort(
-              key=lambda post: post.get("date", ""),
+              key=lambda post: post["date"],
               reverse=True
           )
 
+
+          # 生成 posts.json
           output_file.write_text(
               json.dumps(
                   posts,
@@ -93,9 +115,16 @@ jobs:
               encoding="utf-8"
           )
 
+
           print(
               f"Generated posts.json with {len(posts)} posts."
           )
+
+          for post in posts:
+              print(
+                  post["slug"],
+                  post["title"]
+              )
           PY
 
       - name: Commit posts.json
