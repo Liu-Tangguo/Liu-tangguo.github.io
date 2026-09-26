@@ -10,7 +10,7 @@
 :root{
   --black:#000; --white:#fff; --gray:#f5f5f7;
   --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
-  --line:rgba(0,0,0,.1);
+  --line:rgba(0,0,0,.08);
   --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc;
   --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
   --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
@@ -25,11 +25,11 @@ img{max-width:100%;height:auto}
 .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
 
 /* ---------- 导航 ---------- */
-.topbar{position:sticky;top:0;z-index:30;background:rgba(22,22,23,.84);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.72);border-bottom:1px solid var(--line);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
 .topbar-inner{max-width:1040px;margin:0 auto;padding:0 22px;height:48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.site-name{font-size:15px;font-weight:600;color:#f5f5f7;letter-spacing:.02em}
-.site-name:hover{color:#fff}
-.site-info{font-size:12px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.site-name{font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.site-name:hover{color:var(--link)}
+.site-info{font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ---------- 文章 ---------- */
 .container{max-width:1040px;margin:0 auto;padding:52px 22px 80px}
@@ -74,7 +74,7 @@ img{max-width:100%;height:auto}
 .message a{color:var(--link)}
 
 /* ---------- 页脚 ---------- */
-footer{background:var(--gray);color:var(--ink-2);font-size:12px;padding:36px 0 30px;line-height:1.7}
+footer{background:var(--white);color:var(--ink-2);font-size:12px;padding:36px 0 30px;line-height:1.7;border-top:1px solid var(--line)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
