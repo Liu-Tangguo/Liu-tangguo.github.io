@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tangguo的Blog</title>
 <meta name="color-scheme" content="light dark">
+<script>/* 主题：先于样式设置，避免闪白 */ (function(){try{
+  var q=null; try{ q=new URLSearchParams(location.search).get('theme'); }catch(e){}
+  var s=null; try{ s=localStorage.getItem('oc-theme'); }catch(e){}
+  var d=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  var t=(q==='dark'||q==='light')?q:(s==='dark'||s==='light'?s:d);
+  document.documentElement.setAttribute('data-theme',t);
+  document.documentElement.style.colorScheme=t;
+}catch(e){}})();</script>
 <style>
 /* =========================================================
    设计语言：苹果官网（apple.com）
@@ -210,8 +218,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   .cat+.cat{border-left:0;border-top:1px solid var(--line);margin-top:34px;padding-top:34px}
 }
 /* ---------- 暗色模式（跟随系统设置） ---------- */
-@media (prefers-color-scheme: dark){
-  :root{
+:root[data-theme="dark"]{
     --bg:#000; --gray:#161617;
     --fill-1:rgba(255,255,255,.09); --fill-2:rgba(255,255,255,.16); --fill-solid:#2c2c2e;
     --nav-bg:rgba(0,0,0,.72); --toTop-bg:rgba(255,255,255,.18); --badge-bg:rgba(255,255,255,.18);
@@ -221,13 +228,27 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
     --line:rgba(255,255,255,.14); --line-2:rgba(255,255,255,.08); --subtle:#101012;
     --blue:#0a84ff; --blue-h:#409cff; --link:#0a84ff;
   }
-  .gnav.scrolled{box-shadow:0 1px 0 rgba(255,255,255,.06),0 12px 30px -24px rgba(0,0,0,.9)}
-  .logo-img{filter:invert(1)}
-  #toTop{color:#f5f5f7}
-  .st{background:rgba(10,132,255,.2);color:#9dc9ff}
-  .st.g{background:rgba(255,255,255,.1);color:var(--ink-3)}
-  mark{color:#fff}
-}
+:root[data-theme="dark"] .gnav.scrolled{box-shadow:0 1px 0 rgba(255,255,255,.06),0 12px 30px -24px rgba(0,0,0,.9)}
+:root[data-theme="dark"] .logo-img{filter:invert(1)}
+:root[data-theme="dark"] #toTop{color:#f5f5f7}
+:root[data-theme="dark"] .st{background:rgba(10,132,255,.2);color:#9dc9ff}
+:root[data-theme="dark"] .st.g{background:rgba(255,255,255,.1);color:var(--ink-3)}
+:root[data-theme="dark"] mark{color:#fff}
+
+.themebtn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex:0 0 auto;border-radius:980px;color:var(--ink-2);cursor:pointer;transition:color .2s var(--ease),background .2s var(--ease)}
+.themebtn:hover{color:var(--ink);background:var(--fill-1)}
+.themebtn .ti{display:none}
+.themebtn[data-mode="auto"] .ti-auto{display:block}
+.themebtn[data-mode="light"] .ti-light{display:block}
+.themebtn[data-mode="dark"] .ti-dark{display:block}
+.topbar-right{display:flex;align-items:center;gap:10px}
+
+.wx-main{display:flex;align-items:baseline;justify-content:center;gap:14px;flex-wrap:wrap}
+.wx-emoji{font-size:42px;line-height:1}
+.wx-temp{font-size:clamp(42px,7vw,68px);font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.wx-desc{font-size:19px;color:var(--ink-2)}
+.wx-extra{margin-top:16px;font-size:14px;color:var(--ink-3)}
+.wx-note{margin-top:26px;font-size:12px;color:var(--ink-3)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rv{opacity:1!important;transform:none!important}}
 @media (max-width:900px){
@@ -270,6 +291,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       <a class="on" href="index.html">首页</a><a href="#articles">要闻动态</a><a href="#about" id="navabout">关于本站</a>
     </div>
     <div class="gsearch"><input id="q" type="text" placeholder="搜索"><button id="qbtn" type="button">搜索</button></div>
+    <button class="themebtn" id="themebtn" type="button" data-mode="auto" title="主题：跟随系统" aria-label="切换主题"><svg class="ti ti-auto" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor"/></svg><svg class="ti ti-light" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.5 5.5 7.1 7.1M16.9 16.9l1.6 1.6M18.5 5.5 16.9 7.1M7.1 16.9l-1.6 1.6"/></g></svg><svg class="ti ti-dark" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6 8.8 8.8 0 1 0 20.4 14.6z" fill="currentColor"/></svg></button>
   </div>
 </div>
 
@@ -293,6 +315,22 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       </div>
     </div>
     <div class="tn-fig" id="featuredFig"><i>头条</i>暂无封面图</div>
+  </div>
+</section>
+
+<!-- ===== 天气（自动取当地，失败回退深圳） ===== -->
+<section class="tile" id="weather">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">此刻天气</h2><p class="sec-sub" id="wx-place">正在定位…</p></div>
+    <div class="wx">
+      <div class="wx-main">
+        <span class="wx-emoji" id="wx-emoji">·</span>
+        <span class="wx-temp" id="wx-temp">--°</span>
+        <span class="wx-desc" id="wx-desc">加载中</span>
+      </div>
+      <p class="wx-extra" id="wx-extra"></p>
+    </div>
+    <p class="wx-note" id="wx-note">数据来自 Open-Meteo</p>
   </div>
 </section>
 
@@ -700,6 +738,39 @@ window.OC = window.OC || {};
 })();
 </script>
 <script>
+/* 主题开关：跟随系统 / 亮色 / 暗色 三态循环，localStorage 记忆（?theme= 可强制预览） */
+(function(){
+  var KEY='oc-theme';
+  function system(){ return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+  function stored(){ try{ var v=localStorage.getItem(KEY); return (v==='dark'||v==='light')?v:'auto'; }catch(e){ return 'auto'; } }
+  function param(){ try{ var v=new URLSearchParams(location.search).get('theme'); return (v==='dark'||v==='light')?v:null; }catch(e){ return null; } }
+  function label(m){ return m==='auto'?'主题：跟随系统':(m==='dark'?'主题：暗色':'主题：亮色'); }
+  function apply(mode){
+    var t = mode==='auto' ? system() : mode;
+    var root=document.documentElement;
+    root.setAttribute('data-theme',t);
+    root.style.colorScheme=t;
+    var btn=document.getElementById('themebtn');
+    if(btn){ btn.setAttribute('data-mode',mode); btn.title=label(mode); btn.setAttribute('aria-label',label(mode)); }
+  }
+  function save(mode){ try{ if(mode==='auto') localStorage.removeItem(KEY); else localStorage.setItem(KEY,mode); }catch(e){} }
+  var forced=param();
+  var mode=forced||stored();
+  apply(mode);
+  var btn=document.getElementById('themebtn');
+  if(btn){
+    btn.addEventListener('click',function(){
+      if(forced) forced=null;
+      mode = mode==='auto' ? 'light' : (mode==='light' ? 'dark' : 'auto');
+      save(mode); apply(mode);
+    });
+  }
+  try{
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){ if(mode==='auto') apply('auto'); });
+  }catch(e){}
+})();
+</script>
+<script>
 /* 时钟：顶部工具条里的本地时间 */
 (function(){
   var el=document.getElementById('clock');
@@ -711,6 +782,85 @@ window.OC = window.OC || {};
   }
   tick();
   setInterval(tick,1000);
+})();
+</script>
+<script>
+/* 天气：优先按访问者网络位置取当地天气；失败回退深圳。数据源 Open-Meteo（免密钥） */
+(function(){
+  var el = {
+    place: document.getElementById('wx-place'),
+    temp: document.getElementById('wx-temp'),
+    desc: document.getElementById('wx-desc'),
+    emoji: document.getElementById('wx-emoji'),
+    extra: document.getElementById('wx-extra'),
+    note: document.getElementById('wx-note')
+  };
+  if(!el.temp) return;
+  var SZ = {lat:22.5431, lon:114.0579, name:'深圳'};
+  var TTL = 20*60*1000;
+
+  function txt(c){
+    var m={0:'晴',1:'少云',2:'多云',3:'阴',45:'雾',48:'雾凇',51:'毛毛雨',53:'小雨',55:'中雨',
+      56:'冻雨',57:'冻雨',61:'小雨',63:'中雨',65:'大雨',66:'冻雨',67:'冻雨',71:'小雪',73:'中雪',
+      75:'大雪',77:'米雪',80:'阵雨',81:'阵雨',82:'强阵雨',85:'阵雪',86:'阵雪',95:'雷阵雨',96:'雷阵雨伴冰雹',99:'雷阵雨伴冰雹'};
+    return m[c] || '—';
+  }
+  function emoji(c){
+    if(c===0) return '☀️';
+    if(c<=2) return '⛅';
+    if(c===3) return '☁️';
+    if(c>=45&&c<=48) return '🌫️';
+    if(c>=51&&c<=67) return '🌧️';
+    if(c>=71&&c<=77) return '❄️';
+    if(c>=80&&c<=82) return '🌦️';
+    if(c>=85&&c<=86) return '🌨️';
+    if(c>=95) return '⛈️';
+    return '🌡️';
+  }
+  function render(w, name, approx){
+    el.temp.textContent = Math.round(w.temperature_2m) + '°';
+    el.desc.textContent = txt(w.weather_code);
+    el.emoji.textContent = emoji(w.weather_code);
+    el.extra.textContent = '湿度 ' + w.relative_humidity_2m + '%　风速 ' + Math.round(w.wind_speed_10m) + ' km/h';
+    el.place.textContent = name;
+    el.note.textContent = approx
+      ? '位置根据你的网络出口 IP 估算，仅供参考 · 数据来自 Open-Meteo'
+      : '未能定位到你所在位置，显示默认城市 · 数据来自 Open-Meteo';
+  }
+  function weather(lat, lon){
+    var u='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+
+      '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=auto';
+    return fetch(u,{cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('wx '+r.status);
+      return r.json();
+    }).then(function(j){ if(!j||!j.current) throw new Error('wx empty'); return j.current; });
+  }
+  function locate(){
+    return fetch('https://ipwho.is/',{cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('geo '+r.status);
+      return r.json();
+    }).then(function(j){
+      if(!j || j.success===false || typeof j.latitude!=='number') throw new Error('geo bad');
+      return {lat:j.latitude, lon:j.longitude, name:(j.city || j.region || '你的位置')};
+    });
+  }
+  function fallback(){
+    return weather(SZ.lat, SZ.lon).then(function(w){ render(w, SZ.name, false); });
+  }
+  function start(){
+    locate().then(function(loc){
+      return weather(loc.lat, loc.lon).then(function(w){
+        render(w, loc.name, true);
+        try{ sessionStorage.setItem('oc-wx', JSON.stringify({t:Date.now(), w:w, n:loc.name})); }catch(e){}
+      });
+    }).catch(function(){
+      fallback().catch(function(){ el.place.textContent='天气暂时取不到'; el.desc.textContent='—'; });
+    });
+  }
+  var c=null;
+  try{ c=JSON.parse(sessionStorage.getItem('oc-wx')||'null'); }catch(e){}
+  if(c && c.w && (Date.now()-c.t)<TTL){ render(c.w, c.n, true); return; }
+  start();
 })();
 </script>
 </body>
