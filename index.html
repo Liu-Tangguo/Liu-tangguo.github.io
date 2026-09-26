@@ -196,7 +196,6 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <div class="utility">
   <div class="wrap">
     <span>今天是 <span id="today">加载中...</span><i>·</i>本站已运行 <span id="runDays">0</span> 天</span>
-    <span class="tb-r"><a href="#">设为首页</a><i>·</i><a href="#">加入收藏</a><i>·</i><a href="#">站点地图</a><i>·</i><a href="#">无障碍浏览</a><i>·</i><a href="#">简</a><a href="#">繁</a><a href="#">EN</a></span>
   </div>
 </div>
 
@@ -223,15 +222,15 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   <div class="tile-in">
     <div class="tn-txt">
       <p class="eyebrow">最新发布</p>
-      <h3><a id="featuredTitle" href="post.html?post=2026-09-26">我的个人博客正式上线啦</a></h3>
+      <h3><a id="featuredTitle" href="post.html?post=2026-09-26-">我的个人博客正式上线啦</a></h3>
       <p class="sum" id="featuredSummary">这是我的第一篇文章。从今天开始，这个小站会慢慢记录技术、阅读、生活和一些平时会用到的东西。</p>
       <p class="meta" id="featuredMeta">2026-09-26 <em>|</em> 分类：<a href="#">随笔杂记</a></p>
       <div class="cta">
-        <a class="btn btn-primary" id="heroRead" href="post.html?post=2026-09-26">阅读全文</a>
+        <a class="btn btn-primary" id="heroRead" href="post.html?post=2026-09-26-">阅读全文</a>
         <a class="btn btn-ghost" href="#articles">全部文章</a>
       </div>
     </div>
-    <div class="tn-fig" id="featuredFig"><i>头条</i>图片占位</div>
+    <div class="tn-fig" id="featuredFig"><i>头条</i>暂无封面图</div>
   </div>
 </section>
 
@@ -317,18 +316,10 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   </div>
 </section>
 
-<!-- ===== 友情链接 ===== -->
-<section class="tile gray">
-  <div class="tile-in">
-    <div class="sec-head"><h2 class="sec-title">友情链接</h2></div>
-    <div class="links"><a href="#">占位符的另一个站点</a><a href="#">打不开的链接</a><a href="#">朋友的博客</a><a href="#">很久没更新的站</a><a href="#">待交换</a><a href="#">待交换</a></div>
-  </div>
-</section>
-
 <div class="footer">
   <div class="wrap">
     <div class="f-nav"><a href="#">关于本站</a><a href="#">联系方式</a><a href="#">版权声明</a><a href="#">RSS 订阅</a><a href="#">站点地图</a><a href="#">无障碍浏览</a></div>
-    <p class="f-copy">版权所有 © 2026 占位符志 · 个人博客　保留一切权利　京ICP备00000000号-1（占位）</p>
+    <p class="f-copy">版权所有 © 2026 占位符志 · 个人博客　保留一切权利</p>
     <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　本站运行 <span id="runDaysFooter">0</span> 天　|　最后更新 <span id="lastUpdate">2026-09-26</span>　|　由一杯凉掉的咖啡提供动力</p>
   </div>
 </div>
@@ -428,6 +419,17 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       }
     })
     .catch(function(e){ console.error('文章列表加载失败：', e); });
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('featuredTitle'), r=document.getElementById('heroRead');
+  if(!t||!r) return;
+  function sync(){ var h=t.getAttribute('href'); if(h && r.getAttribute('href')!==h) r.setAttribute('href',h); }
+  sync();
+  try{ new MutationObserver(sync).observe(t,{attributes:true,attributeFilter:['href']}); }
+  catch(e){ setInterval(sync,300); }
+  window.addEventListener('load',sync);
 })();
 </script>
 </body>
