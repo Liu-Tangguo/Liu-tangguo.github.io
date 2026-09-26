@@ -34,23 +34,29 @@ def gql(token, payload):
 
 
 def refresh_note():
-    """从工作流里读 cron，换算成北京时间——让「每天几点刷新」只有一处事实来源"""
+    """从工作流里读 cron，换算成北京时间——让「几点刷新」只有一处事实来源"""
     try:
         wf = (ROOT / '.github' / 'workflows' / 'build-posts.yml').read_text(encoding='utf-8')
-        m = re.search(r'cron:\s*"?(\d+)\s+(\d+)\s+', wf)
+        m = re.search(r'cron:\s*["\']?([^\s"\']+)\s+([^\s"\']+)', wf)
         if not m:
             return ''
-        minute, hour = int(m.group(1)), int(m.group(2))
-        return '每天 %02d:%02d（北京时间）自动刷新' % ((hour + 8) % 24, minute)
+        minute, hour = m.group(1), m.group(2)
+        if hour.startswith('*/') and minute.isdigit():
+            return '每 %s 小时自动刷新（北京时间）' % hour[2:]
+        if minute.isdigit() and hour.isdigit():
+            return '每天 %02d:%02d（北京时间）自动刷新' % ((int(hour) + 8) % 24, int(minute))
+        return '按计划自动刷新'
     except Exception:
         return ''
 
 
 def build_query(account, site_tag, with_visits):
     sel = 'count' + (' sum { visits }' if with_visits else '')
-    q = ('query { viewer { accounts(filter: { accountTag: \"%s\" }) { '
-         'rumPageloadEventsAdaptiveGroups(limit: 1, '
-         'filter: { siteTag: \"%s\", datetime_geq: \"%s\" }) { %s } } } }' % (account, site_tag, SINCE, sel))
+    filt = 'datetime_geq: "%s"' % SINCE
+    if site_tag:
+        filt = 'siteTag: "%s", ' % site_tag + filt
+    q = ('query { viewer { accounts(filter: { accountTag: "%s" }) { '
+         'rumPageloadEventsAdaptiveGroups(limit: 1, filter: { %s }) { %s } } } }' % (account, filt, sel))
     return {'query': q}
 
 
@@ -97,7 +103,18 @@ def main():
         uv = None
         if with_visits and isinstance(row.get('sum'), dict):
             uv = int(row['sum'].get('visits') or 0)
-        result = {'pageviews': int(row.get('count') or 0), 'visits': uv, 'since': SINCE[:10], 'refresh': refresh_note(), 'updatedAt': now}
+        pv = int(row.get('count') or 0)
+        probe = None
+        if pv == 0:
+            try:
+                d2 = gql(token, build_query(account, None, False))
+                if not d2.get('errors'):
+                    probe = int(first_row(d2).get('count') or 0)
+                    print('visits: 诊断为 0，账号级（不带 siteTag）计数 = %s' % probe)
+            except Exception as e:
+                print('visits: 诊断查询失败 %s' % scrub(e))
+        result = {'pageviews': pv, 'visits': uv, 'since': SINCE[:10], 'refresh': refresh_note(),
+                  'probeAccountPageviews': probe, 'updatedAt': now}
         break
     if not result:
         print('visits: 未取到数据，保留旧文件')
