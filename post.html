@@ -1,634 +1,116 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>文章详情 - 我的个人网站</title>
-
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
-        body {
-
-            margin: 0;
-
-            background: #eeeeee;
-
-            color: #333;
-
-            font-family:
-                "Microsoft YaHei",
-                "SimSun",
-                Arial,
-                sans-serif;
-
-            font-size: 14px;
-
-        }
-
-
-        a {
-
-            color: #8b0000;
-
-            text-decoration: none;
-
-        }
-
-
-        a:hover {
-
-            text-decoration: underline;
-
-        }
-
-
-        /* =========================
-           顶部
-        ========================= */
-
-        .topbar {
-
-            background: #7b0000;
-
-            color: white;
-
-            border-bottom:
-                4px solid #d6b36a;
-
-        }
-
-
-        .topbar-inner {
-
-            max-width: 1200px;
-
-            margin: 0 auto;
-
-            padding: 8px 20px;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-        }
-
-
-        .site-name {
-
-            font-size: 20px;
-
-            font-weight: bold;
-
-        }
-
-
-        .site-info {
-
-            font-size: 12px;
-
-        }
-
-
-        /* =========================
-           主体
-        ========================= */
-
-        .container {
-
-            max-width: 1200px;
-
-            margin: 15px auto;
-
-            padding: 0 15px;
-
-        }
-
-
-        /* =========================
-           导航
-        ========================= */
-
-        .nav {
-
-            background: #f8f8f8;
-
-            border: 1px solid #ccc;
-
-            margin-bottom: 15px;
-
-        }
-
-
-        .nav-inner {
-
-            display: flex;
-
-            flex-wrap: wrap;
-
-        }
-
-
-        .nav a {
-
-            display: block;
-
-            padding: 10px 18px;
-
-            border-right:
-                1px solid #ddd;
-
-            color: #333;
-
-            font-weight: bold;
-
-        }
-
-
-        .nav a:hover {
-
-            background: #7b0000;
-
-            color: white;
-
-            text-decoration: none;
-
-        }
-
-
-        /* =========================
-           文章
-        ========================= */
-
-        .article-box {
-
-            background: white;
-
-            border: 1px solid #ccc;
-
-            box-shadow:
-                0 1px 2px
-                rgba(0, 0, 0, 0.05);
-
-        }
-
-
-        .article-header {
-
-            background: #f5f5f5;
-
-            border-bottom:
-                1px solid #ccc;
-
-            padding: 20px 25px;
-
-        }
-
-
-        .article-title {
-
-            margin:
-                0 0 12px;
-
-            color: #7b0000;
-
-            font-size: 26px;
-
-            line-height: 1.5;
-
-        }
-
-
-        .article-meta {
-
-            color: #777;
-
-            font-size: 13px;
-
-        }
-
-
-        .article-meta span {
-
-            margin-right: 20px;
-
-        }
-
-
-        .article-body {
-
-            padding: 30px 35px;
-
-            line-height: 1.9;
-
-            font-size: 16px;
-
-            min-height: 300px;
-
-        }
-
-
-        .article-body h1,
-        .article-body h2,
-        .article-body h3 {
-
-            color: #7b0000;
-
-            border-left:
-                5px solid #7b0000;
-
-            padding-left: 10px;
-
-        }
-
-
-        .article-body p {
-
-            margin: 15px 0;
-
-        }
-
-
-        .article-body ul,
-        .article-body ol {
-
-            padding-left: 30px;
-
-        }
-
-
-        .article-body blockquote {
-
-            margin: 20px 0;
-
-            padding: 10px 15px;
-
-            background: #f5f5f5;
-
-            border-left:
-                4px solid #999;
-
-            color: #666;
-
-        }
-
-
-        .article-body code {
-
-            background: #f1f1f1;
-
-            padding: 2px 5px;
-
-            border: 1px solid #ddd;
-
-            font-family:
-                Consolas,
-                monospace;
-
-        }
-
-
-        .article-body pre {
-
-            background: #272822;
-
-            color: #eee;
-
-            padding: 15px;
-
-            overflow-x: auto;
-
-            border-radius: 2px;
-
-        }
-
-
-        .article-body pre code {
-
-            background: transparent;
-
-            border: none;
-
-            padding: 0;
-
-            color: inherit;
-
-        }
-
-
-        .article-body img {
-
-            max-width: 100%;
-
-            height: auto;
-
-        }
-
-
-        /* =========================
-           底部按钮
-        ========================= */
-
-        .article-footer {
-
-            padding: 15px 25px;
-
-            border-top:
-                1px solid #ddd;
-
-            background: #fafafa;
-
-        }
-
-
-        .back-button {
-
-            display: inline-block;
-
-            padding: 7px 15px;
-
-            background: #7b0000;
-
-            color: white;
-
-            border:
-                1px solid #600000;
-
-        }
-
-
-        .back-button:hover {
-
-            background: #a00000;
-
-            text-decoration: none;
-
-        }
-
-
-        /* =========================
-           信息
-        ========================= */
-
-        .message {
-
-            padding: 60px 20px;
-
-            text-align: center;
-
-            color: #777;
-
-            white-space: pre-line;
-
-        }
-
-
-        .message h2 {
-
-            color: #8b0000;
-
-        }
-
-
-        .error {
-
-            color: #8b0000;
-
-        }
-
-
-        /* =========================
-           页脚
-        ========================= */
-
-        footer {
-
-            margin-top: 20px;
-
-            padding: 20px;
-
-            background: #ddd;
-
-            border-top:
-                3px solid #7b0000;
-
-            text-align: center;
-
-            color: #666;
-
-            font-size: 12px;
-
-            line-height: 1.8;
-
-        }
-
-
-        /* =========================
-           手机端
-        ========================= */
-
-        @media (max-width: 700px) {
-
-            .topbar-inner {
-
-                display: block;
-
-            }
-
-
-            .site-info {
-
-                margin-top: 5px;
-
-            }
-
-
-            .nav-inner {
-
-                display: block;
-
-            }
-
-
-            .nav a {
-
-                border-right: none;
-
-                border-bottom:
-                    1px solid #ddd;
-
-            }
-
-
-            .article-title {
-
-                font-size: 22px;
-
-            }
-
-
-            .article-body {
-
-                padding: 20px;
-
-                font-size: 15px;
-
-            }
-
-        }
-
-    </style>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>文章详情 · 占位符志</title>
+<meta name="color-scheme" content="light dark">
+<style>
+/* 与首页同一套苹果语言：大标题、粗体对比、蓝色链接、极简边框；零外部依赖 */
+:root{
+  --black:#000; --white:#fff; --gray:#f5f5f7;
+  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --line:rgba(0,0,0,.1);
+  --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc;
+  --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--white);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;letter-spacing:.011em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;transition:color .2s var(--ease)}
+a:hover{color:var(--link)}
+img{max-width:100%;height:auto}
+::selection{background:var(--blue);color:#fff}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+
+/* ---------- 导航 ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:rgba(22,22,23,.84);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.topbar-inner{max-width:1040px;margin:0 auto;padding:0 22px;height:48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.site-name{font-size:15px;font-weight:600;color:#f5f5f7;letter-spacing:.02em}
+.site-name:hover{color:#fff}
+.site-info{font-size:12px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- 文章 ---------- */
+.container{max-width:1040px;margin:0 auto;padding:52px 22px 80px}
+.crumb-line{margin-bottom:26px}
+.crumb-line a{font-size:14px;color:var(--link)}
+.article-box{max-width:740px;margin:0 auto}
+.article-header{padding-bottom:28px;border-bottom:1px solid var(--line)}
+.article-title{font-size:clamp(30px,4vw,48px);font-weight:600;letter-spacing:-.016em;line-height:1.1}
+.article-meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--ink-3)}
+.article-meta span{white-space:nowrap}
+.article-body{padding-top:34px;font-size:17px;line-height:1.68;color:var(--ink)}
+.article-body>*+*{margin-top:22px}
+.article-body h1{font-size:32px;margin-top:44px}
+.article-body h2{font-size:26px;margin-top:44px;letter-spacing:-.012em}
+.article-body h3{font-size:21px;margin-top:34px}
+.article-body h4{font-size:18px;margin-top:28px}
+.article-body p{margin-top:22px}
+.article-body ul,.article-body ol{margin-top:22px;padding-left:26px}
+.article-body ul{list-style:none}
+.article-body ul li{position:relative;padding-left:20px;margin-top:8px}
+.article-body ul li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;border-radius:980px;background:var(--ink-3)}
+.article-body ol{list-style:decimal}
+.article-body ol li{margin-top:8px}
+.article-body blockquote{
+  margin-top:28px;padding:4px 0 4px 24px;border-left:3px solid var(--blue);
+  color:var(--ink-2);font-size:19px;line-height:1.5
+}
+.article-body code{font-family:var(--mono);font-size:.88em;background:var(--gray);padding:3px 7px;border-radius:6px}
+.article-body pre{background:var(--gray);padding:22px;border-radius:14px;overflow-x:auto;font-size:14px;line-height:1.6;margin-top:28px}
+.article-body pre code{background:none;padding:0;font-size:inherit}
+.article-body hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+.article-body img{border-radius:14px;margin:28px 0}
+.article-body a{color:var(--link)}
+.article-body a:hover{text-decoration:underline}
+.article-footer{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+.back-button{display:inline-block;font-size:16px;line-height:1;padding:13px 24px;border-radius:980px;background:var(--blue);color:#fff;transition:background .2s var(--ease)}
+.back-button:hover{background:var(--blue-h);color:#fff}
+
+/* ---------- 状态 ---------- */
+.message{padding:90px 20px;text-align:center;color:var(--ink-2);white-space:pre-line;font-size:16px}
+.message.error h2{font-size:24px;color:var(--ink);margin-bottom:14px}
+.message a{color:var(--link)}
+
+/* ---------- 页脚 ---------- */
+footer{background:var(--gray);color:var(--ink-2);font-size:12px;padding:36px 0 30px;line-height:1.7}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  .container{padding:32px 16px 60px}
+  .article-body{font-size:16px}
+  .topbar-inner{padding:0 16px}
+}
+</style>
 </head>
-
-
 <body>
 
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="site-name" href="index.html">占位符志</a>
+    <div class="site-info"><span id="today">正在获取日期...</span> ｜ 本站已运行 <span id="run-days">0</span> 天</div>
+  </div>
+</div>
 
-    <!-- =========================
-         顶部
-    ========================== -->
-
-    <div class="topbar">
-
-        <div class="topbar-inner">
-
-
-            <div class="site-name">
-
-                我的个人网站
-
-            </div>
-
-
-            <div class="site-info">
-
-                <span id="today">
-                    正在获取日期...
-                </span>
-
-                ｜本站已运行
-
-                <span id="run-days">
-                    0
-                </span>
-
-                天
-
-            </div>
-
-
-        </div>
-
+<div class="container">
+  <p class="crumb-line"><a href="index.html">‹ 返回首页</a></p>
+  <div class="article-box">
+    <div id="article">
+      <div class="message">正在读取文章，请稍候……</div>
     </div>
+  </div>
+</div>
 
-
-
-    <!-- =========================
-         主体
-    ========================== -->
-
-    <div class="container">
-
-
-        <!-- 导航 -->
-
-        <div class="nav">
-
-            <div class="nav-inner">
-
-
-                <a href="index.html">
-
-                    首页
-
-                </a>
-
-
-                <a href="index.html#articles">
-
-                    文章
-
-                </a>
-
-
-                <a href="index.html#about">
-
-                    关于本站
-
-                </a>
-
-
-            </div>
-
-        </div>
-
-
-
-        <!-- 文章 -->
-
-        <div class="article-box">
-
-            <div id="article">
-
-                <div class="message">
-
-                    正在读取文章，请稍候……
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- =========================
-         页脚
-    ========================== -->
-
-    <footer>
-
-        <div>
-
-            我的个人网站
-
-        </div>
-
-
-        <div>
-
-            建站日期：2026-09-26
-
-        </div>
-
-
-        <div id="footer-date">
-
-            2026-09-26
-
-        </div>
-
-    </footer>
-
-
+<footer>
+  <div class="wrap">
+    <span>占位符志 · 个人博客</span>
+    <span>建站日期：2026-09-26</span>
+    <span id="footer-date">2026-09-26</span>
+  </div>
+</footer>
 
 <script>
 (function(){
@@ -780,8 +262,5 @@
   loadArticle();
 })();
 </script>
-
-
 </body>
-
 </html>

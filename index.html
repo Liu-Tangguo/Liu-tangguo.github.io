@@ -4,107 +4,332 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>占位符志 · 个人博客</title>
+<meta name="color-scheme" content="light dark">
 <style>
-:root{--red:#b81c1c;--red2:#8a0f0f;--red3:#6b0a0a;--bg:#f0f0f0;--bd:#d6d6d6;--bd2:#ececec;--t1:#222;--t2:#555;--t3:#999;--hei:'Microsoft YaHei','SimHei',Arial,sans-serif;--song:SimSun,'宋体',serif}
-*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--t1);font-family:var(--song);font-size:14px;line-height:1.75}a{color:var(--t1);text-decoration:none}a:hover{color:var(--red);text-decoration:underline}ul,ol{list-style:none}h1,h2,h3,h4{font-weight:400}table{border-collapse:collapse;width:100%}button,input{font-family:inherit;font-size:inherit;outline:0}
-.wrap{width:1180px;margin:0 auto}.topbar{background:#6b0a0a;color:#e6cbcb;font-size:12.5px;border-bottom:2px solid var(--red2)}.tb{display:flex;align-items:center;justify-content:space-between;height:32px;gap:10px}.tb-l,.tb-r{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.topbar a{color:#e6cbcb}.topbar a:hover{color:#fff}.tb i{font-style:normal;color:#9c6a6a;margin:0 8px}.lang a{margin:0 3px}
-.site{width:1180px;margin:0 auto;background:#fff;border:1px solid var(--bd);border-top:0}.hd{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px 16px;border-bottom:1px solid var(--bd2)}.logo{display:flex;align-items:center;gap:13px;min-width:0}.logo-mark{flex:0 0 52px;width:52px;height:52px;background:var(--red);color:#fff;font-family:var(--hei);font-size:26px;font-weight:700;line-height:52px;text-align:center;border-radius:2px}.logo b{display:block;font-family:var(--hei);font-size:25px;font-weight:700;color:var(--red2);letter-spacing:3px;line-height:1.35}.logo em{display:block;font-style:normal;font-size:13px;color:var(--t3);letter-spacing:.5px}.hd-r{flex:0 0 auto;text-align:right}.search{display:flex;border:1px solid var(--bd);height:34px}.search input{flex:1 1 auto;width:246px;border:0;padding:0 10px;font-size:13.5px;color:var(--t1);background:#fff}.search button{flex:0 0 72px;width:72px;border:0;background:var(--red);color:#fff;font-family:var(--hei);font-size:14px;letter-spacing:3px;cursor:pointer;padding-left:3px}.search button:hover{background:var(--red2)}.hot{margin-top:7px;font-size:12.5px;color:var(--t3)}.hot a{color:var(--t3);margin-left:9px}
-.nav{background:linear-gradient(#b81c1c,#8a0f0f);border-top:1px solid #cf5a5a;border-bottom:2px solid #590707}.nv{display:flex}.nv a{flex:0 0 auto;font-family:var(--hei);font-size:15px;color:#fff;line-height:42px;padding:0 26px;letter-spacing:1px;border-right:1px solid rgba(255,255,255,.16)}.nv a:hover{background:rgba(0,0,0,.2);color:#fff;text-decoration:none}.nv a.on{background:#6b0a0a;font-weight:700}
-.body{padding:12px 14px 0}.strip{display:flex;align-items:center;gap:9px;background:#fffdf4;border:1px solid #e6d9b8;padding:6px 10px;font-size:13px}.strip-tag{flex:0 0 auto;background:var(--red);color:#fff;font-family:var(--hei);font-size:12.5px;padding:0 8px;line-height:20px}.strip p{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.strip p a{color:#8a6a1c}.more{flex:0 0 auto;font-size:12.5px;color:var(--red);font-family:var(--hei)}.crumb{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 2px;font-size:13px;color:var(--t2);border-bottom:1px solid var(--bd2);margin-bottom:12px}.crumb .c-r{color:var(--t3);font-size:12.5px}.main{display:flex;gap:16px;align-items:flex-start}.col-l{flex:1 1 auto;min-width:0}.col-r{flex:0 0 320px;width:320px}.panel{border:1px solid var(--bd);margin-bottom:16px;background:#fff}.ph{display:flex;align-items:center;gap:10px;height:39px;padding:0 12px;background:linear-gradient(#fff,#f7f7f7);border-bottom:1px solid var(--bd)}.ph h2{flex:0 0 auto;font-family:var(--hei);font-size:15.5px;font-weight:700;color:var(--red2);letter-spacing:1px;line-height:1;padding-left:9px;border-left:4px solid var(--red)}.ph .more{margin-left:auto}.ph.cream{background:#fffaf0;border-bottom:1px dashed #e2d3a8}.ph.cream h2{color:#9a6a06}.tabs{display:flex;gap:2px;margin-left:4px}.tabs li{font-size:12.5px;color:var(--t2);padding:2px 9px;cursor:pointer;border:1px solid transparent}.tabs li:hover{color:var(--red)}.tabs li.on{color:var(--red);background:#fff;border-color:var(--bd);font-weight:700}
-.top-news{display:flex;gap:14px;padding:14px 12px;border-bottom:1px dashed var(--bd)}.tn-fig{position:relative;flex:0 0 200px;height:132px;border:1px solid var(--bd);background:linear-gradient(135deg,#e9e9e9,#d0d0d0);display:flex;align-items:center;justify-content:center;color:#9a9a9a;font-family:var(--hei);font-size:13px;letter-spacing:3px}.tn-fig i{position:absolute;left:0;top:0;background:var(--red);color:#fff;font-style:normal;font-family:var(--hei);font-size:12.5px;padding:0 7px;line-height:20px;letter-spacing:1px}.tn-txt{min-width:0}.tn-txt h3{font-family:var(--hei);font-size:18px;font-weight:700;line-height:1.55}.tn-txt h3 a{color:#111}.tn-txt .sum{margin-top:7px;font-size:13.5px;color:var(--t2);line-height:1.85}.tn-txt .meta{margin-top:8px;font-size:12.5px;color:var(--t3)}.tn-txt .meta em{font-style:normal;margin:0 6px;color:#bbb}
-.newslist li{display:flex;align-items:baseline;gap:10px;padding:7px 12px}.newslist li+li{border-top:1px dotted #dcdcdc}.newslist li:hover{background:#fcfafa}.newslist li a{flex:1 1 auto;min-width:0;font-size:14px;line-height:1.7}.newslist.nowrap li a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.newslist .d{flex:0 0 auto;color:var(--t3);font-size:12.5px;font-family:var(--hei)}.duo{display:flex;gap:16px}.duo>.panel{flex:1 1 0;min-width:0;margin-bottom:16px}.rp th,.rp td{border:1px solid var(--bd2);padding:7px 10px;text-align:left;font-size:13.5px}.rp th{background:#fafafa;font-family:var(--hei);font-weight:400;color:var(--t2);font-size:13px;white-space:nowrap}.rp td:last-child,.rp th:last-child{text-align:right;white-space:nowrap}.rp tbody tr:hover td{background:#fcfafa}.rp td a{color:var(--t2)}.st{display:inline-block;font-family:var(--hei);font-size:12.5px;padding:0 6px;border:1px solid #e0b3b3;color:var(--red);line-height:18px}.st.g{border-color:var(--bd);color:var(--t3)}.zt li+li{border-top:1px dotted #dcdcdc}.zt a{display:block;padding:9px 12px}.zt a:hover{background:#fcfafa;text-decoration:none}.zt b{display:block;font-family:var(--hei);font-size:14px;font-weight:700}.zt span{display:block;font-size:12.5px;color:var(--t3);margin-top:2px}.dyn li{display:flex;gap:8px;align-items:baseline;padding:7px 12px}.dyn li+li{border-top:1px dotted #dcdcdc}.dyn .t{flex:0 0 auto;color:var(--red);font-family:var(--hei);font-size:12.5px}.dyn .x{flex:1 1 auto;min-width:0;color:var(--t2);font-size:13.5px;line-height:1.7}.stat li{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:7px 12px;font-size:13.5px}.stat li+li{border-top:1px dotted #dcdcdc}.stat li b{font-family:var(--hei);color:var(--red);font-weight:700}.stat .exec{padding:8px 12px;border-top:1px solid var(--bd2);background:#fbfbfb;font-size:12.5px;color:var(--t3);text-align:center}.about{padding:12px;font-size:13.5px;color:var(--t2);line-height:1.9}.links{display:flex;flex-wrap:wrap;padding:6px}.links a{flex:0 0 50%;font-size:13px;color:var(--t2);padding:6px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.links a:before{content:'';display:inline-block;width:4px;height:4px;background:var(--red);margin-right:7px;vertical-align:2px}.footer{margin:4px 0 14px;border:1px solid var(--bd);border-top:2px solid var(--red);background:#fafafa;padding:12px 14px}.f-nav{display:flex;flex-wrap:wrap;justify-content:center;padding-bottom:9px;border-bottom:1px dotted #d6d6d6;font-size:13px}.f-nav a{padding:0 12px;line-height:1;border-right:1px solid #dcdcdc}.f-nav a:last-child{border-right:0}.f-copy{text-align:center;font-size:12.5px;color:var(--t2);line-height:2;margin-top:9px}.f-time{text-align:center;font-size:12.5px;color:var(--t3)}#toTop{display:none;position:fixed;right:18px;bottom:24px;width:38px;height:38px;border:1px solid var(--red2);background:#fff;color:var(--red2);font-size:16px;cursor:pointer}#toTop:hover{background:var(--red);color:#fff}.empty{display:none;padding:18px 12px;text-align:center;color:var(--t3);font-size:13px}
-@media (max-width:1203px){.wrap,.site{width:auto}.site{margin:0 10px}}@media (max-width:900px){.hd{flex-direction:column;align-items:flex-start;gap:12px}.hd-r{text-align:left;width:100%}.search input{width:auto}.main{flex-direction:column}.col-r{flex:0 0 auto;width:auto;align-self:stretch}.duo{flex-direction:column}.top-news{flex-direction:column}.tn-fig{flex:0 0 auto;width:100%;height:150px}}@media (max-width:640px){.site{margin:0 6px}.body{padding:10px 10px 0}.logo-mark{flex:0 0 42px;width:42px;height:42px;line-height:42px;font-size:21px}.logo b{font-size:20px;letter-spacing:2px}.logo em{font-size:12.5px}.nv{flex-wrap:wrap}.nv a{flex:0 0 25%;text-align:center;padding:0;font-size:13px;line-height:36px;letter-spacing:0;border-bottom:1px solid rgba(255,255,255,.16)}.tb-r,.hs{display:none}.f-nav a{padding:0 8px}}
-.tn-fig img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* =========================================================
+   设计语言：苹果官网（apple.com）
+   —— 整幅 tile、纯黑与浅灰交替、极端字重对比、居中构图、
+      药丸按钮（#0071e3）+ 描边次按钮、极简边框
+   —— 零外部依赖：仅系统字体（SF Pro / PingFang SC / 微软雅黑）
+   ========================================================= */
+:root{
+  --black:#000; --near:#161617; --white:#fff; --gray:#f5f5f7;
+  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --line:rgba(0,0,0,.1); --line-d:rgba(255,255,255,.14);
+  --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc; --link-d:#2997ff;
+  --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--white);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.47;letter-spacing:.011em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;transition:color .2s var(--ease)}
+a:hover{color:var(--link)}
+ul,ol{list-style:none}
+h1,h2,h3,h4{font-weight:600;letter-spacing:-.012em;line-height:1.08}
+button,input{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;outline:0}
+img{max-width:100%;display:block}
+::selection{background:var(--blue);color:#fff}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 22px}
+
+/* ---------- 顶部工具条 + 全局导航 ---------- */
+.utility{background:var(--gray);font-size:12px;color:var(--ink-2);line-height:1}
+.utility .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;height:34px}
+.utility span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.utility i{font-style:normal;color:#c7c7cc;margin:0 9px}
+.gnav{position:sticky;top:0;z-index:30;background:rgba(22,22,23,.84);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.gnav .wrap{display:flex;align-items:center;gap:22px;height:48px}
+.gnav .brand{flex:0 0 auto;font-size:15px;font-weight:600;color:#f5f5f7;letter-spacing:.02em}
+.gnav .nav{flex:1 1 auto;display:flex;justify-content:center;gap:4px;overflow-x:auto;scrollbar-width:none}
+.gnav .nav::-webkit-scrollbar{display:none}
+.gnav .nav a{flex:0 0 auto;font-size:12px;color:rgba(255,255,255,.8);padding:6px 11px;border-radius:980px;white-space:nowrap;transition:color .2s var(--ease),background .2s var(--ease)}
+.gnav .nav a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.gnav .nav a.on{color:#fff}
+.gsearch{flex:0 0 auto;display:flex;align-items:center;gap:0;background:rgba(255,255,255,.12);border-radius:980px;padding:2px 2px 2px 12px;transition:background .2s var(--ease)}
+.gsearch:focus-within{background:rgba(255,255,255,.2)}
+.gsearch input{width:130px;font-size:12.5px;color:#fff;padding:5px 4px}
+.gsearch input::placeholder{color:rgba(255,255,255,.55)}
+.gsearch button{flex:0 0 auto;font-size:12px;color:#fff;background:rgba(255,255,255,.18);border-radius:980px;padding:5px 12px;cursor:pointer}
+.gsearch button:hover{background:var(--blue)}
+
+/* ---------- 促销条 ---------- */
+.strip{background:var(--blue);color:#fff;font-size:12.5px}
+.strip .wrap{display:flex;align-items:center;justify-content:center;gap:12px;min-height:44px;text-align:center;flex-wrap:wrap}
+.strip-tag{display:none}
+.strip p{min-width:0}
+.strip p a{color:#fff;text-decoration:underline;text-underline-offset:2px}
+.more{font-size:12.5px;color:var(--link);white-space:nowrap}
+.more:hover{text-decoration:underline}
+.strip .more{color:#fff}
+
+/* ---------- tile 通用 ---------- */
+.tile{padding:88px 0;text-align:center}
+.tile.gray{background:var(--gray)}
+.tile.dark{background:var(--black);color:var(--gray)}
+.tile.dark h2,.tile.dark h3,.tile.dark .bignum{color:var(--gray)}
+.tile.dark .sec-sub{color:var(--ink-3)}
+.tile-in{width:100%;max-width:980px;margin:0 auto;padding:0 22px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--ink-3);margin-bottom:14px}
+.tile.dark .eyebrow{color:var(--ink-3)}
+h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
+.sec-sub{font-size:19px;color:var(--ink-2);margin-top:12px;letter-spacing:.01em}
+.sec-head{margin-bottom:36px}
+
+/* ---------- hero ---------- */
+.hero .tn-txt h3{font-size:clamp(34px,5.4vw,60px);letter-spacing:-.016em;line-height:1.06}
+.hero .tn-txt h3 a{color:var(--ink)}
+.hero .tn-txt h3 a:hover{color:var(--link)}
+.hero .sum{font-size:21px;color:var(--ink-2);max-width:660px;margin:18px auto 0;line-height:1.4}
+.hero .meta{font-size:14px;color:var(--ink-3);margin-top:16px}
+.hero .meta em{font-style:normal;margin:0 10px;color:#d2d2d7}
+.hero .meta a{color:var(--link)}
+.cta{display:flex;justify-content:center;gap:14px;margin-top:26px;flex-wrap:wrap}
+.btn{display:inline-block;font-size:17px;line-height:1;padding:14px 24px;border-radius:980px;transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease)}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-h);color:#fff}
+.btn-ghost{color:var(--blue);border:1px solid var(--blue);background:transparent}
+.btn-ghost:hover{background:var(--blue);color:#fff}
+.tn-fig{
+  position:relative;max-width:880px;margin:44px auto 0;
+  display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:13px
+}
+.tn-fig i{position:absolute;left:18px;top:16px;z-index:2;font-style:normal;font-size:11px;letter-spacing:.14em;color:var(--ink-3)}
+.tn-fig img{max-width:100%;max-height:540px;width:auto;height:auto;object-fit:contain;border-radius:16px}
+
+/* ---------- 分段控件（tabs） ---------- */
+.tabs{display:inline-flex;gap:2px;background:rgba(0,0,0,.06);border-radius:9px;padding:2px;margin:0 auto}
+.tabs li{font-size:14px;color:var(--ink);padding:7px 18px;border-radius:7px;cursor:pointer;transition:background .2s var(--ease),box-shadow .2s var(--ease)}
+.tabs li.on{background:var(--white);box-shadow:0 3px 8px rgba(0,0,0,.12);font-weight:500}
+
+/* ---------- 列表 ---------- */
+.newslist{text-align:left;max-width:760px;margin:34px auto 0}
+.newslist li{display:flex;align-items:baseline;gap:18px;padding:15px 0;border-top:1px solid var(--line)}
+.newslist li:first-child{border-top:0}
+.newslist li a{flex:1 1 auto;min-width:0;font-size:17px;line-height:1.4;color:var(--ink)}
+.newslist li a:hover{color:var(--link)}
+.newslist.nowrap li a{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.newslist .d{flex:0 0 auto;font-size:14px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.empty{display:none;margin-top:30px;color:var(--ink-2);font-size:15px}
+
+/* ---------- 双栏 ---------- */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0;max-width:980px;margin:0 auto;text-align:left}
+.duo>.panel{padding:0 40px}
+.duo>.panel+ .panel{border-left:1px solid var(--line)}
+.duo h2{font-size:21px;letter-spacing:-.01em}
+.duo .newslist{margin-top:18px;max-width:none}
+.duo .newslist li a{font-size:15px}
+
+/* ---------- 统计（黑底大数字） ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;max-width:880px;margin:0 auto}
+.stat-col span{display:block;font-size:13px;color:var(--ink-3);margin-bottom:8px}
+.bignum{display:block;font-size:clamp(38px,5vw,56px);font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.stat-note{margin-top:40px;font-size:12.5px;color:var(--ink-3)}
+
+/* ---------- 规格表 ---------- */
+.rp{max-width:880px;margin:0 auto;text-align:left}
+.rp th,.rp td{padding:18px 0;text-align:left;font-size:16px;border-bottom:1px solid var(--line)}
+.rp th{font-size:12px;font-weight:400;color:var(--ink-3);letter-spacing:.06em;border-bottom-color:var(--ink-3)}
+.rp tr:last-child td{border-bottom:0}
+.rp td:last-child,.rp th:last-child{text-align:right;white-space:nowrap;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.rp td a{color:var(--link)}
+.st{display:inline-block;font-size:13px;color:var(--link);border:1px solid currentColor;border-radius:980px;padding:3px 12px;line-height:1.4}
+.st.g{color:var(--ink-3)}
+
+/* ---------- 列表条目（通知公告 / 最新动态 / 专栏） ---------- */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:56px;max-width:980px;margin:0 auto;text-align:left}
+.cols2 h2{font-size:21px;letter-spacing:-.01em;margin-bottom:6px}
+.dyn li,.zt li{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--line);align-items:baseline}
+.dyn li:first-child,.zt li:first-child{border-top:0}
+.dyn .t{flex:0 0 auto;font-size:14px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.dyn .x{flex:1 1 auto;min-width:0;font-size:15px;color:var(--ink-2);line-height:1.45}
+.zt a{display:block}
+.zt b{display:block;font-size:16px;font-weight:500}
+.zt span{display:block;font-size:13px;color:var(--ink-3);margin-top:3px}
+.zt:empty::after{content:"专栏在准备中，之后会慢慢补上。";display:block;padding:14px 0;color:var(--ink-3);font-size:15px}
+.about{text-align:left;max-width:680px;margin:0 auto;font-size:19px;color:var(--ink-2);line-height:1.5}
+.about p+p{margin-top:16px}
+
+/* ---------- 友链 ---------- */
+.links{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:6px}
+.links a{font-size:14px;color:var(--ink);border:1px solid rgba(0,0,0,.16);border-radius:980px;padding:10px 20px;transition:border-color .2s var(--ease),color .2s var(--ease)}
+.links a:hover{border-color:var(--blue);color:var(--link)}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--gray);color:var(--ink-2);font-size:12px;padding:44px 0 34px}
+.f-nav{display:flex;flex-wrap:wrap;gap:8px 22px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.f-nav a{color:var(--ink-2)}
+.f-copy{margin-top:20px;line-height:1.7}
+.f-time{margin-top:8px;color:var(--ink-3)}
+
+/* ---------- 回顶 ---------- */
+#toTop{display:none;position:fixed;right:24px;bottom:26px;width:46px;height:46px;border-radius:980px;background:rgba(0,0,0,.7);color:#fff;font-size:15px;cursor:pointer;backdrop-filter:blur(10px);transition:background .2s var(--ease)}
+#toTop:hover{background:var(--blue)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:900px){
+  .gnav .nav{justify-content:flex-start}
+  .gsearch input{width:96px}
+  .stats{grid-template-columns:1fr 1fr;gap:34px 20px}
+  .duo{grid-template-columns:1fr}
+  .duo>.panel{padding:0}
+  .duo>.panel+.panel{border-left:0;border-top:1px solid var(--line);margin-top:40px;padding-top:40px}
+  .cols2{grid-template-columns:1fr;gap:40px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .tile{padding:56px 0}
+  .wrap{padding:0 16px}
+  .utility .tb-r,.utility .hide-s{display:none}
+  .gnav .brand{font-size:14px}
+  .hero .sum{font-size:17px}
+  .cta{gap:10px}
+  .btn{font-size:15px;padding:12px 20px;width:100%;text-align:center}
+  .tn-fig{margin-top:28px}
+  .tn-fig img{max-height:340px}
+  .rp th,.rp td{padding:14px 0;font-size:15px}
+  .links a{font-size:13px;padding:9px 16px}
+}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="wrap tb">
-    <div class="tb-l">
-      <span>今天是 <span id="today">加载中...</span></span>
-      <i>|</i>
-      <span>本站已运行 <span id="runDays">0</span> 天</span>
-    </div>
-    <div class="tb-r">
-      <a href="#">设为首页</a><i>|</i>
-      <a href="#">加入收藏</a><i>|</i>
-      <a href="#">站点地图</a><i>|</i>
-      <a href="#">无障碍浏览</a><i>|</i>
-      <span class="lang"><a href="#">简</a><a href="#">繁</a><a href="#">EN</a></span>
-    </div>
+<div class="utility">
+  <div class="wrap">
+    <span>今天是 <span id="today">加载中...</span><i>·</i>本站已运行 <span id="runDays">0</span> 天</span>
+    <span class="tb-r"><a href="#">设为首页</a><i>·</i><a href="#">加入收藏</a><i>·</i><a href="#">站点地图</a><i>·</i><a href="#">无障碍浏览</a><i>·</i><a href="#">简</a><a href="#">繁</a><a href="#">EN</a></span>
   </div>
 </div>
 
-<div class="site">
-  <div class="hd">
-    <a class="logo" href="index.html">
-      <span class="logo-mark">占</span>
-      <span><b>占位符志</b><em>一个人的博客　·　记录技术、阅读与生活　·　内容陆续填充中</em></span>
-    </a>
-    <div class="hd-r">
-      <div class="search"><input id="q" type="text" placeholder="请输入关键词搜索本站文章"><button id="qbtn" type="button">搜索</button></div>
-      <p class="hot">热门搜索：<a href="#">占位符</a><a href="#">待填</a><a href="#">还没想好</a><a href="#">咖啡</a></p>
+<div class="gnav">
+  <div class="wrap">
+    <a class="brand" href="index.html">占位符志</a>
+    <div class="nav">
+      <a class="on" href="index.html">首页</a><a href="#">要闻动态</a><a href="#">技术文章</a><a href="#">随笔杂记</a><a href="#">项目记录</a><a href="#">阅读摘抄</a><a href="#">通知公告</a><a href="#">关于本站</a>
+    </div>
+    <div class="gsearch"><input id="q" type="text" placeholder="搜索"><button id="qbtn" type="button">搜索</button></div>
+  </div>
+</div>
+
+<div class="strip">
+  <div class="wrap">
+    <span class="strip-tag">站内公告</span>
+    <p><a href="#">欢迎来到占位符志。本站于 2026 年 9 月 26 日正式开站。</a></p>
+    <a class="more" href="#">更多 &gt;</a>
+  </div>
+</div>
+
+<!-- ===== 头条 ===== -->
+<section class="tile gray hero">
+  <div class="tile-in">
+    <div class="tn-txt">
+      <p class="eyebrow">最新发布</p>
+      <h3><a id="featuredTitle" href="post.html?post=2026-09-26">我的个人博客正式上线啦</a></h3>
+      <p class="sum" id="featuredSummary">这是我的第一篇文章。从今天开始，这个小站会慢慢记录技术、阅读、生活和一些平时会用到的东西。</p>
+      <p class="meta" id="featuredMeta">2026-09-26 <em>|</em> 分类：<a href="#">随笔杂记</a></p>
+      <div class="cta">
+        <a class="btn btn-primary" id="heroRead" href="post.html?post=2026-09-26">阅读全文</a>
+        <a class="btn btn-ghost" href="#articles">全部文章</a>
+      </div>
+    </div>
+    <div class="tn-fig" id="featuredFig"><i>头条</i>图片占位</div>
+  </div>
+</section>
+
+<!-- ===== 文章列表 ===== -->
+<section class="tile" id="articles">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">要闻动态</h2><p class="sec-sub">按时间倒序排列，也可用上方搜索框筛选。</p></div>
+    <ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">全部文章</li></ul>
+    <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts"></ul>
+    <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts"></ul>
+    <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
+  </div>
+</section>
+
+<!-- ===== 分类双栏 ===== -->
+<section class="tile gray">
+  <div class="duo">
+    <div class="panel">
+      <h2>技术文章</h2>
+      <ul class="newslist nowrap catlist" data-cat="技术文章"></ul>
+    </div>
+    <div class="panel">
+      <h2>随笔杂记</h2>
+      <ul class="newslist nowrap catlist" data-cat="随笔杂记"></ul>
     </div>
   </div>
+</section>
 
-  <div class="nav"><div class="nv">
-    <a class="on" href="index.html">首　页</a><a href="#">要闻动态</a><a href="#">技术文章</a><a href="#">随笔杂记</a><a href="#">项目记录</a><a href="#">阅读摘抄</a><a href="#">通知公告</a><a href="#">关于本站</a>
-  </div></div>
-
-  <div class="body">
-    <div class="strip"><span class="strip-tag">站内公告</span><p><a href="#">欢迎来到占位符志。本站于 2026 年 9 月 26 日正式开站。</a></p><a class="more" href="#">更多 &gt;&gt;</a></div>
-    <div class="crumb"><p>当前位置：<a href="index.html">首页</a> &gt; <a href="#">要闻动态</a></p><p class="c-r">最后更新：<span id="lastUpdate">2026-09-26</span></p></div>
-
-    <div class="main">
-      <div class="col-l">
-        <div class="panel">
-          <div class="ph"><h2>要闻动态</h2><ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">全部文章</li></ul><a class="more" href="#">更多 &gt;&gt;</a></div>
-          <div class="top-news">
-            <div class="tn-fig" id="featuredFig"><i>头条</i>图片占位</div>
-            <div class="tn-txt">
-              <h3><a id="featuredTitle" href="post.html?post=2026-09-26">我的个人博客正式上线啦</a></h3>
-              <p class="sum" id="featuredSummary">这是我的第一篇文章。从今天开始，这个小站会慢慢记录技术、阅读、生活和一些平时会用到的东西。</p>
-              <p class="meta" id="featuredMeta">2026-09-26 <em>|</em> 分类：<a href="#">随笔杂记</a> <em>|</em> 阅读 0 <em>|</em> 评论 0</p>
-            </div>
-          </div>
-          <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts"></ul>
-          <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts"></ul>
-          <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
-        </div>
-
-        <div class="duo">
-          <div class="panel"><div class="ph"><h2>技术文章</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist nowrap catlist" data-cat="技术文章"></ul></div>
-          <div class="panel"><div class="ph"><h2>随笔杂记</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist nowrap catlist" data-cat="随笔杂记"></ul></div>
-        </div>
-
-        <div class="panel"><div class="ph"><h2>项目记录</h2><a class="more" href="#">更多 &gt;&gt;</a></div><div style="padding:12px"><table class="rp"><thead><tr><th>项目名称</th><th>当前状态</th><th>技术栈</th><th>最近更新</th></tr></thead><tbody>
-          <tr><td><a href="#">本博客站本身</a></td><td><span class="st">持续维护</span></td><td>HTML / CSS / JS</td><td>2026-09-26</td></tr>
-        </tbody></table></div></div>
-
-        <div class="panel"><div class="ph"><h2>专题专栏</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="zt"></ul></div>
-      </div>
-
-      <div class="col-r">
-        <div class="panel"><div class="ph cream"><h2>通知公告</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist">
-          <li><a href="#">【公告】本站于 2026 年 9 月 26 日正式开站</a><span class="d">09-26</span></li><li><a href="#">【通知】本站评论功能暂时关闭，因为还没有评论功能</a><span class="d">09-26</span></li>
-        </ul></div>
-        <div class="panel"><div class="ph"><h2>最新动态</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="dyn">
-          <li><span class="t">09-26</span><span class="x">博客正式开站</span></li><li><span class="t">09-26</span><span class="x">发布第一篇文章</span></li><li><span class="t">09-26</span><span class="x">开始搭建个人博客</span></li>
-        </ul></div>
-        <div class="panel"><div class="ph"><h2>本站统计</h2></div><ul class="stat">
-          <li><span>文章总数</span><b id="postCount">1 篇</b></li><li><span>评论总数</span><b>0 条</b></li><li><span>标签数量</span><b>1 个</b></li><li><span>运行天数</span><b id="runDaysSide">0 天</b></li><li><span>今日访问</span><b>00000</b></li><li><span>总访问量</span><b>000000</b></li>
-        </ul><p class="exec">页面执行时间：静态页面　|　本站由 GitHub Pages 驱动</p></div>
-        <div class="panel"><div class="ph"><h2>关于本站</h2><a class="more" href="#">更多 &gt;&gt;</a></div><div class="about"><p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，内容会慢慢填进来。</p><p>建站原则有两条：一是不着急，二是不着急。</p></div></div>
-        <div class="panel"><div class="ph"><h2>友情链接</h2></div><div class="links"><a href="#">占位符的另一个站点</a><a href="#">打不开的链接</a><a href="#">朋友的博客</a><a href="#">很久没更新的站</a><a href="#">待交换</a><a href="#">待交换</a></div></div>
-      </div>
+<!-- ===== 统计（黑） ===== -->
+<section class="tile dark">
+  <div class="tile-in">
+    <div class="stats">
+      <div class="stat-col"><span>文章总数</span><b class="bignum" id="postCount">1 篇</b></div>
+      <div class="stat-col"><span>运行天数</span><b class="bignum" id="runDaysSide">0 天</b></div>
+      <div class="stat-col"><span>评论总数</span><b class="bignum">0 条</b></div>
+      <div class="stat-col"><span>标签数量</span><b class="bignum">1 个</b></div>
     </div>
+    <p class="stat-note">静态页面 · 由 GitHub Pages 驱动</p>
+  </div>
+</section>
 
-    <div class="footer"><div class="f-nav"><a href="#">关于本站</a><a href="#">联系方式</a><a href="#">版权声明</a><a href="#">RSS 订阅</a><a href="#">站点地图</a><a href="#">无障碍浏览</a></div>
-      <p class="f-copy">版权所有 &copy; 2026 占位符志 · 个人博客　保留一切权利　京ICP备00000000号-1（占位）</p>
-      <p class="f-copy">本站正式开站于 2026 年 9 月 26 日。</p>
-      <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　本站运行 <span id="runDaysFooter">0</span> 天　|　由一杯凉掉的咖啡提供动力</p>
+<!-- ===== 项目记录 ===== -->
+<section class="tile">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">项目记录</h2></div>
+    <table class="rp"><thead><tr><th>项目名称</th><th>当前状态</th><th>技术栈</th><th>最近更新</th></tr></thead><tbody>
+      <tr><td><a href="#">本博客站本身</a></td><td><span class="st">持续维护</span></td><td>HTML / CSS / JS</td><td>2026-09-26</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ===== 通知 + 动态 ===== -->
+<section class="tile gray">
+  <div class="cols2">
+    <div>
+      <h2>通知公告</h2>
+      <ul class="newslist">
+        <li><a href="#">【公告】本站于 2026 年 9 月 26 日正式开站</a><span class="d">09-26</span></li>
+        <li><a href="#">【通知】本站评论功能暂时关闭，因为还没有评论功能</a><span class="d">09-26</span></li>
+      </ul>
     </div>
+    <div>
+      <h2>最新动态</h2>
+      <ul class="dyn">
+        <li><span class="t">09-26</span><span class="x">博客正式开站</span></li>
+        <li><span class="t">09-26</span><span class="x">发布第一篇文章</span></li>
+        <li><span class="t">09-26</span><span class="x">开始搭建个人博客</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 关于 + 专栏 ===== -->
+<section class="tile">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">关于本站</h2></div>
+    <div class="about">
+      <p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，内容会慢慢填进来。</p>
+      <p>建站原则有两条：一是不着急，二是不着急。</p>
+    </div>
+    <div class="sec-head" style="margin-top:72px"><h2 class="sec-title">专题专栏</h2></div>
+    <div class="tile-in"><ul class="zt"></ul></div>
+  </div>
+</section>
+
+<!-- ===== 友情链接 ===== -->
+<section class="tile gray">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">友情链接</h2></div>
+    <div class="links"><a href="#">占位符的另一个站点</a><a href="#">打不开的链接</a><a href="#">朋友的博客</a><a href="#">很久没更新的站</a><a href="#">待交换</a><a href="#">待交换</a></div>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="wrap">
+    <div class="f-nav"><a href="#">关于本站</a><a href="#">联系方式</a><a href="#">版权声明</a><a href="#">RSS 订阅</a><a href="#">站点地图</a><a href="#">无障碍浏览</a></div>
+    <p class="f-copy">版权所有 © 2026 占位符志 · 个人博客　保留一切权利　京ICP备00000000号-1（占位）</p>
+    <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　本站运行 <span id="runDaysFooter">0</span> 天　|　最后更新 <span id="lastUpdate">2026-09-26</span>　|　由一杯凉掉的咖啡提供动力</p>
   </div>
 </div>
 
