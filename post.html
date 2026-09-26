@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>文章 · 占位符志</title>
+<style>
+:root{--red:#b81c1c;--red2:#8a0f0f;--bg:#f0f0f0;--bd:#d6d6d6;--bd2:#ececec;--t1:#222;--t2:#555;--t3:#999;--hei:'Microsoft YaHei','SimHei',Arial,sans-serif;--song:SimSun,'宋体',serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t1);font-family:var(--song);font-size:15px;line-height:1.9}a{color:var(--t1);text-decoration:none}a:hover{color:var(--red);text-decoration:underline}
+.wrap,.site{width:1180px;margin:0 auto}.topbar{background:#6b0a0a;color:#e6cbcb;font-size:12.5px;border-bottom:2px solid var(--red2)}.tb{display:flex;align-items:center;justify-content:space-between;height:32px}.topbar a{color:#e6cbcb}.tb i{font-style:normal;color:#9c6a6a;margin:0 8px}
+.site{background:#fff;border:1px solid var(--bd);border-top:0}.hd{padding:18px 16px;border-bottom:1px solid var(--bd2)}.logo{display:flex;align-items:center;gap:13px}.logo-mark{width:52px;height:52px;background:var(--red);color:#fff;font-family:var(--hei);font-size:26px;font-weight:700;line-height:52px;text-align:center}.logo b{display:block;font-family:var(--hei);font-size:25px;color:var(--red2);letter-spacing:3px}.logo em{display:block;font-style:normal;font-size:13px;color:var(--t3)}.nav{background:linear-gradient(#b81c1c,#8a0f0f);border-top:1px solid #cf5a5a;border-bottom:2px solid #590707}.nv{display:flex}.nv a{font-family:var(--hei);font-size:15px;color:#fff;line-height:42px;padding:0 26px;border-right:1px solid rgba(255,255,255,.16)}.nv a.on{background:#6b0a0a;font-weight:700}.body{padding:12px 14px}.crumb{padding:10px 2px;border-bottom:1px solid var(--bd2);color:var(--t2);font-size:13px}.article{width:900px;margin:18px auto 28px;border:1px solid var(--bd);background:#fff}.article-head{padding:22px 28px 16px;background:linear-gradient(#fff,#fafafa);border-bottom:1px solid var(--bd)}.article-head h1{margin:0;font-family:var(--hei);font-size:28px;line-height:1.5;color:#222}.meta{margin-top:8px;color:var(--t3);font-size:13px}.article-body{padding:25px 30px 35px;font-size:16px;line-height:2}.article-body p{margin:0 0 1em}.article-body h2{font-family:var(--hei);font-size:21px;color:var(--red2);border-left:4px solid var(--red);padding-left:9px;margin:1.5em 0 .7em}.article-body h3{font-family:var(--hei);font-size:18px;margin:1.3em 0 .5em}.article-body ul{padding-left:25px;list-style:disc}.article-body ol{padding-left:25px;list-style:decimal}.article-body blockquote{margin:1em 0;padding:8px 14px;border-left:4px solid #d8c8a0;background:#fffaf0;color:var(--t2)}.article-body code{background:#f4f4f4;border:1px solid #ddd;padding:1px 4px;font-family:monospace}.article-body pre{overflow:auto;background:#f7f7f7;border:1px solid #ddd;padding:12px}.article-body img{max-width:100%;height:auto}.back{padding:12px 30px;border-top:1px dotted var(--bd);background:#fafafa}.footer{text-align:center;border-top:2px solid var(--red);padding:14px;color:var(--t3);font-size:12.5px}
+@media(max-width:1203px){.wrap,.site{width:auto}.site{margin:0 10px}}@media(max-width:900px){.article{width:auto}.article-head,.article-body{padding-left:18px;padding-right:18px}}@media(max-width:640px){.nv{flex-wrap:wrap}.nv a{flex:0 0 25%;padding:0;text-align:center;font-size:13px}.article-head h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap tb"><div>今天是 <span id="today">加载中...</span> <i>|</i> 本站已运行 <span id="runDays">0</span> 天</div><div><a href="index.html">返回首页</a></div></div></div>
+<div class="site">
+  <div class="hd"><a class="logo" href="index.html"><span class="logo-mark">占</span><span><b>占位符志</b><em>一个人的博客　·　记录技术、阅读与生活</em></span></a></div>
+  <div class="nav"><div class="nv"><a class="on" href="index.html">首　页</a><a href="#">要闻动态</a><a href="#">技术文章</a><a href="#">随笔杂记</a><a href="#">项目记录</a><a href="#">阅读摘抄</a><a href="#">通知公告</a><a href="#">关于本站</a></div></div>
+  <div class="body">
+    <div class="crumb">当前位置：<a href="index.html">首页</a> &gt; <span id="category">随笔杂记</span> &gt; <span id="crumbTitle">文章</span></div>
+    <article class="article">
+      <header class="article-head"><h1 id="title">正在加载文章...</h1><div class="meta"><span id="date">----</span>　|　分类：<span id="category2">----</span></div></header>
+      <div class="article-body" id="content">正在读取文章内容……</div>
+      <div class="back"><a href="index.html">&lt;&lt; 返回首页</a></div>
+    </article>
+  </div>
+  <div class="footer">版权所有 &copy; 2026 占位符志 · 个人博客　|　本站正式开站于 2026 年 9 月 26 日</div>
+</div>
+<script>
+(function(){
+  var START='2026-09-26',W=['日','一','二','三','四','五','六'];
+  function pad(n){return n<10?'0'+n:n}
+  function dateInfo(){var d=new Date(),s=new Date(START+'T00:00:00'),t=new Date(d.getFullYear(),d.getMonth(),d.getDate());return {d:d,days:Math.max(0,Math.floor((t-s)/86400000))}}
+  var x=dateInfo(),d=x.d;
+  document.getElementById('today').textContent=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 星期'+W[d.getDay()];
+  document.getElementById('runDays').textContent=x.days;
+
+  var params=new URLSearchParams(location.search),post=params.get('post')||'2026-09-26';
+  fetch('content/posts/'+encodeURIComponent(post)+'.md').then(function(r){if(!r.ok)throw new Error('文章不存在');return r.text()}).then(function(md){
+    var lines=md.replace(/\r/g,'').split('\n'),meta={},i=0;
+    if(lines[0].trim()==='---'){for(i=1;i<lines.length;i++){if(lines[i].trim()==='---'){i++;break}var m=lines[i].match(/^([^:]+):\s*(.*)$/);if(m)meta[m[1].trim()]=m[2].trim()}}
+    var body=lines.slice(i).join('\n').trim();
+    document.title=(meta.title||'文章')+' · 占位符志';
+    document.getElementById('title').textContent=meta.title||'无标题';
+    document.getElementById('date').textContent=meta.date||post;
+    document.getElementById('category').textContent=meta.category||'未分类';
+    document.getElementById('category2').textContent=meta.category||'未分类';
+    document.getElementById('crumbTitle').textContent=meta.title||'文章';
+    document.getElementById('content').innerHTML=markdown(body);
+  }).catch(function(){document.getElementById('title').textContent='文章读取失败';document.getElementById('content').textContent='找不到这篇文章，请检查 GitHub 上的 Markdown 文件。'});
+
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  function inline(s){return esc(s).replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/`([^`]+)`/g,'<code>$1</code>')}
+  function markdown(s){
+    var ls=s.split('\n'),out=[],inCode=false,code=[];
+    for(var i=0;i<ls.length;i++){var l=ls[i];
+      if(l.indexOf('```')===0){if(inCode){out.push('<pre>'+esc(code.join('\n'))+'</pre>');code=[];inCode=false}else inCode=true;continue}
+      if(inCode){code.push(l);continue}
+      if(!l.trim()){continue}
+      if(/^### /.test(l)){out.push('<h3>'+inline(l.slice(4))+'</h3>');continue}
+      if(/^## /.test(l)){out.push('<h2>'+inline(l.slice(3))+'</h2>');continue}
+      if(/^# /.test(l)){out.push('<h2>'+inline(l.slice(2))+'</h2>');continue}
+      if(/^> /.test(l)){out.push('<blockquote>'+inline(l.slice(2))+'</blockquote>');continue}
+      if(/^- /.test(l)){out.push('<p>• '+inline(l.slice(2))+'</p>');continue}
+      out.push('<p>'+inline(l)+'</p>');
+    }
+    return out.join('');
+  }
+})();
+</script>
+</body>
+</html>
