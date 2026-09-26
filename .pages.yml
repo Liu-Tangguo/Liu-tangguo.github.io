@@ -57,3 +57,112 @@ content:
       default:
         sort: date
         order: desc
+
+  - name: notices
+    label: 通知公告
+    type: collection
+    path: content/notices
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    exclude:
+      - README.md
+
+    fields:
+      - name: kind
+        label: 类型（公告 / 通知 / 提示）
+        type: string
+
+      - name: title
+        label: 标题
+        type: string
+        required: true
+
+      - name: date
+        label: 日期
+        type: date
+        required: true
+
+      - name: body
+        label: 说明
+        type: rich-text
+        options:
+          format: markdown
+
+    view:
+      primary: title
+      fields:
+        - kind
+        - date
+      default:
+        sort: date
+        order: desc
+
+  - name: updates
+    label: 最新动态
+    type: collection
+    path: content/updates
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    exclude:
+      - README.md
+
+    fields:
+      - name: date
+        label: 日期
+        type: date
+        required: true
+
+      - name: text
+        label: 一句话动态
+        type: string
+        required: true
+
+    view:
+      primary: text
+      fields:
+        - date
+      default:
+        sort: date
+        order: desc
+
+  - name: projects
+    label: 项目记录
+    type: collection
+    path: content/projects
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    exclude:
+      - README.md
+
+    fields:
+      - name: name
+        label: 项目名称
+        type: string
+        required: true
+
+      - name: status
+        label: 当前状态
+        type: string
+
+      - name: stack
+        label: 技术栈
+        type: string
+
+      - name: updated
+        label: 最近更新（填 auto 则自动跟随本站更新日期）
+        type: string
+
+      - name: link
+        label: 链接
+        type: string
+
+    view:
+      primary: name
+      fields:
+        - status
+        - stack
+        - updated
+      default:
+        sort: updated
+        order: desc
+

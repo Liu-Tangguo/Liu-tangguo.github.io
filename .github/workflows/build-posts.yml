@@ -5,8 +5,12 @@ on:
     branches:
       - main
     paths:
-      - "content/posts/**"
+      - "content/**"
       - ".github/workflows/build-posts.yml"
+      - ".github/scripts/build-data.py"
+      - "index.html"
+      - "post.html"
+      - ".pages.yml"
 
   workflow_dispatch:
 
@@ -21,212 +25,30 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
 
-      - name: Build posts.json
-        run: |
+      - name: Build data JSON
+        run: python3 .github/scripts/build-data.py
 
-          python3 <<'PY'
 
-          import json
-          import re
-          from pathlib import Path
-
-
-          posts_dir = Path("content/posts")
-          output_file = Path("posts.json")
-
-
-          posts = []
-
-
-          if posts_dir.exists():
-
-              for file in sorted(posts_dir.glob("*.md")):
-
-                  text = file.read_text(
-                      encoding="utf-8"
-                  )
-
-
-                  title = ""
-                  date = ""
-                  category = ""
-                  cover = ""
-                  body = text
-
-
-                  # ==========================================
-                  # 读取 Markdown Front Matter
-                  # ==========================================
-
-                  if text.startswith("---"):
-
-                      match = re.match(
-                          r"^---\s*\n(.*?)\n---\s*\n?(.*)$",
-                          text,
-                          re.S
-                      )
-
-
-                      if match:
-
-                          front_matter = match.group(1)
-
-                          body = match.group(2).strip()
-
-
-                          for line in front_matter.splitlines():
-
-                              if ":" not in line:
-                                  continue
-
-
-                              key, value = line.split(
-                                  ":",
-                                  1
-                              )
-
-
-                              key = key.strip()
-
-                              value = value.strip()
-
-                              value = value.strip("\"'")
-
-
-                              if key == "title":
-
-                                  title = value
-
-
-                              elif key == "date":
-
-                                  date = value
-
-
-                              elif key == "category":
-
-                                  category = value
-
-
-                              elif key == "cover":
-
-                                  cover = value
-
-
-                  # ==========================================
-                  # 文件名去掉 .md 后就是唯一 slug
-                  #
-                  # 例如：
-                  #
-                  # 2026-09-26-.md
-                  #       ↓
-                  # 2026-09-26-
-                  #
-                  # 2026-09-26-test.md
-                  #       ↓
-                  # 2026-09-26-test
-                  # ==========================================
-
-                  slug = file.stem
-
-
-                  posts.append({
-
-                      "slug": slug,
-
-                      "filename": file.name,
-
-                      "title": title or slug,
-
-                      "date": date or "",
-
-                      "category": category or "未分类",
-
-                      "cover": cover,
-
-                      "body": body
-
-                  })
-
-
-          # ==========================================
-          # 按日期从新到旧排序
-          # 如果日期相同，则按照 slug 排序
-          # 保证同一天的文章也能稳定排列
-          # ==========================================
-
-          posts.sort(
-
-              key=lambda post: (
-                  post["date"],
-                  post["slug"]
-              ),
-
-              reverse=True
-
-          )
-
-
-          # ==========================================
-          # 生成 posts.json
-          # ==========================================
-
-          output_file.write_text(
-
-              json.dumps(
-
-                  posts,
-
-                  ensure_ascii=False,
-
-                  indent=2
-
-              ),
-
-              encoding="utf-8"
-
-          )
-
-
-          print(
-              f"Generated posts.json with {len(posts)} posts."
-          )
-
-
-          print()
-
-
-          for post in posts:
-
-              print(
-                  f"slug={post['slug']} | "
-                  f"title={post['title']} | "
-                  f"date={post['date']}"
-              )
-
-          PY
-
-
-      - name: Commit posts.json
+      - name: Commit generated JSON
         run: |
 
           git config user.name "github-actions[bot]"
 
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-
-          git add posts.json
-
+          git add posts.json notices.json updates.json projects.json site.json
 
           if git diff --cached --quiet; then
 
-            echo "No changes to posts.json"
+            echo "No changes to generated JSON"
 
           else
 
-            git commit -m "build: update posts.json"
+            git commit -m "build: update generated JSON"
 
             git push
 
