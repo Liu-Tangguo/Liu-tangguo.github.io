@@ -692,13 +692,25 @@ window.OC = window.OC || {};
     var vc=document.getElementById('visitCount');
     if(vc){
       var v=OC.visits;
+      function bj(ts){
+        try{
+          var d=new Date(ts);
+          if(!ts||isNaN(d.getTime())) return '';
+          var t=new Date(d.getTime()+8*3600*1000), z=function(n){return n<10?'0'+n:''+n;};
+          return t.getUTCFullYear()+'-'+z(t.getUTCMonth()+1)+'-'+z(t.getUTCDate())+' '+z(t.getUTCHours())+':'+z(t.getUTCMinutes());
+        }catch(e){ return ''; }
+      }
+      var refresh=(v&&v.refresh)?v.refresh:'每天自动刷新一次';
       if(v && typeof v.pageviews==='number' && v.pageviews>0){
         vc.textContent=v.pageviews+' 次';
-        vc.title='独立访客 '+(typeof v.visits==='number'?v.visits+' 人':'暂无数据')+'（自 '+(v.since||'接入统计那天')+' 起统计）';
+        vc.title='独立访客 '+(typeof v.visits==='number'?v.visits+' 人':'暂无数据')
+          +'（自 '+(v.since||'接入统计那天')+' 起）· 数字更新于 '+(bj(v.updatedAt)||'未知')
+          +' · '+refresh+'；Cloudflare 原始数据有几分钟延迟';
       }else{
         vc.textContent='统计中';
         if(v && v.error) vc.title='统计数据暂不可用：'+(v.error||'');
-        else vc.title='统计已接入（自 '+(v&&v.since?v.since:'今天')+' 起），暂无访问数据——Cloudflare 数据有几分钟延迟';
+        else vc.title='统计已接入（自 '+(v&&v.since?v.since:'今天')+' 起），暂无访问数据 · '+refresh
+          +'；Cloudflare 原始数据在访客访问后几分钟内产生，网站上的数字要等下一次刷新';
       }
     }
 

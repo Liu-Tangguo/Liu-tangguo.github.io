@@ -31,6 +31,21 @@ def gql(token, payload):
         return json.loads(resp.read().decode('utf-8'))
 
 
+
+
+def refresh_note():
+    """从工作流里读 cron，换算成北京时间——让「每天几点刷新」只有一处事实来源"""
+    try:
+        wf = (ROOT / '.github' / 'workflows' / 'build-posts.yml').read_text(encoding='utf-8')
+        m = re.search(r'cron:\s*"?(\d+)\s+(\d+)\s+', wf)
+        if not m:
+            return ''
+        minute, hour = int(m.group(1)), int(m.group(2))
+        return '每天 %02d:%02d（北京时间）自动刷新' % ((hour + 8) % 24, minute)
+    except Exception:
+        return ''
+
+
 def build_query(account, site_tag, with_visits):
     sel = 'count' + (' sum { visits }' if with_visits else '')
     q = ('query { viewer { accounts(filter: { accountTag: \"%s\" }) { '
@@ -68,7 +83,7 @@ def main():
         except Exception as e:
             msg = scrub(e)
             print('visits: 请求失败 -> %s' % msg)
-            out.write_text(json.dumps({'error': msg, 'updatedAt': now}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+            out.write_text(json.dumps({'error': msg, 'refresh': refresh_note(), 'updatedAt': now}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
             return
         if data.get('errors'):
             msg = scrub(data['errors'])
@@ -76,13 +91,13 @@ def main():
             if with_visits:
                 print('visits: 退化为只查访问量（pageviews）')
                 continue
-            out.write_text(json.dumps({'error': msg, 'updatedAt': now}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+            out.write_text(json.dumps({'error': msg, 'refresh': refresh_note(), 'updatedAt': now}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
             return
         row = first_row(data)
         uv = None
         if with_visits and isinstance(row.get('sum'), dict):
             uv = int(row['sum'].get('visits') or 0)
-        result = {'pageviews': int(row.get('count') or 0), 'visits': uv, 'since': SINCE[:10], 'updatedAt': now}
+        result = {'pageviews': int(row.get('count') or 0), 'visits': uv, 'since': SINCE[:10], 'refresh': refresh_note(), 'updatedAt': now}
         break
     if not result:
         print('visits: 未取到数据，保留旧文件')
