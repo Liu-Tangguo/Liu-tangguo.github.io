@@ -488,7 +488,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
     return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
   function shortDate(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
-  function postLink(slug){ return 'post.html?post='+encodeURIComponent(String(slug||'')); }
+  function postLink(slug){ return 'p/'+encodeURIComponent(String(slug||''))+'/'; }
   function itemHtml(p){
     return '<li><a href="'+postLink(p.slug)+'">'+esc(p.title||p.slug)+'</a><span class="d">'+shortDate(p.date)+'</span></li>';
   }
@@ -571,7 +571,7 @@ window.OC = window.OC || {};
   var MAX=6;
   function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
-  function link(s){ return 'post.html?post='+encodeURIComponent(String(s||'')); }
+  function link(s){ return 'p/'+encodeURIComponent(String(s||''))+'/'; }
   function sortP(a,b){ return String(b.date||'').localeCompare(String(a.date||'')) || String(b.slug||'').localeCompare(String(a.slug||'')); }
   function ready(fn){ if(window.OCReady) window.OCReady.then(fn); }
   ready(function(OC){

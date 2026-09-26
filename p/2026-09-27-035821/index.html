@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<base href="/">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本站第一篇文章 · Tangguo的Blog</title>
+<meta name="description" content="大家好！（虽然我也不清楚以后会不会有别人看这个站就是了），欢迎来到我的Blog，这个Blog是我花了2026年中秋假期26和27号两天休息日搞出来的，我基本上没怎么动手，一直和OpenClaw里的DeepseekV4.1…">
+<link rel="canonical" href="https://liu-tangguo.github.io/p/2026-09-27-035821/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tangguo的Blog">
+<meta property="og:title" content="本站第一篇文章">
+<meta property="og:description" content="大家好！（虽然我也不清楚以后会不会有别人看这个站就是了），欢迎来到我的Blog，这个Blog是我花了2026年中秋假期26和27号两天休息日搞出来的，我基本上没怎么动手，一直和OpenClaw里的DeepseekV4.1…">
+<meta property="og:url" content="https://liu-tangguo.github.io/p/2026-09-27-035821/">
+<meta property="og:image" content="https://liu-tangguo.github.io/media/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="本站第一篇文章">
+<meta name="twitter:description" content="大家好！（虽然我也不清楚以后会不会有别人看这个站就是了），欢迎来到我的Blog，这个Blog是我花了2026年中秋假期26和27号两天休息日搞出来的，我基本上没怎么动手，一直和OpenClaw里的DeepseekV4.1…">
+<meta name="twitter:image" content="https://liu-tangguo.github.io/media/og-default.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "本站第一篇文章", "description": "大家好！（虽然我也不清楚以后会不会有别人看这个站就是了），欢迎来到我的Blog，这个Blog是我花了2026年中秋假期26和27号两天休息日搞出来的，我基本上没怎么动手，一直和OpenClaw里的DeepseekV4.1…", "image": "https://liu-tangguo.github.io/media/og-default.png", "url": "https://liu-tangguo.github.io/p/2026-09-27-035821/", "datePublished": "2026-09-27T00:00:00+08:00", "author": {"@type": "Person", "name": "Tangguo"}, "publisher": {"@type": "Organization", "name": "Tangguo的Blog"}}</script>
+<meta name="color-scheme" content="light dark">
+<script>/* 主题：先于样式设置，避免闪白 */ (function(){try{
+  var q=null; try{ q=new URLSearchParams(location.search).get('theme'); }catch(e){}
+  var s=null; try{ s=localStorage.getItem('oc-theme'); }catch(e){}
+  var d=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  var t=(q==='dark'||q==='light')?q:(s==='dark'||s==='light'?s:d);
+  document.documentElement.setAttribute('data-theme',t);
+  document.documentElement.style.colorScheme=t;
+}catch(e){}})();</script>
+<style>
+/* 与首页同一套苹果语言：大标题、粗体对比、蓝色链接、极简边框；零外部依赖 */
+:root{
+  --black:#000; --white:#fff; --gray:#f5f5f7;
+  --bg:#fff; --code-bg:#1B1B1F; --nav-bg:rgba(255,255,255,.72);
+  --fill-1:rgba(0,0,0,.05); --fill-2:rgba(0,0,0,.08); --fill-solid:#fff;
+  --sand:#c6b294; --sand-soft:rgba(198,178,148,.16); --border-strong:rgba(0,0,0,.16);
+  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --line:rgba(0,0,0,.08);
+  --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc;
+  --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;letter-spacing:.011em;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none;transition:color .2s var(--ease)}
+a:hover{color:var(--link)}
+img{max-width:100%;height:auto}
+::selection{background:var(--blue);color:#fff}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+
+/* ---------- 导航 ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:var(--nav-bg);border-bottom:1px solid var(--line);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
+.topbar-inner{max-width:1040px;margin:0 auto;padding:0 22px;height:48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.site-name{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.02em}
+.site-name img{width:26px;height:26px;border-radius:8px;display:block;flex:0 0 auto}
+.site-name:hover{color:var(--link)}
+.site-info{font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- 文章 ---------- */
+.container{max-width:1040px;margin:0 auto;padding:52px 22px 80px}
+.crumb-line{margin-bottom:26px}
+.crumb-line a{font-size:14px;color:var(--link)}
+.article-box{max-width:740px;margin:0 auto}
+.article-header{padding-bottom:28px;border-bottom:1px solid var(--line)}
+.article-title{font-size:clamp(30px,4vw,48px);font-weight:600;letter-spacing:-.016em;line-height:1.1}
+.article-meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--ink-3)}
+.article-meta span{white-space:nowrap}
+.article-body{padding-top:34px;font-size:17px;line-height:1.68;color:var(--ink)}
+.article-body>*+*{margin-top:22px}
+.article-body h1{font-size:32px;margin-top:44px}
+.article-body h2{font-size:26px;margin-top:44px;letter-spacing:-.012em}
+.article-body h3{font-size:21px;margin-top:34px}
+.article-body h4{font-size:18px;margin-top:28px}
+.article-body p{margin-top:22px}
+.article-body ul,.article-body ol{margin-top:22px;padding-left:26px}
+.article-body ul{list-style:none}
+.article-body ul li{position:relative;padding-left:20px;margin-top:8px}
+.article-body ul li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;border-radius:980px;background:var(--ink-3)}
+.article-body ol{list-style:decimal}
+.article-body ol li{margin-top:8px}
+.article-body blockquote{
+  margin-top:28px;padding:4px 0 4px 24px;border-left:3px solid var(--blue);
+  color:var(--ink-2);font-size:19px;line-height:1.5
+}
+.article-body code{font-family:var(--mono);font-size:.88em;background:var(--gray);padding:3px 7px;border-radius:6px}
+.article-body pre{background:var(--gray);padding:22px;border-radius:14px;overflow-x:auto;font-size:14px;line-height:1.6;margin-top:28px}
+.article-body pre code{background:none;padding:0;font-size:inherit}
+.article-body hr{border:0;border-top:1px solid var(--line);margin:40px 0}
+.article-body img{border-radius:14px;margin:28px 0}
+.article-body a{color:var(--link)}
+.article-body a:hover{text-decoration:underline}
+.article-footer{margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+.back-button{display:inline-block;font-size:16px;line-height:1;padding:13px 24px;border-radius:980px;background:var(--blue);color:#fff;transition:background .2s var(--ease)}
+.back-button:hover{background:var(--blue-h);color:#fff}
+
+/* ---------- 状态 ---------- */
+.message{padding:90px 20px;text-align:center;color:var(--ink-2);white-space:pre-line;font-size:16px}
+.message.error h2{font-size:24px;color:var(--ink);margin-bottom:14px}
+.message a{color:var(--link)}
+
+/* ---------- 页脚 ---------- */
+footer{background:var(--bg);color:var(--ink-2);font-size:12px;padding:36px 0 30px;line-height:1.7;border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* ---------- 动效 ---------- */
+@keyframes ocUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes ocFade{from{opacity:0}to{opacity:1}}
+.back-button{transition:background .25s var(--ease),transform .18s var(--ease)}
+.back-button:active{transform:scale(.97)}
+/* ---------- 暗色模式（跟随系统设置） ---------- */
+:root[data-theme="dark"]{
+    --bg:#000; --gray:#161617; --code-bg:#101012;
+    --nav-bg:rgba(0,0,0,.72);
+    --fill-1:rgba(255,255,255,.09); --fill-2:rgba(255,255,255,.16); --fill-solid:#2c2c2e;
+    --sand:#8a7a63; --sand-soft:rgba(255,255,255,.06);
+    --ink:#f5f5f7; --ink-2:#a1a1a6; --ink-3:#86868b;
+    --line:rgba(255,255,255,.14);
+    --blue:#0a84ff; --blue-h:#409cff; --link:#0a84ff;
+  }
+:root[data-theme="dark"] .site-name img{filter:invert(1)}
+:root[data-theme="dark"] .article-body pre{border:1px solid var(--line)}
+:root[data-theme="dark"] .article-body code{background:var(--fill-1)}
+
+
+/* ---------- 阅读进度条 ---------- */
+.readbar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--blue);z-index:40;transform:scaleX(0);transform-origin:0 50%;transition:transform .1s linear}
+
+/* ---------- 分享 ---------- */
+.sharebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:20px}
+.share-label{font-size:13px;color:var(--ink-3);margin-right:2px}
+.share-btn{font-size:13.5px;color:var(--ink);background:var(--fill-1);border-radius:980px;padding:9px 16px;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
+.share-btn:hover{background:var(--blue);color:#fff}
+
+.themebtn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex:0 0 auto;border-radius:980px;color:var(--ink-2);cursor:pointer;transition:color .2s var(--ease),background .2s var(--ease)}
+.themebtn:hover{color:var(--ink);background:var(--fill-1)}
+.themebtn .ti{display:none}
+.themebtn[data-mode="auto"] .ti-auto{display:block}
+.themebtn[data-mode="light"] .ti-light{display:block}
+.themebtn[data-mode="dark"] .ti-dark{display:block}
+.topbar-right{display:flex;align-items:center;gap:10px}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:640px){
+  body{font-size:16px}
+  .container{padding:32px 16px 60px}
+  .article-body{font-size:16px}
+  .topbar-inner{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="readbar" id="readbar"></div>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="site-name" href="index.html"><img src="media/logo.svg" alt="" width="26" height="26"><span>Tangguo的Blog</span></a>
+    <div class="topbar-right"><div class="site-info"><span id="clock">--:--:--</span> ｜ <span id="today">正在获取日期...</span> ｜ 本站已运行 <span id="run-days">0</span> 天</div><button class="themebtn" id="themebtn" type="button" data-mode="auto" title="主题：跟随系统" aria-label="切换主题"><svg class="ti ti-auto" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor"/></svg><svg class="ti ti-light" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.5 5.5 7.1 7.1M16.9 16.9l1.6 1.6M18.5 5.5 16.9 7.1M7.1 16.9l-1.6 1.6"/></g></svg><svg class="ti ti-dark" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6 8.8 8.8 0 1 0 20.4 14.6z" fill="currentColor"/></svg></button></div>
+  </div>
+</div>
+
+<div class="container">
+  <p class="crumb-line"><a href="index.html">‹ 返回首页</a></p>
+  <div class="article-box">
+    <div id="article">
+      <div class="article-header"><h1 class="article-title">本站第一篇文章</h1><div class="article-meta"><span>日期：2026-09-27</span><span>分类：随笔</span></div></div><div class="article-body"><p>大家好！（虽然我也不清楚以后会不会有别人看这个站就是了），欢迎来到我的Blog，这个Blog是我花了2026年中秋假期26和27号两天休息日搞出来的，我基本上没怎么动手，一直和OpenClaw里的DeepseekV4.1Flash交流，让它写出来的，花了我差不多30~40元的Tokens，我之所以要建这个站呢，可能是因为我和ChatGPT闲聊的时候突然想到了，总而言之，一顿折腾，这个站就在这儿了，以后我可能会随手丢一些东西上来，就这样，拜拜！</p></div><div class="article-footer"><a class="back-button" href="/index.html">← 返回首页</a></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>Tangguo的Blog</span>
+    <span>建站日期：2026-09-26</span>
+    <span id="footer-date">2026-09-26</span>
+  </div>
+</footer>
+
+<!-- 搜索页：无原始脚本基线 -->
+<script>
+/* 主题开关：跟随系统 / 亮色 / 暗色 三态循环，localStorage 记忆（?theme= 可强制预览） */
+(function(){
+  var KEY='oc-theme';
+  function system(){ return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+  function stored(){ try{ var v=localStorage.getItem(KEY); return (v==='dark'||v==='light')?v:'auto'; }catch(e){ return 'auto'; } }
+  function param(){ try{ var v=new URLSearchParams(location.search).get('theme'); return (v==='dark'||v==='light')?v:null; }catch(e){ return null; } }
+  function label(m){ return m==='auto'?'主题：跟随系统':(m==='dark'?'主题：暗色':'主题：亮色'); }
+  function apply(mode){
+    var t = mode==='auto' ? system() : mode;
+    var root=document.documentElement;
+    root.setAttribute('data-theme',t);
+    root.style.colorScheme=t;
+    var btn=document.getElementById('themebtn');
+    if(btn){ btn.setAttribute('data-mode',mode); btn.title=label(mode); btn.setAttribute('aria-label',label(mode)); }
+  }
+  function save(mode){ try{ if(mode==='auto') localStorage.removeItem(KEY); else localStorage.setItem(KEY,mode); }catch(e){} }
+  var forced=param();
+  var mode=forced||stored();
+  apply(mode);
+  var btn=document.getElementById('themebtn');
+  if(btn){
+    btn.addEventListener('click',function(){
+      if(forced) forced=null;
+      mode = mode==='auto' ? 'light' : (mode==='light' ? 'dark' : 'auto');
+      save(mode); apply(mode);
+    });
+  }
+  try{
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){ if(mode==='auto') apply('auto'); });
+  }catch(e){}
+})();
+</script>
+<script>
+/* 时钟：顶部工具条里的本地时间 */
+(function(){
+  var el=document.getElementById('clock');
+  if(!el) return;
+  function p(n){ return n<10?'0'+n:''+n; }
+  function tick(){
+    var d=new Date();
+    el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+  }
+  tick();
+  setInterval(tick,1000);
+})();
+</script>
+<script>
+/* 文章页：阅读进度条 + 分享按钮 */
+(function(){
+  /* ---------- 阅读进度条 ---------- */
+  var bar=document.getElementById('readbar');
+  function progress(){
+    if(!bar) return;
+    var doc=document.documentElement;
+    var h=doc.scrollHeight-window.innerHeight;
+    var y=window.pageYOffset||doc.scrollTop||0;
+    var p=h>0?Math.min(1,Math.max(0,y/h)):0;
+    bar.style.transform='scaleX('+p.toFixed(4)+')';
+  }
+  window.addEventListener('scroll',progress,{passive:true});
+  window.addEventListener('resize',progress);
+  progress();
+
+  /* ---------- 分享按钮（插在文章底部） ---------- */
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function build(title, url){
+    var t=encodeURIComponent(title), u=encodeURIComponent(url);
+    return '<div class="sharebar">'+
+      '<span class="share-label">分享</span>'+
+      '<a class="share-btn" href="https://x.com/intent/tweet?text='+t+'&url='+u+'" target="_blank" rel="noopener">X</a>'+
+      '<a class="share-btn" href="https://service.weibo.com/share/share.php?title='+t+'&url='+u+'" target="_blank" rel="noopener">微博</a>'+
+      '<button class="share-btn" type="button" data-copy="1">复制链接</button>'+
+      '<button class="share-btn" type="button" data-native="1" hidden>系统分享</button>'+
+      '</div>';
+  }
+  function copy(text, btn){
+    function done(){ btn.textContent='已复制'; setTimeout(function(){ btn.textContent='复制链接'; },1600); }
+    function fallback(){
+      var ta=document.createElement('textarea');
+      ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    }else{ fallback(); }
+  }
+  function inject(){
+    var foot=document.querySelector('#article .article-footer');
+    if(!foot||foot.getAttribute('data-shared')) return;
+    foot.setAttribute('data-shared','1');
+    var h1=document.querySelector('.article-title');
+    var title=(h1&&h1.textContent)||document.title;
+    foot.insertAdjacentHTML('beforeend', build(title, location.href));
+    var cb=foot.querySelector('[data-copy]');
+    if(cb) cb.addEventListener('click',function(){ copy(location.href, cb); });
+    var nb=foot.querySelector('[data-native]');
+    if(nb&&navigator.share){
+      nb.hidden=false;
+      nb.addEventListener('click',function(){ navigator.share({title:title,url:location.href}).catch(function(){}); });
+    }
+    try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){}
+  }
+  inject();
+  if(window.MutationObserver){
+    var root=document.getElementById('article')||document.body;
+    new MutationObserver(function(){ inject(); }).observe(root,{childList:true,subtree:true});
+  }
+  window.addEventListener('load',inject);
+})();
+</script>
+</body>
+</html>

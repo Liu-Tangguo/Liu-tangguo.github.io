@@ -140,7 +140,7 @@ window.OC = window.OC || {};
       .catch(function(){ return null; });
   }
   window.OCReady = Promise.all([
-    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json')
+    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json'), get('contributions.json')
   ]).then(function(a){
     var OC = window.OC;
     OC.posts = Array.isArray(a[0]) ? a[0].filter(function(p){ return p && p.slug; }) : [];
@@ -148,6 +148,7 @@ window.OC = window.OC || {};
     OC.notices = Array.isArray(a[2]) ? a[2] : [];
     OC.updates = Array.isArray(a[3]) ? a[3] : [];
     OC.projects = Array.isArray(a[4]) ? a[4] : [];
+    OC.contrib = a[5] || null;
     return OC;
   }).catch(function(){ return window.OC; });
 })();
@@ -252,7 +253,7 @@ window.OC = window.OC || {};
       list.innerHTML = hits.length ? hits.map(function(p){
         var inBody = norm(p.body).indexOf(kw)>-1;
         var sn = inBody ? snippet(p.body, kw) : '';
-        return '<li><a class="title" href="post.html?post='+encodeURIComponent(p.slug)+'">'+hl(p.title||p.slug,kw)+'</a>'+
+        return '<li><a class="title" href="p/'+encodeURIComponent(p.slug)+'/">'+hl(p.title||p.slug,kw)+'</a>'+
           '<div class="meta"><span>'+esc(p.date||'')+'</span><span>'+esc(p.category||'未分类')+'</span></div>'+
           (sn?'<p class="snip">'+hl(sn,kw)+'</p>':'')+'</li>';
       }).join('') : '<li class="none">没有匹配的文章，换个词试试</li>';
