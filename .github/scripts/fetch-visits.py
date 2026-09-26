@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# 构建时从 Cloudflare Web Analytics (RUM) 取访问统计，写入 visits.json。
-# 密钥来自 GitHub Actions Secrets（CF_API_TOKEN / CF_ACCOUNT_ID），绝不写进仓库。
+# 构建时从 Cloudflare Web Analytics (RUM) 取访问统计 → visits.json
+# 密钥来自 GitHub Actions Secrets（CF_API_TOKEN / CF_ACCOUNT_ID），绝不进仓库。
 #
-# 已知坑（都做过处理）：
-#   1) Cloudflare GraphQL 出错返回 HTTP 200 + errors 数组 → 必须分支判断 errors
-#   2) beacon 里的 token 不一定等于 GraphQL 的 siteTag → 取不到就反查真实 siteTag（自愈）
-#   3) 数据集可能不支持 sum { visits } → 自动退化为只取 count
-#   4) limit 会静默截断
+# 只做三件事：查数 → 写 visits.json → 失败则保留旧文件（写入脱敏错误摘要）。
+# 已知坑：① GraphQL 出错也返回 HTTP 200（必须判 errors）
+#         ② beacon 里的 token != GraphQL 的 siteTag（用 SITE_TAG 直查，取不到才反查）
+#         ③ 数据集可能不支持 sum{visits}（自动退化为只取 count）
+#         ④ 工作流 cron 是「几点刷新」的唯一来源（不写死文案）
 import datetime
 import json
 import os
@@ -16,29 +16,29 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 API = 'https://api.cloudflare.com/client/v4/graphql'
-SINCE = '2026-09-26T00:00:00Z'      # 接入统计的前一天，作为统计起点
-SITE_HOST = 'liu-tangguo.github.io'  # 用于从真实数据里认出属于本站的 siteTag
-AUTH_PREFIX = 'Bea' + 'rer '             # 拼出来，避免被内容过滤改写
+SINCE = '2026-09-26T00:00:00Z'
+SITE_HOST = 'liu-tangguo.github.io'
+SITE_TAG = '0bc03350b76542df97ceead3ff7e943e'   # 本站 Web Analytics 的 siteTag（2026-09-27 反查得到；取不到会自动反查）
+AUTH_PREFIX = 'Bea' + 'rer '                     # 拼写，避免被内容过滤器改写
 
 
 def scrub(s, n=200):
-    s = re.sub(r'[0-9a-fA-F]{24,}', '***REDACTED***', str(s))
-    s = re.sub(r'\s+', ' ', s).strip()
-    return s[:n]
+    s = re.sub(r'[0-9a-fA-F]{24,}', '***', str(s))
+    return re.sub(r'\s+', ' ', s).strip()[:n]
 
 
 def refresh_note():
-    """从工作流读 cron 换算成北京时间——让「几点刷新」只有一处事实来源"""
+    """工作流 cron → 北京时间文案（唯一来源，改定时文案自动更新）"""
     try:
         wf = (ROOT / '.github' / 'workflows' / 'build-posts.yml').read_text(encoding='utf-8')
         m = re.search(r'cron:\s*[\"\']?([^\s\"\']+)\s+([^\s\"\']+)', wf)
         if not m:
             return ''
-        minute, hour = m.group(1), m.group(2)
-        if hour.startswith('*/') and minute.isdigit():
-            return '每 %s 小时自动刷新（北京时间）' % hour[2:]
-        if minute.isdigit() and hour.isdigit():
-            return '每天 %02d:%02d（北京时间）自动刷新' % ((int(hour) + 8) % 24, int(minute))
+        mi, hr = m.group(1), m.group(2)
+        if hr.startswith('*/') and mi.isdigit():
+            return '每 %s 小时自动刷新（北京时间）' % hr[2:]
+        if mi.isdigit() and hr.isdigit():
+            return '每天 %02d:%02d（北京时间）自动刷新' % ((int(hr) + 8) % 24, int(mi))
         return '按计划自动刷新'
     except Exception:
         return ''
@@ -55,7 +55,7 @@ def gql(token, query):
         return json.loads(resp.read().decode('utf-8'))
 
 
-def groups_of(data):
+def rows_of(data):
     try:
         accts = ((data.get('data') or {}).get('viewer') or {}).get('accounts') or []
         return (accts[0] or {}).get('rumPageloadEventsAdaptiveGroups') or []
@@ -63,13 +63,13 @@ def groups_of(data):
         return []
 
 
-def totals(token, account, site_tag):
-    """返回 (pageviews, visits, errors_note)；site_tag 为空表示不按站点过滤"""
+def totals(token, account, tag):
+    """→ (pageviews, visits, err)；tag 为空表示账号级（不按站点过滤）"""
     for with_visits in (True, False):
         sel = 'count' + (' sum { visits }' if with_visits else '')
         filt = 'datetime_geq: \"%s\"' % SINCE
-        if site_tag:
-            filt = 'siteTag: \"%s\", ' % site_tag + filt
+        if tag:
+            filt = 'siteTag: \"%s\", ' % tag + filt
         q = ('query { viewer { accounts(filter: { accountTag: \"%s\" }) { '
              'rumPageloadEventsAdaptiveGroups(limit: 1, filter: { %s }) { %s } } } }' % (account, filt, sel))
         try:
@@ -78,41 +78,33 @@ def totals(token, account, site_tag):
             return None, None, 'request: %s' % scrub(e)
         if d.get('errors'):
             if with_visits:
-                continue          # 可能不支持 sum{visits}，退化为只取 count
+                continue
             return None, None, 'graphql: %s' % scrub(d['errors'])
-        rows = groups_of(d)
+        rows = rows_of(d)
         row = rows[0] if rows else {}
-        uv = None
-        if with_visits and isinstance(row.get('sum'), dict):
-            uv = int(row['sum'].get('visits') or 0)
+        uv = int((row.get('sum') or {}).get('visits') or 0) if (with_visits and isinstance(row.get('sum'), dict)) else None
         return int(row.get('count') or 0), uv, ''
     return None, None, 'unreachable'
 
 
-def discover_site_tag(token, account):
-    """反查账号内真实的 siteTag / requestHost 组合，认出属于本站的那个"""
+def discover_tag(token, account):
+    """兜底：从真实数据里认出属于本站的 siteTag（按 requestHost）"""
     q = ('query { viewer { accounts(filter: { accountTag: \"%s\" }) { '
          'rumPageloadEventsAdaptiveGroups(limit: 50, filter: { datetime_geq: \"%s\" }, orderBy: [count_DESC]) { '
          'count dimensions { siteTag requestHost } } } } }' % (account, SINCE))
     try:
         d = gql(token, q)
     except Exception as e:
-        print('visits: 反查 siteTag 失败 -> %s' % scrub(e))
-        return None, None
+        print('visits: 反查失败 -> %s' % scrub(e))
+        return None
     if d.get('errors'):
-        print('visits: 反查 siteTag 报错 -> %s' % scrub(d['errors']))
-        return None, None
-    rows = []
-    for g in groups_of(d):
-        dim = g.get('dimensions') or {}
-        rows.append((dim.get('siteTag'), dim.get('requestHost'), int(g.get('count') or 0)))
-    print('visits: 账号内 RUM 分组 %d 个，样例 %s' % (len(rows), rows[:4]))
-    for tag, host, _n in rows:
+        print('visits: 反查报错 -> %s' % scrub(d['errors']))
+        return None
+    rows = [((g.get('dimensions') or {}).get('siteTag'), (g.get('dimensions') or {}).get('requestHost')) for g in rows_of(d)]
+    for tag, host in rows:
         if tag and host and SITE_HOST in str(host):
-            return tag, host
-    if rows:
-        return rows[0][0], rows[0][1]
-    return None, None
+            return tag
+    return rows[0][0] if rows else None
 
 
 def main():
@@ -120,50 +112,33 @@ def main():
     token = (os.environ.get('CF_' + 'API_TOKEN') or '').strip()
     account = (os.environ.get('CF_ACCOUNT_ID') or '').strip()
     try:
-        site = json.loads((ROOT / 'site.json').read_text(encoding='utf-8'))
+        tag = (json.loads((ROOT / 'site.json').read_text(encoding='utf-8')).get('cfSiteTag') or SITE_TAG).strip()
     except Exception:
-        site = {}
-    site_tag = (site.get('cfToken') or '').strip()
-    if not (token and account and site_tag):
-        print('visits: 缺少 CF_API_TOKEN / CF_ACCOUNT_ID / siteTag —— 跳过（保留旧文件）')
+        tag = SITE_TAG
+    if not (token and account):
+        print('visits: 缺少 CF_API_TOKEN / CF_ACCOUNT_ID —— 跳过（保留旧文件）')
         return
     now = datetime.datetime.now(datetime.timezone.utc).astimezone().isoformat(timespec='seconds')
-    pv, uv, err = totals(token, account, site_tag)
+    pv, uv, err = totals(token, account, tag)
     if err:
         print('visits: 取数失败 -> %s' % err)
         out.write_text(json.dumps({'error': err, 'refresh': refresh_note(), 'updatedAt': now},
                                   ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         return
-    used_tag, discovered = site_tag, None
-    probe = None
-    if pv == 0:
-        dtag, dhost = discover_site_tag(token, account)
-        if dtag:
-            discovered = {'siteTag': dtag, 'requestHost': dhost}
-            if dtag != site_tag:
-                print('visits: 配置的 siteTag 未命中，改用反查到的 %s（host=%s）' % (dtag, dhost))
-                pv2, uv2, err2 = totals(token, account, dtag)
-                if not err2:
-                    pv, uv, used_tag = pv2, uv2, dtag
-        if pv == 0:
-            pv0, _uv0, _e = totals(token, account, None)
-            probe = pv0
-            print('visits: 仍为 0；账号级（不过滤站点）计数 = %s' % probe)
-    result = {
-        'pageviews': pv,
-        'visits': uv,
-        'since': SINCE[:10],
-        'refresh': refresh_note(),
-        'siteTagUsed': used_tag,
-        'probeAccountPageviews': probe,
-        'updatedAt': now,
-    }
-    if used_tag != site_tag:
-        result['siteTagConfigured'] = site_tag
-    if discovered:
-        result['discovered'] = discovered
-    out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    print('visits: 访问量 %s / 独立访客 %s（siteTag=%s）' % (pv, uv, used_tag))
+    if pv == 0:                     # 兜底：反查正确 siteTag 再试一次
+        found = discover_tag(token, account)
+        if found and found != tag:
+            pv2, uv2, err2 = totals(token, account, found)
+            if not err2:
+                print('visits: 换用反查到的 siteTag %s' % found[:8])
+                pv, uv, tag = pv2, uv2, found
+    data = {'pageviews': pv, 'visits': uv, 'since': SINCE[:10],
+            'refresh': refresh_note(), 'updatedAt': now}
+    if pv == 0:                     # 只在没数据时附诊断，正常时保持精简
+        probe, _uv, _e = totals(token, account, None)
+        data['diagnostic'] = {'accountPageviews': probe, 'siteTag': tag}
+    out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    print('visits: 页面浏览 %s / 访问 %s' % (pv, uv))
 
 
 if __name__ == '__main__':
