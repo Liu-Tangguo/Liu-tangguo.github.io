@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>占位符志 · 个人博客</title>
+<title>Tangguo的Blog</title>
 <meta name="color-scheme" content="light dark">
 <style>
 /* =========================================================
@@ -201,7 +201,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 
 <div class="gnav">
   <div class="wrap">
-    <a class="brand" href="index.html">占位符志</a>
+    <a class="brand" href="index.html">Tangguo的Blog</a>
     <div class="nav">
       <a class="on" href="index.html">首页</a><a href="#">要闻动态</a><a href="#">技术文章</a><a href="#">随笔杂记</a><a href="#">项目记录</a><a href="#">阅读摘抄</a><a href="#">通知公告</a><a href="#">关于本站</a>
     </div>
@@ -212,7 +212,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <div class="strip">
   <div class="wrap">
     <span class="strip-tag">站内公告</span>
-    <p><a href="#">欢迎来到占位符志。本站于 2026 年 9 月 26 日正式开站。</a></p>
+    <p><a href="#">欢迎来到 Tangguo的Blog。本站于 2026 年 9 月 26 日正式开站。</a></p>
     <a class="more" href="#">更多 &gt;</a>
   </div>
 </div>
@@ -319,7 +319,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <div class="footer">
   <div class="wrap">
     <div class="f-nav"><a href="#">关于本站</a><a href="#">联系方式</a><a href="#">版权声明</a><a href="#">RSS 订阅</a><a href="#">站点地图</a><a href="#">无障碍浏览</a></div>
-    <p class="f-copy">版权所有 © 2026 占位符志 · 个人博客　保留一切权利</p>
+    <p class="f-copy">版权所有 © 2026 Tangguo的Blog　保留一切权利</p>
     <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　本站运行 <span id="runDaysFooter">0</span> 天　|　最后更新 <span id="lastUpdate">2026-09-26</span>　|　由一杯凉掉的咖啡提供动力</p>
   </div>
 </div>
@@ -419,6 +419,17 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       }
     })
     .catch(function(e){ console.error('文章列表加载失败：', e); });
+})();
+</script>
+<script>
+(function(){
+  var t=document.getElementById('featuredTitle'), r=document.getElementById('heroRead');
+  if(!t||!r) return;
+  function sync(){ var h=t.getAttribute('href'); if(h && r.getAttribute('href')!==h) r.setAttribute('href',h); }
+  sync();
+  try{ new MutationObserver(sync).observe(t,{attributes:true,attributeFilter:['href']}); }
+  catch(e){ setInterval(sync,300); }
+  window.addEventListener('load',sync);
 })();
 </script>
 <script>

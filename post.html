@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>文章详情 · 占位符志</title>
+<title>文章详情 · Tangguo的Blog</title>
 <meta name="color-scheme" content="light dark">
 <style>
 /* 与首页同一套苹果语言：大标题、粗体对比、蓝色链接、极简边框；零外部依赖 */
@@ -90,7 +90,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 
 <div class="topbar">
   <div class="topbar-inner">
-    <a class="site-name" href="index.html">占位符志</a>
+    <a class="site-name" href="index.html">Tangguo的Blog</a>
     <div class="site-info"><span id="today">正在获取日期...</span> ｜ 本站已运行 <span id="run-days">0</span> 天</div>
   </div>
 </div>
@@ -106,7 +106,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 
 <footer>
   <div class="wrap">
-    <span>占位符志 · 个人博客</span>
+    <span>Tangguo的Blog</span>
     <span>建站日期：2026-09-26</span>
     <span id="footer-date">2026-09-26</span>
   </div>
@@ -201,7 +201,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   function showArticle(article){
     var box = document.getElementById('article');
     if(!box) return;
-    document.title = (article.title || '文章') + ' - 个人博客';
+    document.title = (article.title || '文章') + ' - Tangguo的Blog';
     box.innerHTML =
       '<div class="article-header">' +
         '<h1 class="article-title">' + esc(article.title || '无标题') + '</h1>' +
