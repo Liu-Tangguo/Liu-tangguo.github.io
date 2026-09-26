@@ -195,6 +195,20 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .cat .newslist{margin-top:16px;max-width:none}
 .cat .newslist li a{font-size:15px}
 .catempty{max-width:980px;margin:0 auto;color:var(--ink-3);font-size:15px;text-align:center}
+
+/* ---------- 搜索 ---------- */
+.searchres{max-width:760px;margin:34px auto 0;text-align:left}
+.srch-head{font-size:13px;color:var(--ink-3);margin-bottom:4px}
+.srch-head b{color:var(--ink);font-weight:600}
+.newslist li.srch-item{display:block}
+.srch-row{display:flex;align-items:baseline;gap:14px}
+.srch-row a{flex:1 1 auto;min-width:0}
+.srch-row .d{flex:0 0 auto}
+.srch-snip{margin-top:6px;font-size:13px;color:var(--ink-3);line-height:1.65}
+mark{background:#FFF2B8;color:inherit;padding:0 2px;border-radius:3px}
+.f-name{font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:.04em;margin-bottom:8px}
+
+
 @media (max-width:900px){
   .cats{grid-template-columns:1fr}
   .cat{padding:0}
@@ -244,11 +258,9 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   </div>
 </div>
 
-<div class="strip">
+<div class="strip" id="strip">
   <div class="wrap">
-    <span class="strip-tag">站内公告</span>
-    <p><a href="#">欢迎来到 Tangguo的Blog。本站于 2026 年 9 月 26 日正式开站。</a></p>
-    <a class="more" href="#">更多 &gt;</a>
+    <p id="stripText"><a href="#notices">欢迎来到 Tangguo的Blog。本站于 2026 年 9 月 26 日正式开站。</a></p>
   </div>
 </div>
 
@@ -257,11 +269,11 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   <div class="tile-in">
     <div class="tn-txt">
       <p class="eyebrow">最新发布</p>
-      <h3><a id="featuredTitle" href="post.html?post=2026-09-26-">我的个人博客正式上线啦</a></h3>
+      <h3><a id="featuredTitle" href="index.html">我的个人博客正式上线啦</a></h3>
       <p class="sum" id="featuredSummary">这是我的第一篇文章。从今天开始，这个小站会慢慢记录技术、阅读、生活和一些平时会用到的东西。</p>
       <p class="meta" id="featuredMeta">2026-09-26 <em>|</em> 分类：<a href="#">随笔杂记</a></p>
       <div class="cta">
-        <a class="btn btn-primary" id="heroRead" href="post.html?post=2026-09-26-">阅读全文</a>
+        <a class="btn btn-primary" id="heroRead" href="index.html">阅读全文</a>
         <a class="btn btn-ghost" href="#articles">全部文章</a>
       </div>
     </div>
@@ -272,8 +284,12 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <!-- ===== 文章列表 ===== -->
 <section class="tile" id="articles">
   <div class="tile-in">
-    <div class="sec-head"><h2 class="sec-title">要闻动态</h2><p class="sec-sub">按时间倒序排列，也可用上方搜索框筛选。</p></div>
+    <div class="sec-head"><h2 class="sec-title">要闻动态</h2><p class="sec-sub" id="listHint">按时间倒序排列；上方搜索框支持全文搜索（标题与正文）。</p></div>
     <ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">全部文章</li></ul>
+    <div class="searchres" id="searchres" hidden>
+      <p class="srch-head" id="srchHead"></p>
+      <ul class="newslist" id="srchList"></ul>
+    </div>
     <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts"></ul>
     <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts"></ul>
     <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
@@ -305,29 +321,21 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <section class="tile">
   <div class="tile-in">
     <div class="sec-head"><h2 class="sec-title">项目记录</h2></div>
-    <table class="rp"><thead><tr><th>项目名称</th><th>当前状态</th><th>技术栈</th><th>最近更新</th></tr></thead><tbody>
-      <tr><td><a href="#">本博客站本身</a></td><td><span class="st">持续维护</span></td><td>HTML / CSS / JS</td><td>2026-09-26</td></tr>
+    <table class="rp"><thead><tr><th>项目名称</th><th>当前状态</th><th>技术栈</th><th>最近更新</th></tr></thead><tbody id="projBody">
     </tbody></table>
   </div>
 </section>
 
 <!-- ===== 通知 + 动态 ===== -->
-<section class="tile gray">
+<section class="tile gray" id="notices">
   <div class="cols2">
     <div>
       <h2>通知公告</h2>
-      <ul class="newslist">
-        <li><a href="#">【公告】本站于 2026 年 9 月 26 日正式开站</a><span class="d">09-26</span></li>
-        <li><a href="#">【通知】本站评论功能暂时关闭，因为还没有评论功能</a><span class="d">09-26</span></li>
-      </ul>
+      <ul class="newslist" id="noticeList"></ul>
     </div>
     <div>
       <h2>最新动态</h2>
-      <ul class="dyn">
-        <li><span class="t">09-26</span><span class="x">博客正式开站</span></li>
-        <li><span class="t">09-26</span><span class="x">发布第一篇文章</span></li>
-        <li><span class="t">09-26</span><span class="x">开始搭建个人博客</span></li>
-      </ul>
+      <ul class="dyn" id="dynList"></ul>
     </div>
   </div>
 </section>
@@ -345,9 +353,9 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 
 <div class="footer">
   <div class="wrap">
-    <div class="f-nav"><a href="#">关于本站</a><a href="#">联系方式</a><a href="#">版权声明</a><a href="#">RSS 订阅</a><a href="#">站点地图</a><a href="#">无障碍浏览</a></div>
-    <p class="f-copy">版权所有 © 2026 Tangguo的Blog　保留一切权利</p>
-    <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　本站运行 <span id="runDaysFooter">0</span> 天　|　最后更新 <span id="lastUpdate">2026-09-26</span>　|　由一杯凉掉的咖啡提供动力</p>
+    <p class="f-name">Tangguo的Blog</p>
+    <p class="f-time">建站于 2026-09-26　|　已运行 <span id="runDaysFooter">0</span> 天　|　最后更新 <span id="lastUpdate">2026-09-26</span></p>
+    <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　由一杯凉掉的咖啡提供动力</p>
   </div>
 </div>
 
@@ -449,6 +457,28 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 })();
 </script>
 <script>
+/* 统一取数：posts / site / notices / updates / projects 只请求一次，供其它脚本复用 */
+window.OC = window.OC || {};
+(function(){
+  function get(url){
+    return fetch(url + '?_=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .catch(function(){ return null; });
+  }
+  window.OCReady = Promise.all([
+    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json')
+  ]).then(function(a){
+    var OC = window.OC;
+    OC.posts = Array.isArray(a[0]) ? a[0].filter(function(p){ return p && p.slug; }) : [];
+    OC.site = a[1] || {};
+    OC.notices = Array.isArray(a[2]) ? a[2] : [];
+    OC.updates = Array.isArray(a[3]) ? a[3] : [];
+    OC.projects = Array.isArray(a[4]) ? a[4] : [];
+    return OC;
+  }).catch(function(){ return window.OC; });
+})();
+</script>
+<script>
 (function(){
   var t=document.getElementById('featuredTitle'), r=document.getElementById('heroRead');
   if(!t||!r) return;
@@ -467,42 +497,153 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
   function link(s){ return 'post.html?post='+encodeURIComponent(String(s||'')); }
   function sortP(a,b){ return String(b.date||'').localeCompare(String(a.date||'')) || String(b.slug||'').localeCompare(String(a.slug||'')); }
-  function done(){ try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){} }
-  fetch('posts.json?v='+Date.now(),{cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-    .then(function(posts){
-      if(!Array.isArray(posts)) return done();
-      posts=posts.filter(function(p){ return p&&p.slug; }).sort(sortP);
-      var order=[], map={};
-      posts.forEach(function(p){
-        var c=String(p.category||'').trim()||'未分类';
-        if(!map[c]){ map[c]=[]; order.push(c); }
-        map[c].push(p);
+  function ready(fn){ if(window.OCReady) window.OCReady.then(fn); }
+  ready(function(OC){
+    var posts=(OC.posts||[]).slice().sort(sortP);
+    var order=[], map={};
+    posts.forEach(function(p){
+      var c=String(p.category||'').trim()||'未分类';
+      if(!map[c]){ map[c]=[]; order.push(c); }
+      map[c].push(p);
+    });
+    var wrap=document.getElementById('catwrap');
+    if(wrap){
+      wrap.innerHTML = order.length ? order.map(function(c,i){
+        var items=map[c].slice(0,MAX).map(function(p){
+          return '<li><a href="'+link(p.slug)+'">'+esc(p.title||p.slug)+'</a><span class="d">'+sd(p.date)+'</span></li>';
+        }).join('');
+        return '<div class="cat" id="cat-'+i+'"><h3>'+esc(c)+'<span class="cnt">'+map[c].length+' 篇</span></h3><ul class="newslist nowrap">'+items+'</ul></div>';
+      }).join('') : '<p class="catempty">还没有文章。分类会跟着文章自动出现。</p>';
+    }
+    var nav=document.getElementById('navroot'), about=document.getElementById('navabout');
+    if(nav&&about){
+      var frag=document.createDocumentFragment();
+      order.forEach(function(c,i){
+        var a=document.createElement('a');
+        a.href='#cat-'+i; a.textContent=c; a.setAttribute('data-catlink','1');
+        frag.appendChild(a);
       });
-      var wrap=document.getElementById('catwrap');
-      if(wrap){
-        wrap.innerHTML = order.length ? order.map(function(c,i){
-          var items=map[c].slice(0,MAX).map(function(p){
-            return '<li><a href="'+link(p.slug)+'">'+esc(p.title||p.slug)+'</a><span class="d">'+sd(p.date)+'</span></li>';
-          }).join('');
-          return '<div class="cat" id="cat-'+i+'"><h3>'+esc(c)+'<span class="cnt">'+map[c].length+' 篇</span></h3><ul class="newslist nowrap">'+items+'</ul></div>';
-        }).join('') : '<p class="catempty">还没有文章。分类会跟着文章自动出现。</p>';
-      }
-      var nav=document.getElementById('navroot'), about=document.getElementById('navabout');
-      if(nav&&about){
-        var frag=document.createDocumentFragment();
-        order.forEach(function(c,i){
-          var a=document.createElement('a');
-          a.href='#cat-'+i; a.textContent=c; a.setAttribute('data-catlink','1');
-          frag.appendChild(a);
-        });
-        nav.insertBefore(frag,about);
-      }
-      var tc=document.getElementById('tagCount');
-      if(tc) tc.textContent=order.length+' 个';
-      done();
-    })
-    .catch(function(e){ console.error('分类生成失败：',e); done(); });
+      nav.insertBefore(frag,about);
+    }
+    var tc=document.getElementById('tagCount');
+    if(tc) tc.textContent=order.length+' 个';
+    try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){}
+  });
+})();
+</script>
+<script>
+/* 渲染：站内公告条 / 通知公告 / 最新动态 / 项目记录（全部来自 JSON 数据） */
+(function(){
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
+  function ready(fn){ if(window.OCReady) window.OCReady.then(fn); }
+  ready(function(OC){
+    var notices=OC.notices||[], updates=OC.updates||[], projects=OC.projects||[];
+
+    /* 站内公告条：跟随最新一条通知公告 */
+    var strip=document.getElementById('strip'), st=document.getElementById('stripText');
+    if(st){
+      if(notices.length){
+        var n=notices[0];
+        st.innerHTML='<a href="#notices">'+(n.kind?'【'+esc(n.kind)+'】':'')+esc(n.title||'')+'</a>';
+      }else if(strip){ strip.style.display='none'; }
+    }
+
+    /* 通知公告 */
+    var nl=document.getElementById('noticeList');
+    if(nl){
+      nl.innerHTML = notices.length ? notices.slice(0,5).map(function(n){
+        var t=(n.kind?'【'+n.kind+'】':'')+(n.title||'');
+        var hint=String(n.body||'').replace(/\s+/g,' ').slice(0,80);
+        return '<li><a href="#notices" title="'+esc(hint)+'">'+esc(t)+'</a><span class="d">'+sd(n.date)+'</span></li>';
+      }).join('') : '<li><span>暂无公告</span><span class="d"></span></li>';
+    }
+
+    /* 最新动态 */
+    var dl=document.getElementById('dynList');
+    if(dl){
+      dl.innerHTML = updates.length ? updates.slice(0,6).map(function(u){
+        return '<li><span class="t">'+sd(u.date)+'</span><span class="x">'+esc(u.text||'')+'</span></li>';
+      }).join('') : '<li><span class="t"></span><span class="x">暂无动态</span></li>';
+    }
+
+    /* 项目记录（updated 为 auto 时由构建脚本换成本站最近更新日期） */
+    var pb=document.getElementById('projBody');
+    if(pb){
+      pb.innerHTML = projects.length ? projects.map(function(p){
+        var name = p.link ? '<a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.name||'')+'</a>' : esc(p.name||'');
+        return '<tr><td>'+name+'</td><td>'+(p.status?'<span class="st">'+esc(p.status)+'</span>':'')+'</td><td>'+esc(p.stack||'')+'</td><td>'+esc(p.updated||'')+'</td></tr>';
+      }).join('') : '<tr><td colspan="4">还没有项目记录</td></tr>';
+    }
+    try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){}
+  });
+})();
+</script>
+<script>
+/* 全文搜索：标题 + 正文 + 分类，命中处高亮，附正文片段 */
+(function(){
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function sd(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
+  function norm(s){ return String(s==null?'':s).toLowerCase(); }
+  function plain(md){ return String(md||'').replace(/```[\s\S]*?```/g,' ').replace(/[#>*_`\[\]()!]/g,'').replace(/\s+/g,' ').trim(); }
+  function ready(fn){ if(window.OCReady) window.OCReady.then(fn); }
+
+  ready(function(OC){
+    var q=document.getElementById('q'), btn=document.getElementById('qbtn');
+    var box=document.getElementById('searchres'), head=document.getElementById('srchHead'), list=document.getElementById('srchList');
+    var tabs=document.getElementById('tabs'), lp=document.getElementById('latestPosts'), ap=document.getElementById('allPosts'), empty=document.getElementById('empty');
+    if(!q||!box||!list) return;
+
+    function hl(text, kw){
+      var safe=esc(text);
+      if(!kw) return safe;
+      try{
+        var re=new RegExp('('+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+        return safe.replace(re,'<mark>$1</mark>');
+      }catch(e){ return safe; }
+    }
+    function snippet(body, kw){
+      var t=plain(body);
+      var i=norm(t).indexOf(kw);
+      var start=i>36?i-36:0;
+      var out=t.slice(start,start+110);
+      return (start>0?'…':'')+out+(t.length>start+110?'…':'');
+    }
+    function reset(){
+      box.hidden=true;
+      if(tabs) tabs.style.display='';
+      if(lp) lp.style.display='';
+      if(ap) ap.style.display='none';
+      if(empty) empty.style.display='none';
+    }
+    function run(){
+      var raw=q.value.replace(/^\s+|\s+$/g,'');
+      var kw=norm(raw);
+      if(!kw){ reset(); return; }
+      var posts=(OC.posts||[]);
+      var hits=posts.filter(function(p){
+        return norm(p.title).indexOf(kw)>-1 || norm(p.body).indexOf(kw)>-1 || norm(p.category).indexOf(kw)>-1;
+      });
+      if(tabs) tabs.style.display='none';
+      if(lp) lp.style.display='none';
+      if(ap) ap.style.display='none';
+      if(empty) empty.style.display='none';
+      box.hidden=false;
+      head.innerHTML='关键词 <b>'+esc(raw)+'</b>　找到 <b>'+hits.length+'</b> 篇';
+      list.innerHTML = hits.length ? hits.map(function(p){
+        var inBody = norm(p.body).indexOf(kw)>-1;
+        var sn = inBody ? snippet(p.body, kw) : '';
+        return '<li class="srch-item"><div class="srch-row"><a href="post.html?post='+encodeURIComponent(p.slug)+'">'+hl(p.title||p.slug,kw)+'</a><span class="d">'+sd(p.date)+'</span></div>'+(sn?'<p class="srch-snip">'+hl(sn,kw)+'</p>':'')+'</li>';
+      }).join('') : '<li class="srch-item"><div class="srch-row"><span>没有匹配的文章，换个词试试</span></div></li>';
+    }
+    /* 覆盖原脚本的属性型筛选，改为全文搜索 */
+    q.oninput=run;
+    q.onkeyup=function(e){ if(e.keyCode===13) run(); };
+    if(btn) btn.onclick=function(e){ if(e&&e.preventDefault) e.preventDefault(); run(); };
+    if(tabs) tabs.addEventListener('click',function(){ if(q.value){ q.value=''; reset(); } });
+    var f=document.getElementById('q');
+    run();
+  });
 })();
 </script>
 <script>
