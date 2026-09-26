@@ -692,12 +692,13 @@ window.OC = window.OC || {};
     var vc=document.getElementById('visitCount');
     if(vc){
       var v=OC.visits;
-      if(v && typeof v.pageviews==='number' && v.pageviews>=0){
+      if(v && typeof v.pageviews==='number' && v.pageviews>0){
         vc.textContent=v.pageviews+' 次';
-        if(typeof v.visits==='number') vc.title='独立访客 '+v.visits+' 人（自 '+(v.since||'接入统计那天')+' 起）';
+        vc.title='独立访客 '+(typeof v.visits==='number'?v.visits+' 人':'暂无数据')+'（自 '+(v.since||'接入统计那天')+' 起统计）';
       }else{
         vc.textContent='统计中';
-        if(v && v.error) vc.title='统计数据暂不可用';
+        if(v && v.error) vc.title='统计数据暂不可用：'+(v.error||'');
+        else vc.title='统计已接入（自 '+(v&&v.since?v.since:'今天')+' 起），暂无访问数据——Cloudflare 数据有几分钟延迟';
       }
     }
 
