@@ -703,7 +703,8 @@ window.OC = window.OC || {};
       var refresh=(v&&v.refresh)?v.refresh:'每天自动刷新一次';
       if(v && typeof v.pageviews==='number' && v.pageviews>0){
         vc.textContent=v.pageviews+' 次';
-        vc.title='独立访客 '+(typeof v.visits==='number'?v.visits+' 人':'暂无数据')
+        vc.title='页面浏览 '+v.pageviews+' 次'
+          +(typeof v.visits==='number'?' · 访问 '+v.visits+' 次（会话）':'')
           +'（自 '+(v.since||'接入统计那天')+' 起）· 数字更新于 '+(bj(v.updatedAt)||'未知')
           +' · '+refresh+'；Cloudflare 原始数据有几分钟延迟';
       }else{
