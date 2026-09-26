@@ -133,6 +133,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 .share-label{font-size:13px;color:var(--ink-3);margin-right:2px}
 .share-btn{font-size:13.5px;color:var(--ink);background:var(--fill-1);border-radius:980px;padding:9px 16px;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
 .share-btn:hover{background:var(--blue);color:#fff}
+.share-btn-sm{font-size:12.5px;padding:7px 13px;color:var(--ink-2)}
+.share-more{color:var(--link)}
+.share-extra{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;margin-top:4px}
+.share-tip{margin-top:6px;font-size:13px;color:var(--link);width:100%}
 
 .themebtn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex:0 0 auto;border-radius:980px;color:var(--ink-2);cursor:pointer;transition:color .2s var(--ease),background .2s var(--ease)}
 .themebtn:hover{color:var(--ink);background:var(--fill-1)}
@@ -228,7 +232,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 })();
 </script>
 <script>
-/* 文章页：阅读进度条 + 分享按钮 */
+/* 文章页：阅读进度条 + 分享栏（主流平台） */
 (function(){
   /* ---------- 阅读进度条 ---------- */
   var bar=document.getElementById('readbar');
@@ -244,20 +248,51 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   window.addEventListener('resize',progress);
   progress();
 
-  /* ---------- 分享按钮（插在文章底部） ---------- */
-  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-  function build(title, url){
-    var t=encodeURIComponent(title), u=encodeURIComponent(url);
+  /* ---------- 分享栏 ---------- */
+  /* __T__ = 标题，__U__ = 链接 */
+  var PLATFORMS=[
+    ['weibo','微博','https://service.weibo.com/share/share.php?title=__T__&url=__U__'],
+    ['x','X','https://x.com/intent/tweet?text=__T__&url=__U__'],
+    ['telegram','Telegram','https://t.me/share/url?url=__U__&text=__T__'],
+    ['facebook','Facebook','https://www.facebook.com/sharer/sharer.php?u=__U__'],
+    ['linkedin','LinkedIn','https://www.linkedin.com/sharing/share-offsite/?url=__U__'],
+    ['reddit','Reddit','https://www.reddit.com/submit?url=__U__&title=__T__'],
+    ['hn','Hacker News','https://news.ycombinator.com/submitlink?u=__U__&t=__T__'],
+    ['whatsapp','WhatsApp','https://wa.me/?text=__T__%20__U__'],
+    ['douban','豆瓣','https://www.douban.com/share/service?href=__U__&name=__T__'],
+    ['qzone','QQ空间','https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=__U__&title=__T__'],
+    ['mail','邮件','mailto:?subject=__T__&body=__U__']
+  ];
+  var PRIMARY=['weibo','x'];
+  function enc(s){ return encodeURIComponent(s); }
+  function build(title,url){
+    var t=enc(title), u=enc(url);
+    function link(p){
+      var cls = PRIMARY.indexOf(p[0])>-1 ? 'share-btn' : 'share-btn share-btn-sm';
+      var href = p[2].split('__T__').join(t).split('__U__').join(u);
+      return '<a class="'+cls+'" href="'+href+'" target="_blank" rel="noopener">'+p[1]+'</a>';
+    }
+    var main = PLATFORMS.filter(function(p){ return PRIMARY.indexOf(p[0])>-1; }).map(link).join('');
+    var more = PLATFORMS.filter(function(p){ return PRIMARY.indexOf(p[0])===-1; }).map(link).join('');
     return '<div class="sharebar">'+
-      '<span class="share-label">分享</span>'+
-      '<a class="share-btn" href="https://x.com/intent/tweet?text='+t+'&url='+u+'" target="_blank" rel="noopener">X</a>'+
-      '<a class="share-btn" href="https://service.weibo.com/share/share.php?title='+t+'&url='+u+'" target="_blank" rel="noopener">微博</a>'+
+      '<span class="share-label">分享到</span>'+
+      '<button class="share-btn" type="button" data-wx="1">微信</button>'+
+      main+
       '<button class="share-btn" type="button" data-copy="1">复制链接</button>'+
+      '<button class="share-btn share-more" type="button" data-more="1" aria-expanded="false">更多 ▾</button>'+
       '<button class="share-btn" type="button" data-native="1" hidden>系统分享</button>'+
+      '<div class="share-extra" hidden>'+more+'</div>'+
+      '<p class="share-tip" hidden></p>'+
       '</div>';
   }
-  function copy(text, btn){
-    function done(){ btn.textContent='已复制'; setTimeout(function(){ btn.textContent='复制链接'; },1600); }
+  function tip(box,msg){
+    var el=box.querySelector('.share-tip');
+    if(!el) return;
+    el.textContent=msg; el.hidden=false;
+    setTimeout(function(){ el.hidden=true; }, 2600);
+  }
+  function copy(text, ok){
+    function done(){ if(ok) ok(); }
     function fallback(){
       var ta=document.createElement('textarea');
       ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
@@ -276,8 +311,19 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
     var h1=document.querySelector('.article-title');
     var title=(h1&&h1.textContent)||document.title;
     foot.insertAdjacentHTML('beforeend', build(title, location.href));
+    var box=foot.querySelector('.sharebar');
     var cb=foot.querySelector('[data-copy]');
-    if(cb) cb.addEventListener('click',function(){ copy(location.href, cb); });
+    if(cb) cb.addEventListener('click',function(){ copy(location.href, function(){ tip(box,'链接已复制'); }); });
+    var wx=foot.querySelector('[data-wx]');
+    if(wx) wx.addEventListener('click',function(){ copy(location.href, function(){ tip(box,'链接已复制，去微信粘贴给朋友吧'); }); });
+    var mb=foot.querySelector('[data-more]');
+    var ex=foot.querySelector('.share-extra');
+    if(mb&&ex) mb.addEventListener('click',function(){
+      var open=ex.hidden;
+      ex.hidden=!open;
+      mb.setAttribute('aria-expanded', open?'true':'false');
+      mb.textContent = open ? '收起 ▴' : '更多 ▾';
+    });
     var nb=foot.querySelector('[data-native]');
     if(nb&&navigator.share){
       nb.hidden=false;
