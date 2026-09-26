@@ -139,6 +139,10 @@ content:
         label: GitHub 用户名（用于活跃热力图）
         type: string
 
+      - name: cfToken
+        label: Cloudflare 统计令牌（留空 = 不统计访客）
+        type: string
+
       - name: aboutHeading
         label: 「关于本站」里的标题
         type: string

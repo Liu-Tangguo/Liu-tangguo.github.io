@@ -99,6 +99,7 @@ site = {
     "posts": len(posts),
     "aboutHeading": about.get("aboutHeading", "") or "关于本站",
     "aboutBody": about.get("body", "") or "",
+    "cfToken": (about.get("cfToken", "") or "").strip(),
 }
 
 # ---------- 项目记录（updated 填 auto 时取本站更新时间） ----------

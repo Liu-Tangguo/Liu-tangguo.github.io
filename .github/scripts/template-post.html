@@ -328,5 +328,28 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   window.addEventListener('load',inject);
 })();
 </script>
+<script>
+/* 访问统计：只有站点设置里填了 Cloudflare 令牌才会加载 beacon（留空 = 完全不请求外部） */
+(function(){
+  var BEACON='https://static.cloudflareinsights.com/beacon.min.js';
+  function inject(token){
+    if(!token) return;
+    if(document.querySelector('script[data-cf-beacon]')) return;
+    var s=document.createElement('script');
+    s.defer=true;
+    s.src=BEACON;
+    s.setAttribute('data-cf-beacon', JSON.stringify({token:token}));
+    document.head.appendChild(s);
+  }
+  function run(){
+    fetch('site.json?_='+Date.now(),{cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if(j && j.cfToken) inject(String(j.cfToken).trim()); })
+      .catch(function(){});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run);
+  else run();
+})();
+</script>
 </body>
 </html>
