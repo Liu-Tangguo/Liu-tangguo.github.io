@@ -1,0 +1,113 @@
+name: Build Posts JSON
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "content/posts/**"
+      - ".github/workflows/build-posts.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-posts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build posts.json
+        run: |
+          python3 <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          posts_dir = Path("content/posts")
+          output_file = Path("posts.json")
+
+          posts = []
+
+          if posts_dir.exists():
+              for file in sorted(posts_dir.glob("*.md"), reverse=True):
+
+                  text = file.read_text(encoding="utf-8")
+
+                  title = ""
+                  date = ""
+                  category = ""
+                  body = text
+
+                  if text.startswith("---"):
+                      match = re.match(
+                          r"^---\s*\n(.*?)\n---\s*\n?(.*)$",
+                          text,
+                          re.S
+                      )
+
+                      if match:
+                          front_matter = match.group(1)
+                          body = match.group(2).strip()
+
+                          for line in front_matter.splitlines():
+                              if ":" not in line:
+                                  continue
+
+                              key, value = line.split(":", 1)
+
+                              key = key.strip()
+                              value = value.strip()
+                              value = value.strip("\"'")
+
+                              if key == "title":
+                                  title = value
+                              elif key == "date":
+                                  date = value
+                              elif key == "category":
+                                  category = value
+
+                  posts.append({
+                      "slug": file.stem,
+                      "title": title or file.stem,
+                      "date": date,
+                      "category": category or "未分类",
+                      "body": body
+                  })
+
+          posts.sort(
+              key=lambda post: post.get("date", ""),
+              reverse=True
+          )
+
+          output_file.write_text(
+              json.dumps(
+                  posts,
+                  ensure_ascii=False,
+                  indent=2
+              ),
+              encoding="utf-8"
+          )
+
+          print(
+              f"Generated posts.json with {len(posts)} posts."
+          )
+          PY
+
+      - name: Commit posts.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add posts.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to posts.json"
+          else
+            git commit -m "build: update posts.json"
+            git push
+          fi
