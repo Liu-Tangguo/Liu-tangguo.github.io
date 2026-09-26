@@ -4,3 +4,43 @@ content:
     type: file
     path: index.html
     format: code
+
+  - name: posts
+    label: 文章
+    type: collection
+    path: content/posts
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{title}.md"
+
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+
+      - name: date
+        label: 日期
+        type: date
+        required: true
+
+      - name: category
+        label: 分类
+        type: string
+
+      - name: body
+        label: 正文
+        type: rich-text
+        options:
+          format: markdown
+
+    view:
+      primary: title
+      fields:
+        - title
+        - date
+        - category
+      sort:
+        - date
+      default:
+        sort: date
+        order: desc
