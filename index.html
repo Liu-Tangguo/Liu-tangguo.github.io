@@ -58,37 +58,23 @@
     <div class="main">
       <div class="col-l">
         <div class="panel">
-          <div class="ph"><h2>要闻动态</h2><ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">热门阅读</li></ul><a class="more" href="#">更多 &gt;&gt;</a></div>
+          <div class="ph"><h2>要闻动态</h2><ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">全部文章</li></ul><a class="more" href="#">更多 &gt;&gt;</a></div>
           <div class="top-news">
             <div class="tn-fig"><i>头条</i>图片占位</div>
             <div class="tn-txt">
               <h3><a id="featuredTitle" href="post.html?post=2026-09-26">我的个人博客正式上线啦</a></h3>
               <p class="sum" id="featuredSummary">这是我的第一篇文章。从今天开始，这个小站会慢慢记录技术、阅读、生活和一些平时会用到的东西。</p>
-              <p class="meta">2026-09-26 <em>|</em> 分类：<a href="#">随笔杂记</a> <em>|</em> 阅读 0 <em>|</em> 评论 0</p>
+              <p class="meta" id="featuredMeta">2026-09-26 <em>|</em> 分类：<a href="#">随笔杂记</a> <em>|</em> 阅读 0 <em>|</em> 评论 0</p>
             </div>
           </div>
-          <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts">
-            <li><a href="post.html?post=2026-09-26">我的个人博客正式上线啦</a><span class="d">09-26</span></li>
-            <li><a href="#">【占位】一篇关于咖啡与代码的文章</a><span class="d">09-24</span></li>
-            <li><a href="#">【占位】我决定重新整理这个站点的当天发生的事</a><span class="d">09-21</span></li>
-            <li><a href="#">【占位】关于某个技术问题的一点不成熟的想法</a><span class="d">09-18</span></li>
-            <li><a href="#">【占位】这本书我只读了前三章</a><span class="d">09-15</span></li>
-          </ul>
-          <ul class="newslist nowrap js-list" data-panel="1" style="display:none">
-            <li><a href="#">【占位】目前阅读量最高的一篇，因为它最短</a><span class="d">06-30</span></li>
-            <li><a href="#">【占位】被搜索引擎误解得最彻底的一篇</a><span class="d">06-14</span></li>
-            <li><a href="#">【占位】写完之后自己又读了三遍的那篇</a><span class="d">05-27</span></li>
-          </ul>
+          <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts"></ul>
+          <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts"></ul>
           <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
         </div>
 
         <div class="duo">
-          <div class="panel"><div class="ph"><h2>技术文章</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist nowrap">
-            <li><a href="#">【占位】关于把博客搬到静态页面的念头</a><span class="d">09-26</span></li><li><a href="#">【占位】一次尚未解决的报错</a><span class="d">09-19</span></li><li><a href="#">【占位】记录一份配置文件的三次修改</a><span class="d">09-12</span></li><li><a href="#">【占位】关于缓存的一点经验与教训</a><span class="d">09-05</span></li>
-          </ul></div>
-          <div class="panel"><div class="ph"><h2>随笔杂记</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist nowrap">
-            <li><a href="post.html?post=2026-09-26">我的个人博客正式上线啦</a><span class="d">09-26</span></li><li><a href="#">【占位】一个普通的周六早晨</a><span class="d">09-20</span></li><li><a href="#">【占位】写在秋天开头的几行字</a><span class="d">09-13</span></li><li><a href="#">【占位】楼下那家店不开了</a><span class="d">09-06</span></li>
-          </ul></div>
+          <div class="panel"><div class="ph"><h2>技术文章</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist nowrap catlist" data-cat="技术文章"></ul></div>
+          <div class="panel"><div class="ph"><h2>随笔杂记</h2><a class="more" href="#">更多 &gt;&gt;</a></div><ul class="newslist nowrap catlist" data-cat="随笔杂记"></ul></div>
         </div>
 
         <div class="panel"><div class="ph"><h2>项目记录</h2><a class="more" href="#">更多 &gt;&gt;</a></div><div style="padding:12px"><table class="rp"><thead><tr><th>项目名称</th><th>当前状态</th><th>技术栈</th><th>最近更新</th></tr></thead><tbody>
@@ -108,7 +94,7 @@
           <li><span class="t">现在</span><span class="x">博客正式开站</span></li><li><span class="t">现在</span><span class="x">发布第一篇文章</span></li><li><span class="t">09-26</span><span class="x">开始搭建个人博客</span></li>
         </ul></div>
         <div class="panel"><div class="ph"><h2>本站统计</h2></div><ul class="stat">
-          <li><span>文章总数</span><b>1 篇</b></li><li><span>评论总数</span><b>0 条</b></li><li><span>标签数量</span><b>1 个</b></li><li><span>运行天数</span><b id="runDaysSide">0 天</b></li><li><span>今日访问</span><b>00000</b></li><li><span>总访问量</span><b>000000</b></li>
+          <li><span>文章总数</span><b id="postCount">1 篇</b></li><li><span>评论总数</span><b>0 条</b></li><li><span>标签数量</span><b>1 个</b></li><li><span>运行天数</span><b id="runDaysSide">0 天</b></li><li><span>今日访问</span><b>00000</b></li><li><span>总访问量</span><b>000000</b></li>
         </ul><p class="exec">页面执行时间：静态页面　|　本站由 GitHub Pages 驱动</p></div>
         <div class="panel"><div class="ph"><h2>关于本站</h2><a class="more" href="#">更多 &gt;&gt;</a></div><div class="about"><p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，内容会慢慢填进来。</p><p>建站原则有两条：一是不着急，二是不着急。</p></div></div>
         <div class="panel"><div class="ph"><h2>友情链接</h2></div><div class="links"><a href="#">占位符的另一个站点</a><a href="#">打不开的链接</a><a href="#">朋友的博客</a><a href="#">很久没更新的站</a><a href="#">待交换</a><a href="#">待交换</a></div></div>
@@ -169,6 +155,53 @@
   var top=document.getElementById('toTop');
   window.onscroll=function(){var y=window.pageYOffset||document.documentElement.scrollTop;top.style.display=y>300?'block':'none';};
   top.onclick=function(){window.scrollTo(0,0);};
+})();
+</script>
+<script>
+(function(){
+  function esc(s){
+    return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function shortDate(v){ var m=/(\d{4})-(\d{2})-(\d{2})/.exec(String(v||'')); return m ? (m[2]+'-'+m[3]) : ''; }
+  function postLink(slug){ return 'post.html?post='+encodeURIComponent(String(slug||'')); }
+  function itemHtml(p){
+    return '<li><a href="'+postLink(p.slug)+'">'+esc(p.title||p.slug)+'</a><span class="d">'+shortDate(p.date)+'</span></li>';
+  }
+  function plainText(md){
+    return String(md||'').replace(/`{3}[\s\S]*?`{3}/g,' ').replace(/[#>*_`]/g,'').replace(/\s+/g,' ').trim();
+  }
+  function sortPosts(a,b){
+    return String(b.date||'').localeCompare(String(a.date||'')) || String(b.slug||'').localeCompare(String(a.slug||''));
+  }
+  fetch('posts.json?v='+Date.now(),{cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(function(posts){
+      if(!Array.isArray(posts)) return;
+      posts = posts.filter(function(p){ return p && p.slug; }).sort(sortPosts);
+      var n = posts.length;
+      var pc = document.getElementById('postCount');
+      if(pc) pc.textContent = n + ' 篇';
+      var first = posts[0];
+      if(first){
+        var ft = document.getElementById('featuredTitle');
+        if(ft){ ft.textContent = first.title || first.slug; ft.href = postLink(first.slug); }
+        var fs2 = document.getElementById('featuredSummary');
+        if(fs2){ var t = plainText(first.body); fs2.textContent = t ? t.slice(0,140) : '（这篇文章还没有正文）'; }
+        var fm = document.getElementById('featuredMeta');
+        if(fm) fm.innerHTML = esc(first.date||'') + ' <em>|</em> 分类：<a href="#">' + esc(first.category||'未分类') + '</a>';
+      }
+      var lp = document.getElementById('latestPosts');
+      if(lp) lp.innerHTML = posts.slice(0,5).map(itemHtml).join('') || '<li><a href="#">还没有文章</a><span class="d"></span></li>';
+      var ap = document.getElementById('allPosts');
+      if(ap) ap.innerHTML = posts.map(itemHtml).join('') || '<li><a href="#">还没有文章</a><span class="d"></span></li>';
+      var cats = document.querySelectorAll('.catlist');
+      for(var i=0;i<cats.length;i++){
+        var cat = cats[i].getAttribute('data-cat');
+        var sub = posts.filter(function(p){ return String(p.category||'') === cat; }).slice(0,5);
+        cats[i].innerHTML = sub.length ? sub.map(itemHtml).join('') : '<li><a href="#">本栏目暂无文章</a><span class="d"></span></li>';
+      }
+    })
+    .catch(function(e){ console.error('文章列表加载失败：', e); });
 })();
 </script>
 </body>

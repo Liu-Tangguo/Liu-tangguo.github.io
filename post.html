@@ -631,837 +631,150 @@
 
 
 <script>
+(function(){
+  var START_DATE = '2026-09-26';
+  var POSTS_JSON = 'posts.json';
+  var BT = String.fromCharCode(96);
+  var FENCE = BT + BT + BT;
 
+  function esc(s){
+    return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+  function pad(n){ return n<10 ? '0'+n : ''+n; }
 
-    /* ==================================================
-       网站设置
-    ================================================== */
+  /* ---------- 日期与运行天数 ---------- */
+  (function(){
+    var now = new Date();
+    var y = now.getFullYear(), m = pad(now.getMonth()+1), d = pad(now.getDate());
+    var wd = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'][now.getDay()];
+    var t = document.getElementById('today'); if(t) t.textContent = y+'-'+m+'-'+d+' '+wd;
+    var fd = document.getElementById('footer-date'); if(fd) fd.textContent = y+'-'+m+'-'+d;
+    var rd = document.getElementById('run-days');
+    if(rd){
+      var start = new Date(START_DATE+'T00:00:00');
+      var today = new Date(y+'-'+m+'-'+d+'T00:00:00');
+      rd.textContent = Math.max(0, Math.floor((today-start)/86400000));
+    }
+  })();
 
-    const START_DATE =
-        "2026-09-26";
+  /* ---------- 行内格式（先转义再套标记） ---------- */
+  function inline(s){
+    var t = esc(s);
+    if(t.indexOf(BT) > -1){
+      var parts = t.split(BT);
+      for(var i=1;i<parts.length;i+=2){ parts[i] = '<code>'+parts[i]+'</code>'; }
+      t = parts.join('');
+    }
+    t = t.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    t = t.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+    return t;
+  }
 
+  /* ---------- Markdown → HTML（逐行解析，替代原来的贪婪正则） ---------- */
+  function mdToHtml(md){
+    if(!md) return '';
+    var lines = String(md).replace(/\r\n?/g,'\n').split('\n');
+    var out = [], buf = [], mode = '', code = [], inCode = false;
 
-    const POSTS_JSON =
-        "posts.json";
-
-
-
-    /* ==================================================
-       日期
-    ================================================== */
-
-    function updateDate() {
-
-
-        const now =
-            new Date();
-
-
-        const year =
-            now.getFullYear();
-
-
-        const month =
-            String(
-                now.getMonth() + 1
-            ).padStart(2, "0");
-
-
-        const day =
-            String(
-                now.getDate()
-            ).padStart(2, "0");
-
-
-        const weekdays = [
-
-            "星期日",
-
-            "星期一",
-
-            "星期二",
-
-            "星期三",
-
-            "星期四",
-
-            "星期五",
-
-            "星期六"
-
-        ];
-
-
-        document.getElementById(
-            "today"
-        ).textContent =
-
-            year +
-            "-" +
-            month +
-            "-" +
-            day +
-            " " +
-            weekdays[now.getDay()];
-
-
-        document.getElementById(
-            "footer-date"
-        ).textContent =
-
-            year +
-            "-" +
-            month +
-            "-" +
-            day;
-
-
-
-        const start =
-            new Date(
-                START_DATE +
-                "T00:00:00"
-            );
-
-
-        const today =
-            new Date(
-                year +
-                "-" +
-                month +
-                "-" +
-                day +
-                "T00:00:00"
-            );
-
-
-        const difference =
-            today.getTime() -
-            start.getTime();
-
-
-        const days =
-            Math.floor(
-                difference /
-                (
-                    1000 *
-                    60 *
-                    60 *
-                    24
-                )
-            );
-
-
-        document.getElementById(
-            "run-days"
-        ).textContent =
-
-            Math.max(
-                0,
-                days
-            );
-
+    function flush(){
+      if(!buf.length){ mode = ''; return; }
+      if(mode==='ul') out.push('<ul>'+buf.join('')+'</ul>');
+      else if(mode==='ol') out.push('<ol>'+buf.join('')+'</ol>');
+      else if(mode==='quote') out.push('<blockquote>'+buf.join('<br>')+'</blockquote>');
+      else out.push('<p>'+buf.join('<br>')+'</p>');
+      buf = []; mode = '';
     }
 
+    for(var i=0;i<lines.length;i++){
+      var raw = lines[i];
+      var line = raw.replace(/\s+$/,'');
+      if(line.indexOf(FENCE) > -1){
+        if(inCode){ out.push('<pre><code>'+esc(code.join('\n'))+'</code></pre>'); code = []; inCode = false; }
+        else { flush(); inCode = true; }
+        continue;
+      }
+      if(inCode){ code.push(raw); continue; }
+      if(line.trim()===''){ flush(); continue; }
+      var m, t = line.trim();
+      if((m = /^(#{1,6})\s*(.*)$/.exec(t))){ flush(); var lv = m[1].length; out.push('<h'+lv+'>'+inline(m[2])+'</h'+lv+'>'); continue; }
+      if((m = /^>\s?(.*)$/.exec(t))){ if(mode!=='quote'){ flush(); mode='quote'; } buf.push(inline(m[1])); continue; }
+      if((m = /^[-*+]\s+(.*)$/.exec(t))){ if(mode!=='ul'){ flush(); mode='ul'; } buf.push('<li>'+inline(m[1])+'</li>'); continue; }
+      if((m = /^\d+[.)]\s+(.*)$/.exec(t))){ if(mode!=='ol'){ flush(); mode='ol'; } buf.push('<li>'+inline(m[1])+'</li>'); continue; }
+      if(/^([-*_]\s*){3,}$/.test(t)){ flush(); out.push('<hr>'); continue; }
+      if(mode!=='p'){ flush(); mode='p'; }
+      buf.push(inline(t));
+    }
+    if(inCode && code.length){ out.push('<pre><code>'+esc(code.join('\n'))+'</code></pre>'); }
+    flush();
+    return out.join('\n');
+  }
 
-    updateDate();
+  /* ---------- 渲染文章 ---------- */
+  function showArticle(article){
+    var box = document.getElementById('article');
+    if(!box) return;
+    document.title = (article.title || '文章') + ' - 个人博客';
+    box.innerHTML =
+      '<div class="article-header">' +
+        '<h1 class="article-title">' + esc(article.title || '无标题') + '</h1>' +
+        '<div class="article-meta">' +
+          '<span>日期：' + esc(article.date || '未知') + '</span>' +
+          '<span>分类：' + esc(article.category || '未分类') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="article-body">' + mdToHtml(article.body || '') + '</div>' +
+      '<div class="article-footer"><a class="back-button" href="index.html">← 返回首页</a></div>';
+  }
 
+  function showError(message){
+    var box = document.getElementById('article');
+    if(!box) return;
+    box.innerHTML =
+      '<div class="message error">' +
+        '<h2>文章读取失败</h2>' +
+        '<p>' + esc(message).replace(/\n/g,'<br>') + '</p>' +
+        '<p><a href="index.html">返回首页</a></p>' +
+      '</div>';
+  }
 
+  /* ---------- 读取文章 ---------- */
+  function loadArticle(){
+    var slug = '';
+    try {
+      slug = String(new URLSearchParams(window.location.search).get('post') || '').trim();
+    } catch(e){ slug = ''; }
 
-    /* ==================================================
-       Markdown 转 HTML
-    ================================================== */
+    fetch(POSTS_JSON + '?v=' + Date.now(), {cache:'no-store'})
+      .then(function(r){ if(!r.ok) throw new Error('posts.json 加载失败，HTTP ' + r.status); return r.json(); })
+      .then(function(posts){
+        if(!Array.isArray(posts)) throw new Error('posts.json 格式不正确。');
+        posts = posts.filter(function(p){ return p && p.slug; });
 
-    function markdownToHtml(
-        markdown
-    ) {
-
-
-        if (!markdown) {
-
-            return "";
-
+        var found = null;
+        if(slug){
+          for(var i=0;i<posts.length;i++){ if(String(posts[i].slug).trim() === slug){ found = posts[i]; break; } }
+          if(!found){
+            var names = posts.map(function(p){ return String(p.slug); });
+            showError('找不到文章：' + slug + '\n\n当前可用的文章：\n' + (names.length ? names.join('\n') : '（还没有文章）'));
+            return;
+          }
+        } else {
+          posts.sort(function(a,b){ return String(b.date||'').localeCompare(String(a.date||'')); });
+          found = posts[0];
+          if(!found){ showError('还没有任何文章。'); return; }
         }
-
-
-        let text =
-            markdown;
-
-
-
-        /* HTML 转义 */
-
-        text =
-            text
-                .replace(
-                    /&/g,
-                    "&amp;"
-                )
-                .replace(
-                    /</g,
-                    "&lt;"
-                )
-                .replace(
-                    />/g,
-                    "&gt;"
-                );
-
-
-
-        /* 代码块 */
-
-        text =
-            text.replace(
-
-                /```([\s\S]*?)```/g,
-
-                function(
-                    match,
-                    code
-                ) {
-
-                    return (
-
-                        "<pre><code>" +
-
-                        code.trim() +
-
-                        "</code></pre>"
-
-                    );
-
-                }
-
-            );
-
-
-
-        /* 标题 */
-
-        text =
-            text.replace(
-                /^### (.*)$/gm,
-                "<h3>$1</h3>"
-            );
-
-
-        text =
-            text.replace(
-                /^## (.*)$/gm,
-                "<h2>$1</h2>"
-            );
-
-
-        text =
-            text.replace(
-                /^# (.*)$/gm,
-                "<h1>$1</h1>"
-            );
-
-
-
-        /* 粗体 */
-
-        text =
-            text.replace(
-                /\*\*(.*?)\*\*/g,
-                "<strong>$1</strong>"
-            );
-
-
-
-        /* 斜体 */
-
-        text =
-            text.replace(
-                /\*(.*?)\*/g,
-                "<em>$1</em>"
-            );
-
-
-
-        /* 行内代码 */
-
-        text =
-            text.replace(
-                /`([^`]+)`/g,
-                "<code>$1</code>"
-            );
-
-
-
-        /* 引用 */
-
-        text =
-            text.replace(
-                /^> (.*)$/gm,
-                "<blockquote>$1</blockquote>"
-            );
-
-
-
-        /* 无序列表 */
-
-        text =
-            text.replace(
-                /^\- (.*)$/gm,
-                "<li>$1</li>"
-            );
-
-
-        text =
-            text.replace(
-                /(<li>.*<\/li>)/gs,
-                "<ul>$1</ul>"
-            );
-
-
-
-        /* 普通段落 */
-
-        const lines =
-            text.split(/\n/);
-
-
-        const result = [];
-
-
-        let inPre =
-            false;
-
-
-        for (
-            let line of lines
-        ) {
-
-
-            if (
-                line.includes(
-                    "<pre>"
-                )
-            ) {
-
-                inPre =
-                    true;
-
-                result.push(
-                    line
-                );
-
-                continue;
-
-            }
-
-
-            if (
-                line.includes(
-                    "</pre>"
-                )
-            ) {
-
-                inPre =
-                    false;
-
-                result.push(
-                    line
-                );
-
-                continue;
-
-            }
-
-
-            if (inPre) {
-
-                result.push(
-                    line
-                );
-
-                continue;
-
-            }
-
-
-            if (
-                line.trim() === ""
-            ) {
-
-                result.push(
-                    ""
-                );
-
-                continue;
-
-            }
-
-
-            if (
-
-                line.startsWith(
-                    "<h1>"
-                ) ||
-
-                line.startsWith(
-                    "<h2>"
-                ) ||
-
-                line.startsWith(
-                    "<h3>"
-                ) ||
-
-                line.startsWith(
-                    "<blockquote>"
-                ) ||
-
-                line.startsWith(
-                    "<ul>"
-                ) ||
-
-                line.startsWith(
-                    "<li>"
-                )
-
-            ) {
-
-                result.push(
-                    line
-                );
-
-                continue;
-
-            }
-
-
-            result.push(
-
-                "<p>" +
-                line +
-                "</p>"
-
-            );
-
-        }
-
-
-        return result.join(
-            "\n"
-        );
-
-    }
-
-
-
-    /* ==================================================
-       显示文章
-    ================================================== */
-
-    function showArticle(
-        article
-    ) {
-
-
-        const container =
-            document.getElementById(
-                "article"
-            );
-
-
-        document.title =
-
-            (
-                article.title ||
-                "文章"
-            ) +
-
-            " - 我的个人网站";
-
-
-
-        container.innerHTML = `
-
-
-            <div class="article-header">
-
-
-                <h1 class="article-title">
-
-                    ${
-                        article.title ||
-                        "无标题"
-                    }
-
-                </h1>
-
-
-
-                <div class="article-meta">
-
-
-                    <span>
-
-                        日期：
-
-                        ${
-                            article.date ||
-                            "未知"
-                        }
-
-                    </span>
-
-
-
-                    <span>
-
-                        分类：
-
-                        ${
-                            article.category ||
-                            "未分类"
-                        }
-
-                    </span>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <div class="article-body">
-
-
-                ${
-                    markdownToHtml(
-                        article.body ||
-                        ""
-                    )
-                }
-
-
-            </div>
-
-
-
-            <div class="article-footer">
-
-
-                <a
-                    class="back-button"
-                    href="index.html"
-                >
-
-                    ← 返回首页
-
-                </a>
-
-
-            </div>
-
-
-        `;
-
-    }
-
-
-
-    /* ==================================================
-       错误页面
-    ================================================== */
-
-    function showError(
-        message
-    ) {
-
-
-        document.getElementById(
-            "article"
-        ).innerHTML = `
-
-
-            <div class="message error">
-
-
-                <h2>
-
-                    文章读取失败
-
-                </h2>
-
-
-                <p>
-
-                    ${message}
-
-                </p>
-
-
-                <p>
-
-                    <a href="index.html">
-
-                        返回首页
-
-                    </a>
-
-                </p>
-
-
-            </div>
-
-
-        `;
-
-    }
-
-
-
-    /* ==================================================
-       读取文章
-    ================================================== */
-
-    async function loadArticle() {
-
-
-        try {
-
-
-            /* ------------------------------------------
-               获取 URL 参数
-            ------------------------------------------ */
-
-            const params =
-                new URLSearchParams(
-                    window.location.search
-                );
-
-
-            const postSlug =
-                params.get(
-                    "post"
-                );
-
-
-            if (!postSlug) {
-
-
-                showError(
-                    "没有指定文章。"
-                );
-
-
-                return;
-
-            }
-
-
-
-            /*
-             * 注意：
-             *
-             * 这里不再删除最后的 -
-             *
-             * slug 是什么，
-             * 就严格匹配什么。
-             *
-             * 例如：
-             *
-             * 2026-09-26-
-             *
-             * 2026-09-26-test
-             *
-             * 都是完全独立的文章。
-             */
-
-
-            const targetSlug =
-                String(
-                    postSlug
-                ).trim();
-
-
-
-            /* ------------------------------------------
-               读取 posts.json
-            ------------------------------------------ */
-
-            const response =
-                await fetch(
-
-                    POSTS_JSON +
-                    "?v=" +
-                    Date.now()
-
-                );
-
-
-
-            if (!response.ok) {
-
-
-                throw new Error(
-
-                    "posts.json 加载失败。\n" +
-
-                    "HTTP 状态码：" +
-
-                    response.status
-
-                );
-
-            }
-
-
-
-            const posts =
-                await response.json();
-
-
-
-            if (
-                !Array.isArray(
-                    posts
-                )
-            ) {
-
-
-                throw new Error(
-
-                    "posts.json 格式不正确。"
-
-                );
-
-            }
-
-
-
-            /* ------------------------------------------
-               精确匹配 slug
-            ------------------------------------------ */
-
-            const article =
-                posts.find(
-
-                    function(post) {
-
-
-                        const slug =
-                            String(
-                                post.slug ||
-                                ""
-                            ).trim();
-
-
-                        return (
-                            slug ===
-                            targetSlug
-                        );
-
-
-                    }
-
-                );
-
-
-
-            /* ------------------------------------------
-               找不到
-            ------------------------------------------ */
-
-            if (!article) {
-
-
-                const availableSlugs =
-                    posts.map(
-
-                        function(post) {
-
-                            return String(
-                                post.slug ||
-                                ""
-                            );
-
-                        }
-
-                    );
-
-
-
-                showError(
-
-                    "找不到文章：" +
-
-                    targetSlug +
-
-                    "\n\n" +
-
-                    "当前 posts.json 中的文章：\n" +
-
-                    (
-
-                        availableSlugs.length
-
-                            ? availableSlugs.join(
-                                "\n"
-                            )
-
-                            : "（没有文章）"
-
-                    )
-
-                );
-
-
-                return;
-
-            }
-
-
-
-            /* ------------------------------------------
-               找到了
-            ------------------------------------------ */
-
-            showArticle(
-                article
-            );
-
-
-        }
-
-
-        catch (error) {
-
-
-            console.error(
-                error
-            );
-
-
-            showError(
-
-                error.message ||
-
-                "读取文章时发生未知错误。"
-
-            );
-
-
-        }
-
-    }
-
-
-
-    /* ==================================================
-       开始
-    ================================================== */
-
-    loadArticle();
-
-
+        showArticle(found);
+      })
+      .catch(function(e){
+        console.error(e);
+        showError(e && e.message ? e.message : '读取文章时发生未知错误。');
+      });
+  }
+
+  loadArticle();
+})();
 </script>
+
 
 </body>
 

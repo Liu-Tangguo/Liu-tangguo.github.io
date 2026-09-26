@@ -1,3 +1,10 @@
+media:
+  input: media
+  output: /media
+  rename: random
+  categories:
+    - image
+
 content:
   - name: homepage
     label: 首页
@@ -10,7 +17,9 @@ content:
     type: collection
     path: content/posts
     format: yaml-frontmatter
-    filename: "{year}-{month}-{day}-{title}.md"
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    exclude:
+      - README.md
 
     fields:
       - name: title
