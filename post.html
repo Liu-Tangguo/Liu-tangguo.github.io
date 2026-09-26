@@ -1,73 +1,899 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>文章 · 占位符志</title>
-<style>
-:root{--red:#b81c1c;--red2:#8a0f0f;--bg:#f0f0f0;--bd:#d6d6d6;--bd2:#ececec;--t1:#222;--t2:#555;--t3:#999;--hei:'Microsoft YaHei','SimHei',Arial,sans-serif;--song:SimSun,'宋体',serif}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t1);font-family:var(--song);font-size:15px;line-height:1.9}a{color:var(--t1);text-decoration:none}a:hover{color:var(--red);text-decoration:underline}
-.wrap,.site{width:1180px;margin:0 auto}.topbar{background:#6b0a0a;color:#e6cbcb;font-size:12.5px;border-bottom:2px solid var(--red2)}.tb{display:flex;align-items:center;justify-content:space-between;height:32px}.topbar a{color:#e6cbcb}.tb i{font-style:normal;color:#9c6a6a;margin:0 8px}
-.site{background:#fff;border:1px solid var(--bd);border-top:0}.hd{padding:18px 16px;border-bottom:1px solid var(--bd2)}.logo{display:flex;align-items:center;gap:13px}.logo-mark{width:52px;height:52px;background:var(--red);color:#fff;font-family:var(--hei);font-size:26px;font-weight:700;line-height:52px;text-align:center}.logo b{display:block;font-family:var(--hei);font-size:25px;color:var(--red2);letter-spacing:3px}.logo em{display:block;font-style:normal;font-size:13px;color:var(--t3)}.nav{background:linear-gradient(#b81c1c,#8a0f0f);border-top:1px solid #cf5a5a;border-bottom:2px solid #590707}.nv{display:flex}.nv a{font-family:var(--hei);font-size:15px;color:#fff;line-height:42px;padding:0 26px;border-right:1px solid rgba(255,255,255,.16)}.nv a.on{background:#6b0a0a;font-weight:700}.body{padding:12px 14px}.crumb{padding:10px 2px;border-bottom:1px solid var(--bd2);color:var(--t2);font-size:13px}.article{width:900px;margin:18px auto 28px;border:1px solid var(--bd);background:#fff}.article-head{padding:22px 28px 16px;background:linear-gradient(#fff,#fafafa);border-bottom:1px solid var(--bd)}.article-head h1{margin:0;font-family:var(--hei);font-size:28px;line-height:1.5;color:#222}.meta{margin-top:8px;color:var(--t3);font-size:13px}.article-body{padding:25px 30px 35px;font-size:16px;line-height:2}.article-body p{margin:0 0 1em}.article-body h2{font-family:var(--hei);font-size:21px;color:var(--red2);border-left:4px solid var(--red);padding-left:9px;margin:1.5em 0 .7em}.article-body h3{font-family:var(--hei);font-size:18px;margin:1.3em 0 .5em}.article-body ul{padding-left:25px;list-style:disc}.article-body ol{padding-left:25px;list-style:decimal}.article-body blockquote{margin:1em 0;padding:8px 14px;border-left:4px solid #d8c8a0;background:#fffaf0;color:var(--t2)}.article-body code{background:#f4f4f4;border:1px solid #ddd;padding:1px 4px;font-family:monospace}.article-body pre{overflow:auto;background:#f7f7f7;border:1px solid #ddd;padding:12px}.article-body img{max-width:100%;height:auto}.back{padding:12px 30px;border-top:1px dotted var(--bd);background:#fafafa}.footer{text-align:center;border-top:2px solid var(--red);padding:14px;color:var(--t3);font-size:12.5px}
-@media(max-width:1203px){.wrap,.site{width:auto}.site{margin:0 10px}}@media(max-width:900px){.article{width:auto}.article-head,.article-body{padding-left:18px;padding-right:18px}}@media(max-width:640px){.nv{flex-wrap:wrap}.nv a{flex:0 0 25%;padding:0;text-align:center;font-size:13px}.article-head h1{font-size:23px}}
-</style>
-</head>
-<body>
-<div class="topbar"><div class="wrap tb"><div>今天是 <span id="today">加载中...</span> <i>|</i> 本站已运行 <span id="runDays">0</span> 天</div><div><a href="index.html">返回首页</a></div></div></div>
-<div class="site">
-  <div class="hd"><a class="logo" href="index.html"><span class="logo-mark">占</span><span><b>占位符志</b><em>一个人的博客　·　记录技术、阅读与生活</em></span></a></div>
-  <div class="nav"><div class="nv"><a class="on" href="index.html">首　页</a><a href="#">要闻动态</a><a href="#">技术文章</a><a href="#">随笔杂记</a><a href="#">项目记录</a><a href="#">阅读摘抄</a><a href="#">通知公告</a><a href="#">关于本站</a></div></div>
-  <div class="body">
-    <div class="crumb">当前位置：<a href="index.html">首页</a> &gt; <span id="category">随笔杂记</span> &gt; <span id="crumbTitle">文章</span></div>
-    <article class="article">
-      <header class="article-head"><h1 id="title">正在加载文章...</h1><div class="meta"><span id="date">----</span>　|　分类：<span id="category2">----</span></div></header>
-      <div class="article-body" id="content">正在读取文章内容……</div>
-      <div class="back"><a href="index.html">&lt;&lt; 返回首页</a></div>
-    </article>
-  </div>
-  <div class="footer">版权所有 &copy; 2026 占位符志 · 个人博客　|　本站正式开站于 2026 年 9 月 26 日</div>
-</div>
-<script>
-(function(){
-  var START='2026-09-26',W=['日','一','二','三','四','五','六'];
-  function pad(n){return n<10?'0'+n:n}
-  function dateInfo(){var d=new Date(),s=new Date(START+'T00:00:00'),t=new Date(d.getFullYear(),d.getMonth(),d.getDate());return {d:d,days:Math.max(0,Math.floor((t-s)/86400000))}}
-  var x=dateInfo(),d=x.d;
-  document.getElementById('today').textContent=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 星期'+W[d.getDay()];
-  document.getElementById('runDays').textContent=x.days;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章 - 我的个人博客</title>
 
-  var params=new URLSearchParams(location.search),post=params.get('post')||'2026-09-26';
-  fetch('content/posts/'+encodeURIComponent(post)+'.md').then(function(r){if(!r.ok)throw new Error('文章不存在');return r.text()}).then(function(md){
-    var lines=md.replace(/\r/g,'').split('\n'),meta={},i=0;
-    if(lines[0].trim()==='---'){for(i=1;i<lines.length;i++){if(lines[i].trim()==='---'){i++;break}var m=lines[i].match(/^([^:]+):\s*(.*)$/);if(m)meta[m[1].trim()]=m[2].trim()}}
-    var body=lines.slice(i).join('\n').trim();
-    document.title=(meta.title||'文章')+' · 占位符志';
-    document.getElementById('title').textContent=meta.title||'无标题';
-    document.getElementById('date').textContent=meta.date||post;
-    document.getElementById('category').textContent=meta.category||'未分类';
-    document.getElementById('category2').textContent=meta.category||'未分类';
-    document.getElementById('crumbTitle').textContent=meta.title||'文章';
-    document.getElementById('content').innerHTML=markdown(body);
-  }).catch(function(){document.getElementById('title').textContent='文章读取失败';document.getElementById('content').textContent='找不到这篇文章，请检查 GitHub 上的 Markdown 文件。'});
-
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-  function inline(s){return esc(s).replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/`([^`]+)`/g,'<code>$1</code>')}
-  function markdown(s){
-    var ls=s.split('\n'),out=[],inCode=false,code=[];
-    for(var i=0;i<ls.length;i++){var l=ls[i];
-      if(l.indexOf('```')===0){if(inCode){out.push('<pre>'+esc(code.join('\n'))+'</pre>');code=[];inCode=false}else inCode=true;continue}
-      if(inCode){code.push(l);continue}
-      if(!l.trim()){continue}
-      if(/^### /.test(l)){out.push('<h3>'+inline(l.slice(4))+'</h3>');continue}
-      if(/^## /.test(l)){out.push('<h2>'+inline(l.slice(3))+'</h2>');continue}
-      if(/^# /.test(l)){out.push('<h2>'+inline(l.slice(2))+'</h2>');continue}
-      if(/^> /.test(l)){out.push('<blockquote>'+inline(l.slice(2))+'</blockquote>');continue}
-      if(/^- /.test(l)){out.push('<p>• '+inline(l.slice(2))+'</p>');continue}
-      out.push('<p>'+inline(l)+'</p>');
+  <style>
+    * {
+      box-sizing: border-box;
     }
-    return out.join('');
+
+    body {
+      margin: 0;
+      background: #f3f0e8;
+      color: #333;
+      font-family:
+        "Microsoft YaHei",
+        "PingFang SC",
+        Arial,
+        sans-serif;
+      font-size: 14px;
+    }
+
+    a {
+      color: #8b0000;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* 顶部 */
+    .topbar {
+      background: #8b0000;
+      color: #fff;
+      border-bottom: 4px solid #c8a45d;
+    }
+
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .site-name {
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .site-info {
+      font-size: 12px;
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* 主体 */
+    .container {
+      max-width: 1100px;
+      margin: 18px auto;
+      padding: 0 20px;
+    }
+
+    .crumb {
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid #d8d1c2;
+      font-size: 13px;
+    }
+
+    .crumb a {
+      color: #666;
+    }
+
+    .article-box {
+      background: #fff;
+      border: 1px solid #d2c9b8;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .article-header {
+      padding: 22px 26px 18px;
+      border-bottom: 3px solid #8b0000;
+      background: #faf8f2;
+    }
+
+    .article-title {
+      margin: 0 0 12px;
+      color: #7a0000;
+      font-size: 25px;
+      line-height: 1.5;
+    }
+
+    .article-meta {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .article-meta span {
+      margin-right: 18px;
+    }
+
+    .article-content {
+      padding: 28px 30px 40px;
+      line-height: 2;
+      font-size: 15px;
+      min-height: 300px;
+    }
+
+    .article-content p {
+      margin: 0 0 18px;
+    }
+
+    .article-content h1,
+    .article-content h2,
+    .article-content h3 {
+      color: #7a0000;
+      margin-top: 28px;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .article-content h1 {
+      font-size: 24px;
+    }
+
+    .article-content h2 {
+      font-size: 20px;
+      border-left: 5px solid #8b0000;
+      padding-left: 10px;
+    }
+
+    .article-content h3 {
+      font-size: 17px;
+    }
+
+    .article-content blockquote {
+      margin: 20px 0;
+      padding: 10px 18px;
+      background: #f5f1e7;
+      border-left: 4px solid #b69b5e;
+      color: #666;
+    }
+
+    .article-content ul,
+    .article-content ol {
+      padding-left: 28px;
+    }
+
+    .article-content li {
+      margin: 6px 0;
+    }
+
+    .article-content code {
+      padding: 2px 5px;
+      background: #eee;
+      border: 1px solid #ddd;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+    }
+
+    .article-content pre {
+      padding: 15px;
+      overflow-x: auto;
+      background: #272822;
+      color: #eee;
+      border-radius: 2px;
+      line-height: 1.6;
+    }
+
+    .article-content pre code {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .article-content hr {
+      border: 0;
+      border-top: 1px solid #ddd;
+      margin: 30px 0;
+    }
+
+    .article-content img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* 错误提示 */
+    .error-box {
+      padding: 40px 25px;
+      text-align: center;
+      color: #777;
+    }
+
+    .error-title {
+      margin-bottom: 10px;
+      color: #8b0000;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* 底部 */
+    .footer {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 18px 20px;
+      border-top: 1px solid #ccc;
+      color: #777;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .back-home {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 7px 15px;
+      background: #8b0000;
+      color: #fff;
+      border: 1px solid #6d0000;
+    }
+
+    .back-home:hover {
+      background: #6d0000;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .topbar-inner {
+        display: block;
+      }
+
+      .site-info {
+        margin-top: 5px;
+        text-align: left;
+      }
+
+      .container {
+        padding: 0 10px;
+      }
+
+      .article-header {
+        padding: 18px 16px;
+      }
+
+      .article-title {
+        font-size: 21px;
+      }
+
+      .article-content {
+        padding: 22px 18px 30px;
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="site-name">我的个人博客 · 个人信息门户</div>
+
+      <div class="site-info">
+        <div id="currentDate">正在获取日期……</div>
+        <div id="runningDays">本站已运行 0 天</div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+
+    <div class="crumb">
+      <a href="index.html">首页</a>
+     　&gt;　
+      <span id="crumbTitle">文章</span>
+    </div>
+
+    <article class="article-box">
+
+      <header class="article-header">
+        <h1 class="article-title" id="articleTitle">
+          正在读取文章……
+        </h1>
+
+        <div class="article-meta">
+          <span id="articleDate">日期：--</span>
+          <span id="articleCategory">分类：--</span>
+        </div>
+      </header>
+
+      <div class="article-content" id="articleContent">
+        正在从本站读取文章……
+      </div>
+
+    </article>
+
+  </main>
+
+  <footer class="footer">
+    <div>
+      © <span id="footerYear"></span> 我的个人博客
+    </div>
+
+    <div>
+      一个简单、便宜、长期维护的个人小站
+    </div>
+
+    <a class="back-home" href="index.html">
+      ← 返回首页
+    </a>
+  </footer>
+
+
+<script>
+/* =========================================================
+   基本设置
+========================================================= */
+
+const START_DATE = "2026-09-26";
+
+const REPO_RAW =
+  "https://raw.githubusercontent.com/Liu-tangguo/Liu-tangguo.github.io/main/content/posts/";
+
+
+/* =========================================================
+   顶部日期
+========================================================= */
+
+function updateSiteInfo() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  const weekNames = [
+    "星期日",
+    "星期一",
+    "星期二",
+    "星期三",
+    "星期四",
+    "星期五",
+    "星期六"
+  ];
+
+  const week = weekNames[now.getDay()];
+
+  document.getElementById("currentDate").textContent =
+    `${year}-${month}-${day} ${week}`;
+
+  const start = new Date(START_DATE + "T00:00:00");
+  const today = new Date(
+    year + "-" + month + "-" + day + "T00:00:00"
+  );
+
+  const diff = today - start;
+  const days = Math.max(
+    0,
+    Math.floor(diff / (1000 * 60 * 60 * 24))
+  );
+
+  document.getElementById("runningDays").textContent =
+    `本站已运行 ${days} 天`;
+
+  document.getElementById("footerYear").textContent = year;
+}
+
+updateSiteInfo();
+
+
+/* =========================================================
+   Markdown 处理
+========================================================= */
+
+/*
+  这里只处理博客目前需要的常见 Markdown：
+
+  # 标题
+  ## 二级标题
+  ### 三级标题
+
+  **粗体**
+  *斜体*
+  [链接](网址)
+
+  - 列表
+  1. 有序列表
+
+  > 引用
+
+  `代码`
+
+  ```代码块```
+
+  ---
+*/
+
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+function inlineMarkdown(text) {
+
+  let result = escapeHtml(text);
+
+  // 链接
+  result = result.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>'
+  );
+
+  // 粗体
+  result = result.replace(
+    /\*\*(.*?)\*\*/g,
+    "<strong>$1</strong>"
+  );
+
+  // 斜体
+  result = result.replace(
+    /(?<!\*)\*([^*]+)\*(?!\*)/g,
+    "<em>$1</em>"
+  );
+
+  // 行内代码
+  result = result.replace(
+    /`([^`]+)`/g,
+    "<code>$1</code>"
+  );
+
+  return result;
+}
+
+
+function markdownToHtml(markdown) {
+
+  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+
+  let html = "";
+
+  let inCodeBlock = false;
+  let codeContent = "";
+
+  let inUl = false;
+  let inOl = false;
+
+  function closeLists() {
+
+    if (inUl) {
+      html += "</ul>";
+      inUl = false;
+    }
+
+    if (inOl) {
+      html += "</ol>";
+      inOl = false;
+    }
   }
-})();
+
+
+  for (let i = 0; i < lines.length; i++) {
+
+    const line = lines[i];
+
+
+    /* 代码块 */
+
+    if (line.trim().startsWith("```")) {
+
+      if (!inCodeBlock) {
+
+        closeLists();
+
+        inCodeBlock = true;
+        codeContent = "";
+
+      } else {
+
+        html +=
+          "<pre><code>" +
+          escapeHtml(codeContent) +
+          "</code></pre>";
+
+        inCodeBlock = false;
+        codeContent = "";
+      }
+
+      continue;
+    }
+
+
+    if (inCodeBlock) {
+
+      codeContent += line + "\n";
+      continue;
+    }
+
+
+    /* 空行 */
+
+    if (line.trim() === "") {
+
+      closeLists();
+      continue;
+    }
+
+
+    /* 标题 */
+
+    if (line.startsWith("### ")) {
+
+      closeLists();
+
+      html +=
+        "<h3>" +
+        inlineMarkdown(line.substring(4)) +
+        "</h3>";
+
+      continue;
+    }
+
+
+    if (line.startsWith("## ")) {
+
+      closeLists();
+
+      html +=
+        "<h2>" +
+        inlineMarkdown(line.substring(3)) +
+        "</h2>";
+
+      continue;
+    }
+
+
+    if (line.startsWith("# ")) {
+
+      closeLists();
+
+      html +=
+        "<h1>" +
+        inlineMarkdown(line.substring(2)) +
+        "</h1>";
+
+      continue;
+    }
+
+
+    /* 无序列表 */
+
+    if (/^\s*[-*]\s+/.test(line)) {
+
+      if (inOl) {
+        html += "</ol>";
+        inOl = false;
+      }
+
+      if (!inUl) {
+        html += "<ul>";
+        inUl = true;
+      }
+
+      const content = line.replace(
+        /^\s*[-*]\s+/,
+        ""
+      );
+
+      html +=
+        "<li>" +
+        inlineMarkdown(content) +
+        "</li>";
+
+      continue;
+    }
+
+
+    /* 有序列表 */
+
+    if (/^\s*\d+\.\s+/.test(line)) {
+
+      if (inUl) {
+        html += "</ul>";
+        inUl = false;
+      }
+
+      if (!inOl) {
+        html += "<ol>";
+        inOl = true;
+      }
+
+      const content = line.replace(
+        /^\s*\d+\.\s+/,
+        ""
+      );
+
+      html +=
+        "<li>" +
+        inlineMarkdown(content) +
+        "</li>";
+
+      continue;
+    }
+
+
+    /* 引用 */
+
+    if (line.startsWith("> ")) {
+
+      closeLists();
+
+      html +=
+        "<blockquote>" +
+        inlineMarkdown(line.substring(2)) +
+        "</blockquote>";
+
+      continue;
+    }
+
+
+    /* 分割线 */
+
+    if (/^---+$/.test(line.trim())) {
+
+      closeLists();
+
+      html += "<hr>";
+
+      continue;
+    }
+
+
+    /* 普通段落 */
+
+    closeLists();
+
+    html +=
+      "<p>" +
+      inlineMarkdown(line) +
+      "</p>";
+  }
+
+
+  closeLists();
+
+  if (inCodeBlock) {
+
+    html +=
+      "<pre><code>" +
+      escapeHtml(codeContent) +
+      "</code></pre>";
+  }
+
+
+  return html;
+}
+
+
+/* =========================================================
+   YAML Front Matter
+========================================================= */
+
+function parseFrontMatter(text) {
+
+  const result = {
+    title: "",
+    date: "",
+    category: "",
+    body: text
+  };
+
+
+  if (!text.startsWith("---")) {
+    return result;
+  }
+
+
+  const endIndex = text.indexOf(
+    "\n---",
+    3
+  );
+
+
+  if (endIndex === -1) {
+    return result;
+  }
+
+
+  const frontMatter = text.substring(
+    3,
+    endIndex
+  );
+
+
+  const body = text.substring(
+    endIndex + 4
+  );
+
+
+  frontMatter
+    .split("\n")
+    .forEach(line => {
+
+      const match = line.match(
+        /^([^:]+):\s*(.*)$/
+      );
+
+      if (!match) {
+        return;
+      }
+
+      const key = match[1].trim();
+      let value = match[2].trim();
+
+      value = value
+        .replace(/^["']/, "")
+        .replace(/["']$/, "");
+
+      if (key === "title") {
+        result.title = value;
+      }
+
+      if (key === "date") {
+        result.date = value;
+      }
+
+      if (key === "category") {
+        result.category = value;
+      }
+    });
+
+
+  result.body = body.trim();
+
+  return result;
+}
+
+
+/* =========================================================
+   读取文章
+========================================================= */
+
+async function loadArticle() {
+
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  const post = params.get("post");
+
+
+  if (!post) {
+
+    showError(
+      "没有指定文章",
+      "请从首页进入文章。"
+    );
+
+    return;
+  }
+
+
+  const url =
+    REPO_RAW +
+    encodeURIComponent(post) +
+    ".md";
+
+
+  try {
+
+    const response = await fetch(
+      url + "?v=" + Date.now()
+    );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " + response.status
+      );
+    }
+
+
+    const markdown =
+      await response.text();
+
+
+    const article =
+      parseFrontMatter(markdown);
+
+
+    if (!article.title) {
+
+      article.title =
+        "未命名文章";
+    }
+
+
+    document.title =
+      article.title +
+      " - 我的个人博客";
+
+
+    document.getElementById(
+      "articleTitle"
+    ).textContent =
+      article.title;
+
+
+    document.getElementById(
+      "crumbTitle"
+    ).textContent =
+      article.title;
+
+
+    document.getElementById(
+      "articleDate"
+    ).textContent =
+      "日期：" +
+      (article.date || "--");
+
+
+    document.getElementById(
+      "articleCategory"
+    ).textContent =
+      "分类：" +
+      (article.category || "未分类");
+
+
+    document.getElementById(
+      "articleContent"
+    ).innerHTML =
+      markdownToHtml(article.body);
+
+  } catch (error) {
+
+    console.error(error);
+
+    showError(
+      "文章读取失败",
+      "找不到这篇文章，请检查 GitHub 上的 Markdown 文件。"
+    );
+  }
+}
+
+
+/* =========================================================
+   错误页面
+========================================================= */
+
+function showError(title, message) {
+
+  document.getElementById(
+    "articleTitle"
+  ).textContent = title;
+
+  document.getElementById(
+    "articleDate"
+  ).textContent = "";
+
+  document.getElementById(
+    "articleCategory"
+  ).textContent = "";
+
+  document.getElementById(
+    "articleContent"
+  ).innerHTML =
+    `
+      <div class="error-box">
+        <div class="error-title">${title}</div>
+        <div>${message}</div>
+      </div>
+    `;
+}
+
+
+/* =========================================================
+   启动
+========================================================= */
+
+loadArticle();
+
 </script>
+
 </body>
 </html>
