@@ -252,90 +252,90 @@
 
 <body>
 
-    <div class="topbar">
+<div class="topbar">
 
-        <div class="topbar-inner">
+    <div class="topbar-inner">
 
-            <div class="site-name">
-                我的个人网站
-            </div>
-
-            <div class="site-info">
-
-                <span id="today">
-                    正在获取日期...
-                </span>
-
-                ｜本站已运行
-                <span id="run-days">0</span>
-                天
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="container">
-
-        <div class="nav">
-
-            <div class="nav-inner">
-
-                <a href="index.html">
-                    首页
-                </a>
-
-                <a href="index.html#articles">
-                    文章
-                </a>
-
-                <a href="index.html#about">
-                    关于本站
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="article-box">
-
-            <div id="article">
-
-                <div class="message">
-                    正在读取文章，请稍候……
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <footer>
-
-        <div>
+        <div class="site-name">
             我的个人网站
         </div>
 
-        <div>
-            建站日期：2026-09-26
+        <div class="site-info">
+
+            <span id="today">
+                正在获取日期...
+            </span>
+
+            ｜本站已运行
+            <span id="run-days">0</span>
+            天
+
         </div>
 
-        <div id="footer-date">
-            2026-09-26
+    </div>
+
+</div>
+
+
+<div class="container">
+
+    <div class="nav">
+
+        <div class="nav-inner">
+
+            <a href="index.html">
+                首页
+            </a>
+
+            <a href="index.html#articles">
+                文章
+            </a>
+
+            <a href="index.html#about">
+                关于本站
+            </a>
+
         </div>
 
-    </footer>
+    </div>
+
+
+    <div class="article-box">
+
+        <div id="article">
+
+            <div class="message">
+                正在读取文章，请稍候……
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <div>
+        我的个人网站
+    </div>
+
+    <div>
+        建站日期：2026-09-26
+    </div>
+
+    <div id="footer-date">
+        2026-09-26
+    </div>
+
+</footer>
 
 
 <script>
 
     /* ================================
-       网站基本设置
+       网站设置
     ================================= */
 
     const START_DATE = "2026-09-26";
@@ -353,14 +353,13 @@
 
         const year = now.getFullYear();
 
-        const month = String(
-            now.getMonth() + 1
-        ).padStart(2, "0");
+        const month =
+            String(now.getMonth() + 1)
+                .padStart(2, "0");
 
-        const day = String(
-            now.getDate()
-        ).padStart(2, "0");
-
+        const day =
+            String(now.getDate())
+                .padStart(2, "0");
 
         const weekdays = [
             "星期日",
@@ -371,7 +370,6 @@
             "星期五",
             "星期六"
         ];
-
 
         document.getElementById(
             "today"
@@ -401,7 +399,6 @@
                 "T00:00:00"
             );
 
-
         const today =
             new Date(
                 year +
@@ -412,18 +409,15 @@
                 "T00:00:00"
             );
 
-
         const difference =
             today.getTime() -
             start.getTime();
-
 
         const days =
             Math.floor(
                 difference /
                 (1000 * 60 * 60 * 24)
             );
-
 
         document.getElementById(
             "run-days"
@@ -437,7 +431,7 @@
 
 
     /* ================================
-       Markdown 转 HTML
+       Markdown
     ================================= */
 
     function markdownToHtml(markdown) {
@@ -445,7 +439,6 @@
         if (!markdown) {
             return "";
         }
-
 
         let text = markdown;
 
@@ -522,13 +515,12 @@
         );
 
 
-        /* 无序列表 */
+        /* 列表 */
 
         text = text.replace(
             /^\- (.*)$/gm,
             "<li>$1</li>"
         );
-
 
         text = text.replace(
             /(<li>.*<\/li>)/gs,
@@ -708,7 +700,7 @@
 
 
     /* ================================
-       显示错误
+       错误
     ================================= */
 
     function showError(message) {
@@ -748,8 +740,6 @@
 
         try {
 
-            /* 获取 URL 参数 */
-
             const params =
                 new URLSearchParams(
                     window.location.search
@@ -772,7 +762,7 @@
 
 
             /*
-             * 统一处理 URL 中的 slug
+             * URL 中的 slug
              */
 
             const targetSlug =
@@ -807,10 +797,6 @@
                 await response.json();
 
 
-            /*
-             * 确认 JSON 是数组
-             */
-
             if (!Array.isArray(posts)) {
 
                 throw new Error(
@@ -821,7 +807,13 @@
 
 
             /*
-             * 找文章
+             * 查找文章
+             *
+             * 这里同时兼容：
+             *
+             * 2026-09-26
+             *
+             * 2026-09-26-
              */
 
             const article =
@@ -830,11 +822,20 @@
 
                         const slug =
                             String(
-                                post.slug || ""
+                                post.slug ||
+                                ""
                             ).trim();
 
+
+                        const normalizedSlug =
+                            slug.replace(
+                                /-+$/,
+                                ""
+                            );
+
+
                         return (
-                            slug ===
+                            normalizedSlug ===
                             targetSlug
                         );
 
@@ -843,10 +844,7 @@
 
 
             /*
-             * 如果找不到
-             *
-             * 不再只显示“找不到”。
-             * 把实际读取到的 slug 全部显示出来。
+             * 找不到
              */
 
             if (!article) {
@@ -855,11 +853,8 @@
                     posts.map(
                         function(post) {
 
-                            return (
-                                String(
-                                    post.slug ||
-                                    ""
-                                ).trim()
+                            return String(
+                                post.slug || ""
                             );
 
                         }
@@ -879,11 +874,10 @@
                     (
                         actualSlugs.length
                             ? actualSlugs.join("\n")
-                            : "（没有读取到任何文章）"
+                            : "（没有文章）"
                     )
 
                 );
-
 
                 return;
 
@@ -901,9 +895,7 @@
 
         } catch (error) {
 
-            console.error(
-                error
-            );
+            console.error(error);
 
 
             showError(
