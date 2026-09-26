@@ -32,10 +32,7 @@
       text-decoration: underline;
     }
 
-    /* =========================
-       顶部
-    ========================= */
-
+    /* 顶部 */
     .topbar {
       background: #8b0000;
       color: #fff;
@@ -65,10 +62,7 @@
       text-align: right;
     }
 
-    /* =========================
-       页面主体
-    ========================= */
-
+    /* 主体 */
     .container {
       max-width: 1100px;
       margin: 18px auto;
@@ -76,7 +70,6 @@
     }
 
     /* 面包屑 */
-
     .crumb {
       margin-bottom: 12px;
       padding: 8px 12px;
@@ -92,7 +85,6 @@
     }
 
     /* 文章 */
-
     .article-box {
       background: #fff;
       border: 1px solid #d2c9b8;
@@ -128,7 +120,6 @@
     }
 
     /* 正文 */
-
     .article-content {
       min-height: 300px;
 
@@ -229,10 +220,7 @@
       height: auto;
     }
 
-    /* =========================
-       错误
-    ========================= */
-
+    /* 错误 */
     .error-box {
       padding: 40px 25px;
 
@@ -250,10 +238,7 @@
       font-weight: bold;
     }
 
-    /* =========================
-       返回按钮
-    ========================= */
-
+    /* 返回首页 */
     .back-home {
       display: inline-block;
 
@@ -272,10 +257,7 @@
       text-decoration: none;
     }
 
-    /* =========================
-       底部
-    ========================= */
-
+    /* 底部 */
     .footer {
       max-width: 1100px;
       margin: 20px auto;
@@ -290,10 +272,7 @@
       text-align: center;
     }
 
-    /* =========================
-       手机
-    ========================= */
-
+    /* 手机 */
     @media (max-width: 700px) {
 
       .topbar-inner {
@@ -327,10 +306,7 @@
 
 <body>
 
-  <!-- =========================
-       顶部
-  ========================== -->
-
+  <!-- 顶部 -->
   <div class="topbar">
 
     <div class="topbar-inner">
@@ -356,14 +332,10 @@
   </div>
 
 
-  <!-- =========================
-       主体
-  ========================== -->
-
+  <!-- 主体 -->
   <main class="container">
 
     <!-- 面包屑 -->
-
     <div class="crumb">
 
       <a href="index.html">
@@ -380,7 +352,6 @@
 
 
     <!-- 文章 -->
-
     <article class="article-box">
 
       <header class="article-header">
@@ -420,10 +391,7 @@
   </main>
 
 
-  <!-- =========================
-       底部
-  ========================== -->
-
+  <!-- 底部 -->
   <footer class="footer">
 
     <div>
@@ -448,34 +416,24 @@
 <script>
 
 /* =====================================================
-   1. 网站基本设置
+   网站基本设置
 ===================================================== */
 
 const START_DATE = "2026-09-26";
 
-
-/*
- * 文章目录
- *
- * 注意：
- * 这里使用的是 GitHub Pages 自己的网站地址。
- *
- * 不再使用：
- * raw.githubusercontent.com
- */
-
-const POSTS_PATH = "content/posts/";
+const POSTS_JSON = "posts.json";
 
 
 /* =====================================================
-   2. 顶部日期
+   顶部日期
 ===================================================== */
 
 function updateSiteInfo() {
 
   const now = new Date();
 
-  const year = now.getFullYear();
+  const year =
+    now.getFullYear();
 
   const month =
     String(now.getMonth() + 1)
@@ -484,7 +442,6 @@ function updateSiteInfo() {
   const day =
     String(now.getDate())
       .padStart(2, "0");
-
 
   const weekNames = [
     "星期日",
@@ -496,10 +453,8 @@ function updateSiteInfo() {
     "星期六"
   ];
 
-
   const week =
     weekNames[now.getDay()];
-
 
   document.getElementById(
     "currentDate"
@@ -507,25 +462,18 @@ function updateSiteInfo() {
     `${year}-${month}-${day} ${week}`;
 
 
-  /*
-   * 计算本站运行天数
-   */
-
   const start =
     new Date(
       START_DATE + "T00:00:00"
     );
-
 
   const today =
     new Date(
       `${year}-${month}-${day}T00:00:00`
     );
 
-
   const diff =
     today - start;
-
 
   const days =
     Math.max(
@@ -536,12 +484,10 @@ function updateSiteInfo() {
       )
     );
 
-
   document.getElementById(
     "runningDays"
   ).textContent =
     `本站已运行 ${days} 天`;
-
 
   document.getElementById(
     "footerYear"
@@ -549,17 +495,16 @@ function updateSiteInfo() {
     year;
 }
 
-
 updateSiteInfo();
 
 
 /* =====================================================
-   3. HTML 转义
+   HTML 转义
 ===================================================== */
 
 function escapeHtml(text) {
 
-  return text
+  return String(text)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -569,7 +514,7 @@ function escapeHtml(text) {
 
 
 /* =====================================================
-   4. Markdown 行内格式
+   Markdown 行内格式
 ===================================================== */
 
 function inlineMarkdown(text) {
@@ -578,9 +523,7 @@ function inlineMarkdown(text) {
     escapeHtml(text);
 
 
-  /*
-   * 链接
-   */
+  /* 链接 */
 
   result =
     result.replace(
@@ -589,9 +532,7 @@ function inlineMarkdown(text) {
     );
 
 
-  /*
-   * 粗体
-   */
+  /* 粗体 */
 
   result =
     result.replace(
@@ -600,9 +541,7 @@ function inlineMarkdown(text) {
     );
 
 
-  /*
-   * 斜体
-   */
+  /* 斜体 */
 
   result =
     result.replace(
@@ -611,9 +550,7 @@ function inlineMarkdown(text) {
     );
 
 
-  /*
-   * 行内代码
-   */
+  /* 行内代码 */
 
   result =
     result.replace(
@@ -627,16 +564,15 @@ function inlineMarkdown(text) {
 
 
 /* =====================================================
-   5. Markdown 转 HTML
+   Markdown → HTML
 ===================================================== */
 
 function markdownToHtml(markdown) {
 
   const lines =
-    markdown
+    String(markdown)
       .replace(/\r\n/g, "\n")
       .split("\n");
-
 
   let html = "";
 
@@ -658,7 +594,6 @@ function markdownToHtml(markdown) {
       inUl = false;
     }
 
-
     if (inOl) {
 
       html += "</ol>";
@@ -677,9 +612,7 @@ function markdownToHtml(markdown) {
     const line = lines[i];
 
 
-    /*
-     * 代码块
-     */
+    /* 代码块 */
 
     if (
       line.trim().startsWith("```")
@@ -718,9 +651,7 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 空行
-     */
+    /* 空行 */
 
     if (line.trim() === "") {
 
@@ -730,11 +661,11 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 一级标题
-     */
+    /* 一级标题 */
 
-    if (line.startsWith("# ")) {
+    if (
+      line.startsWith("# ")
+    ) {
 
       closeLists();
 
@@ -749,11 +680,11 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 二级标题
-     */
+    /* 二级标题 */
 
-    if (line.startsWith("## ")) {
+    if (
+      line.startsWith("## ")
+    ) {
 
       closeLists();
 
@@ -768,11 +699,11 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 三级标题
-     */
+    /* 三级标题 */
 
-    if (line.startsWith("### ")) {
+    if (
+      line.startsWith("### ")
+    ) {
 
       closeLists();
 
@@ -787,9 +718,7 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 无序列表
-     */
+    /* 无序列表 */
 
     if (
       /^\s*[-*]\s+/.test(line)
@@ -802,7 +731,6 @@ function markdownToHtml(markdown) {
         inOl = false;
       }
 
-
       if (!inUl) {
 
         html += "<ul>";
@@ -810,27 +738,22 @@ function markdownToHtml(markdown) {
         inUl = true;
       }
 
-
       const content =
         line.replace(
           /^\s*[-*]\s+/,
           ""
         );
 
-
       html +=
         "<li>" +
         inlineMarkdown(content) +
         "</li>";
 
-
       continue;
     }
 
 
-    /*
-     * 有序列表
-     */
+    /* 有序列表 */
 
     if (
       /^\s*\d+\.\s+/.test(line)
@@ -843,7 +766,6 @@ function markdownToHtml(markdown) {
         inUl = false;
       }
 
-
       if (!inOl) {
 
         html += "<ol>";
@@ -851,27 +773,22 @@ function markdownToHtml(markdown) {
         inOl = true;
       }
 
-
       const content =
         line.replace(
           /^\s*\d+\.\s+/,
           ""
         );
 
-
       html +=
         "<li>" +
         inlineMarkdown(content) +
         "</li>";
 
-
       continue;
     }
 
 
-    /*
-     * 引用
-     */
+    /* 引用 */
 
     if (
       line.startsWith("> ")
@@ -890,9 +807,7 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 分割线
-     */
+    /* 分割线 */
 
     if (
       /^---+$/.test(
@@ -908,9 +823,7 @@ function markdownToHtml(markdown) {
     }
 
 
-    /*
-     * 普通段落
-     */
+    /* 普通段落 */
 
     closeLists();
 
@@ -923,10 +836,6 @@ function markdownToHtml(markdown) {
 
   closeLists();
 
-
-  /*
-   * 防止代码块没有闭合
-   */
 
   if (inCodeBlock) {
 
@@ -942,144 +851,7 @@ function markdownToHtml(markdown) {
 
 
 /* =====================================================
-   6. 读取 YAML Front Matter
-===================================================== */
-
-function parseFrontMatter(text) {
-
-  const result = {
-
-    title: "",
-
-    date: "",
-
-    category: "",
-
-    body: text
-
-  };
-
-
-  /*
-   * 如果没有 Front Matter
-   */
-
-  if (
-    !text.startsWith("---")
-  ) {
-
-    return result;
-  }
-
-
-  /*
-   * 找第二个 ---
-   */
-
-  const endIndex =
-    text.indexOf(
-      "\n---",
-      3
-    );
-
-
-  if (
-    endIndex === -1
-  ) {
-
-    return result;
-  }
-
-
-  const frontMatter =
-    text.substring(
-      3,
-      endIndex
-    );
-
-
-  const body =
-    text.substring(
-      endIndex + 4
-    );
-
-
-  /*
-   * 解析 Front Matter
-   */
-
-  frontMatter
-    .split("\n")
-    .forEach(line => {
-
-      const match =
-        line.match(
-          /^([^:]+):\s*(.*)$/
-        );
-
-
-      if (!match) {
-        return;
-      }
-
-
-      const key =
-        match[1].trim();
-
-
-      let value =
-        match[2].trim();
-
-
-      /*
-       * 去掉可能存在的引号
-       */
-
-      value =
-        value
-          .replace(/^["']/, "")
-          .replace(/["']$/, "");
-
-
-      if (
-        key === "title"
-      ) {
-
-        result.title =
-          value;
-      }
-
-
-      if (
-        key === "date"
-      ) {
-
-        result.date =
-          value;
-      }
-
-
-      if (
-        key === "category"
-      ) {
-
-        result.category =
-          value;
-      }
-
-    });
-
-
-  result.body =
-    body.trim();
-
-
-  return result;
-}
-
-
-/* =====================================================
-   7. 显示错误
+   显示错误
 ===================================================== */
 
 function showError(
@@ -1092,18 +864,15 @@ function showError(
   ).textContent =
     title;
 
-
   document.getElementById(
     "articleDate"
   ).textContent =
     "";
 
-
   document.getElementById(
     "articleCategory"
   ).textContent =
     "";
-
 
   document.getElementById(
     "articleContent"
@@ -1113,11 +882,11 @@ function showError(
       <div class="error-box">
 
         <div class="error-title">
-          ${title}
+          ${escapeHtml(title)}
         </div>
 
         <div>
-          ${message}
+          ${escapeHtml(message)}
         </div>
 
       </div>
@@ -1126,13 +895,13 @@ function showError(
 
 
 /* =====================================================
-   8. 读取文章
+   从 posts.json 读取文章
 ===================================================== */
 
 async function loadArticle() {
 
   /*
-   * 获取 URL 中的 ?post=
+   * 获取网址中的 post 参数
    *
    * 例如：
    *
@@ -1144,16 +913,13 @@ async function loadArticle() {
       window.location.search
     );
 
-
-  const post =
+  const postSlug =
     params.get("post");
 
 
-  /*
-   * 没有文章名称
-   */
+  /* 没有指定文章 */
 
-  if (!post) {
+  if (!postSlug) {
 
     showError(
       "没有指定文章",
@@ -1164,88 +930,66 @@ async function loadArticle() {
   }
 
 
-  /*
-   * 文章地址
-   *
-   * 这里非常重要：
-   *
-   * 直接从当前 GitHub Pages
-   * 网站读取 Markdown。
-   */
-
-  const url =
-    POSTS_PATH +
-    encodeURIComponent(post) +
-    ".md";
-
-
   try {
 
-    console.log(
-      "正在读取文章：",
-      url
-    );
-
+    /*
+     * 读取 posts.json
+     */
 
     const response =
       await fetch(
-        url + "?v=" + Date.now()
+        POSTS_JSON +
+        "?v=" +
+        Date.now()
       );
 
 
-    /*
-     * HTTP 状态不是 200
-     */
-
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
 
       throw new Error(
-        "HTTP " +
+        "posts.json HTTP " +
         response.status
       );
     }
 
 
     /*
-     * 获取 Markdown
+     * 转成 JSON
      */
 
-    const markdown =
-      await response.text();
-
-
-    console.log(
-      "文章读取成功"
-    );
+    const posts =
+      await response.json();
 
 
     /*
-     * 解析文章
+     * 找到当前文章
      */
 
     const article =
-      parseFrontMatter(
-        markdown
+      posts.find(
+        post =>
+          post.slug === postSlug
       );
 
 
     /*
-     * 标题
+     * 没找到文章
      */
 
-    if (
-      !article.title
-    ) {
+    if (!article) {
 
-      article.title =
-        "未命名文章";
+      showError(
+        "找不到这篇文章",
+        "posts.json 中没有找到：" +
+        postSlug
+      );
+
+      return;
     }
 
 
     /*
-     * 浏览器标题
+     * 页面标题
      */
 
     document.title =
@@ -1254,7 +998,7 @@ async function loadArticle() {
 
 
     /*
-     * 页面标题
+     * 文章标题
      */
 
     document.getElementById(
@@ -1309,30 +1053,28 @@ async function loadArticle() {
       "articleContent"
     ).innerHTML =
       markdownToHtml(
-        article.body
+        article.body || ""
       );
 
 
   } catch (error) {
 
     console.error(
-      "文章读取失败：",
+      "读取 posts.json 失败：",
       error
     );
 
 
     showError(
       "文章读取失败",
-      "找不到这篇文章，请检查 GitHub 上的 Markdown 文件。"
+      "无法读取 posts.json，请稍后再试。"
     );
-
   }
-
 }
 
 
 /* =====================================================
-   9. 启动
+   启动
 ===================================================== */
 
 loadArticle();
