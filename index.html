@@ -134,7 +134,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .duo .newslist li a{font-size:15px}
 
 /* ---------- 统计（黑底大数字） ---------- */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;max-width:880px;margin:0 auto}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;max-width:980px;margin:0 auto}
 .stat-col span{display:block;font-size:13px;color:var(--ink-3);margin-bottom:8px}
 .bignum{display:block;font-size:clamp(38px,5vw,56px);font-weight:600;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink)}
 .stat-note{margin-top:40px;font-size:12.5px;color:var(--ink-3)}
@@ -387,6 +387,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       <div class="stat-col"><span>运行天数</span><b class="bignum" id="runDaysSide">0 天</b></div>
       <div class="stat-col"><span>累计字数</span><b class="bignum" id="wordCount">—</b></div>
       <div class="stat-col"><span>标签数量</span><b class="bignum" id="tagCount">1 个</b></div>
+      <div class="stat-col"><span>访问量</span><b class="bignum" id="visitCount">—</b></div>
     </div>
     <p class="stat-note">静态页面 · 由 GitHub Pages 驱动</p>
   </div>
@@ -541,7 +542,7 @@ window.OC = window.OC || {};
       .catch(function(){ return null; });
   }
   window.OCReady = Promise.all([
-    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json'), get('contributions.json')
+    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json'), get('contributions.json'), get('visits.json')
   ]).then(function(a){
     var OC = window.OC;
     OC.posts = Array.isArray(a[0]) ? a[0].filter(function(p){ return p && p.slug; }) : [];
@@ -550,6 +551,7 @@ window.OC = window.OC || {};
     OC.updates = Array.isArray(a[3]) ? a[3] : [];
     OC.projects = Array.isArray(a[4]) ? a[4] : [];
     OC.contrib = a[5] || null;
+    OC.visits = a[6] || null;
     return OC;
   }).catch(function(){ return window.OC; });
 })();
@@ -684,6 +686,19 @@ window.OC = window.OC || {};
     if(ab && site.aboutBody){
       var html=mdLite(site.aboutBody);
       if(html) ab.innerHTML=html;
+    }
+
+    /* 访问量（构建时从 Cloudflare 取，写在 visits.json；取不到就显示占位） */
+    var vc=document.getElementById('visitCount');
+    if(vc){
+      var v=OC.visits;
+      if(v && typeof v.pageviews==='number' && v.pageviews>=0){
+        vc.textContent=v.pageviews+' 次';
+        if(typeof v.visits==='number') vc.title='独立访客 '+v.visits+' 人（自 '+(v.since||'接入统计那天')+' 起）';
+      }else{
+        vc.textContent='统计中';
+        if(v && v.error) vc.title='统计数据暂不可用';
+      }
     }
 
     /* GitHub 活跃热力图（数据由构建脚本抓取，只渲染，不再请求外部） */
