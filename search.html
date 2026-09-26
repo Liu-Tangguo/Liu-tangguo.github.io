@@ -187,14 +187,32 @@ window.OC = window.OC || {};
 })();
 </script>
 <script>
-/* 时钟：顶部工具条里的本地时间 */
+/* 时钟 + 日期/运行天数
+   - #today 在首页由基线脚本填充（格式不同），所以只在内容仍是占位符时才写，避免覆盖
+   - #footer-date / #run-days 只存在于静态文章页，直接算出来写（否则模板里的旧值会一直留着） */
 (function(){
-  var el=document.getElementById('clock');
-  if(!el) return;
-  function p(n){ return n<10?'0'+n:''+n; }
+  var WD=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  var START=new Date(2026,8,26); /* 建站日 2026-09-26 */
+  function p2(v){ return v<10?'0'+v:''+v; }
+  function dateStr(d){ return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
+  function days(){
+    var now=new Date();
+    var a=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+    return Math.max(0, Math.floor((a-START)/86400000));
+  }
+  function isPlaceholder(el){
+    return !el.textContent || /获取|加载|\.\.\.|^\s*$/.test(el.textContent);
+  }
   function tick(){
     var d=new Date();
-    el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+    var el=document.getElementById('clock');
+    if(el) el.textContent=p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds());
+    var t=document.getElementById('today');
+    if(t && isPlaceholder(t)) t.textContent=dateStr(d)+' '+WD[d.getDay()];
+    var fd=document.getElementById('footer-date');
+    if(fd) fd.textContent=dateStr(d);
+    var rd=document.getElementById('run-days');
+    if(rd) rd.textContent=String(days());
   }
   tick();
   setInterval(tick,1000);
@@ -266,6 +284,41 @@ window.OC = window.OC || {};
   try{ init=String(new URLSearchParams(location.search).get('q')||'').trim(); }catch(e){}
   if(init){ q.value=init; run(); }
   else { q.focus(); }
+})();
+</script>
+<script>
+/* 访问统计：只有站点设置里填了 Cloudflare 令牌才会加载 beacon（留空 = 完全不请求外部）
+   接受两种填法：① 只填令牌  ② 整段粘贴 Cloudflare 给的代码（自动提取 token） */
+(function(){
+  var BEACON='https://static.cloudflareinsights.com/beacon.min.js';
+  function extract(raw){
+    var s=String(raw||'').trim();
+    if(!s) return '';
+    var m=s.match(/token["']?\s*[:=]\s*["']([^"']+)["']/i);
+    if(m) return m[1].trim();
+    m=s.match(/[0-9a-f]{16,64}/i);
+    if(m) return m[0];
+    return s.replace(/["'<>\s]/g,'');
+  }
+  function inject(token){
+    if(!token) return;
+    if(document.querySelector('script[data-cf-beacon]')) return;
+    var s=document.createElement('script');
+    s.type='module';
+    s.src=BEACON;
+    var payload={};
+    payload.token=token;
+    s.setAttribute('data-cf-beacon', JSON.stringify(payload));
+    document.head.appendChild(s);
+  }
+  function run(){
+    fetch('site.json?_='+Date.now(),{cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){ if(j && j.cfToken) inject(extract(j.cfToken)); })
+      .catch(function(){});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run);
+  else run();
 })();
 </script>
 </body>

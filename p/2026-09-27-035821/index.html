@@ -345,22 +345,34 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 })();
 </script>
 <script>
-/* 访问统计：只有站点设置里填了 Cloudflare 令牌才会加载 beacon（留空 = 完全不请求外部） */
+/* 访问统计：只有站点设置里填了 Cloudflare 令牌才会加载 beacon（留空 = 完全不请求外部）
+   接受两种填法：① 只填令牌  ② 整段粘贴 Cloudflare 给的代码（自动提取 token） */
 (function(){
   var BEACON='https://static.cloudflareinsights.com/beacon.min.js';
+  function extract(raw){
+    var s=String(raw||'').trim();
+    if(!s) return '';
+    var m=s.match(/token["']?\s*[:=]\s*["']([^"']+)["']/i);
+    if(m) return m[1].trim();
+    m=s.match(/[0-9a-f]{16,64}/i);
+    if(m) return m[0];
+    return s.replace(/["'<>\s]/g,'');
+  }
   function inject(token){
     if(!token) return;
     if(document.querySelector('script[data-cf-beacon]')) return;
     var s=document.createElement('script');
-    s.defer=true;
+    s.type='module';
     s.src=BEACON;
-    s.setAttribute('data-cf-beacon', JSON.stringify({token:token}));
+    var payload={};
+    payload.token=token;
+    s.setAttribute('data-cf-beacon', JSON.stringify(payload));
     document.head.appendChild(s);
   }
   function run(){
     fetch('site.json?_='+Date.now(),{cache:'no-store'})
       .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(j){ if(j && j.cfToken) inject(String(j.cfToken).trim()); })
+      .then(function(j){ if(j && j.cfToken) inject(extract(j.cfToken)); })
       .catch(function(){});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run);
