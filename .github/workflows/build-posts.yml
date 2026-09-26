@@ -7,7 +7,7 @@ on:
     paths:
       - "content/**"
       - ".github/workflows/build-posts.yml"
-      - ".github/scripts/build-data.py"
+      - ".github/scripts/**"
       - "index.html"
       - "post.html"
       - ".pages.yml"
