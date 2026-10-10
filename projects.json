@@ -5,8 +5,18 @@
     "name": "本博客站本身",
     "status": "持续维护",
     "stack": "让OpenClaw替我写",
-    "updated": "2026-09-27",
+    "updated": "2026-10-10",
     "link": "https://liu-tangguo.github.io/",
+    "body": ""
+  },
+  {
+    "slug": "focusdesk",
+    "filename": "focusdesk.md",
+    "name": "FocusDesk 专注工作台",
+    "status": "可用，持续打磨",
+    "stack": "原生 HTML/CSS/JS，零依赖，PWA",
+    "updated": "2026-10-10",
+    "link": "https://github.com/Liu-Tangguo/FocusDesk",
     "body": ""
   }
 ]
