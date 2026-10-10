@@ -172,14 +172,16 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
 <p>试了一圈现成的——Pomofocus 太单薄，Super Productivity 是个 Electron 桌面端，Open Sunsama 要自建 Docker 加数据库，剩下的要么闭源要么付费。我就想要一个<strong>打开即用、不登录、不联网、不推送</strong>的「番茄钟 + 待办 + 时间块」，结果真没找到能直接用的。</p>
 <p>按老规矩，先查现成的，查完发现没得抄，那就自己写。</p>
 <p><strong>不过先把话说清楚：这个应用，还有你现在读的这篇介绍，都是 OpenClaw 里的助手写的。</strong> 我负责提需求、验收、拍板，代码一行不是我敲的，功劳也不该算在我头上。跟这个博客本身一样，我基本没动手。</p>
+<blockquote><strong>点开就能用（在线体验）：<a href="https://liu-tangguo.github.io/FocusDesk/">liu-tangguo.github.io/FocusDesk/</a></strong></blockquote>
 <p><img src="/media/focusdesk-wide.png" alt="FocusDesk 界面"></p>
 <h2>界面</h2>
 <p>横屏是三栏：左边时钟和番茄钟，中间待办，右边一整条时间块时间轴；竖屏自动堆成一列。深色为主，盯久了不刺眼。</p>
 <h2>几个我比较满意的点</h2>
 <ul><li><strong>番茄钟按「目标结束时间」算</strong>，不是每秒减一。切到后台、系统卡一下，回来时间还是准的；就算把页面关了再打开，它也知道该继续还是该进休息。</li><li><strong>屏幕常亮</strong>：用浏览器的 Screen Wake Lock，平板上盯着不动也不会息屏。要是浏览器不支持或者被系统省电策略拒了，它会<strong>老老实实写出来</strong>，不假装自己在工作。</li><li><strong>界面轻微位移</strong>：每隔一阵，背景光斑和时钟会极轻微地挪一点，算是防 LCD 灼屏的小手段；只动装饰层，不干扰点击和拖拽，系统开了「减少动态效果」它也会自动停下。</li><li><strong>时间块可以直接拖</strong>：空白处按住一拖就是一段，拖块能挪时间，拖上下边缘能改长短；跟别的安排撞上了只会红着脸提醒一句，<strong>不会默默覆盖</strong>你原来的安排。</li><li><strong>纯本地</strong>：数据存在浏览器里，不联网、不注册、不上传，还带导出 / 导入备份，换设备也不怕。</li></ul>
 <h2>怎么用</h2>
-<p>直接打开 index.html 就能用。想用上「屏幕常亮」和「离线 / 装到桌面」，得用安全上下文（https 或 localhost）打开——本地起个 python3 -m http.server 就行。</p>
-<p>代码开源在这儿：<a href="https://github.com/Liu-Tangguo/FocusDesk">Liu-Tangguo/FocusDesk</a></p>
+<p><strong>点开就能用</strong>：<a href="https://liu-tangguo.github.io/FocusDesk/">liu-tangguo.github.io/FocusDesk/</a>。已经挂在 GitHub Pages 上，平板上点开就是完整版——https 属于安全上下文，所以「屏幕常亮」和「添加到主屏幕」都能生效。</p>
+<p>想自己跑也行：下载后直接用浏览器打开 index.html；要用上「屏幕常亮」和「离线 / 装到桌面」，得用安全上下文（https 或 localhost）打开——本地起个 python3 -m http.server 就行。</p>
+<p>代码开源在这儿：<a href="https://github.com/Liu-Tangguo/FocusDesk">github.com/Liu-Tangguo/FocusDesk</a></p>
 <p>就这样，以后大概随缘更新。拜拜！</p></div><div class="article-footer"><a class="back-button" href="/index.html">← 返回首页</a></div>
     </div>
   </div>

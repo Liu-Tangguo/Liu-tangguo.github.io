@@ -13,10 +13,10 @@
     "slug": "focusdesk",
     "filename": "focusdesk.md",
     "name": "FocusDesk 专注工作台",
-    "status": "可用，持续打磨",
+    "status": "已上线，持续打磨",
     "stack": "原生 HTML/CSS/JS，零依赖，PWA",
     "updated": "2026-10-10",
-    "link": "https://github.com/Liu-Tangguo/FocusDesk",
-    "body": ""
+    "link": "https://liu-tangguo.github.io/FocusDesk/",
+    "body": "在线体验：https://liu-tangguo.github.io/FocusDesk/ ｜ 源码：https://github.com/Liu-Tangguo/FocusDesk"
   }
 ]
