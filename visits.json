@@ -1,7 +1,11 @@
 {
-  "pageviews": 70,
-  "visits": 40,
+  "pageviews": 0,
+  "visits": null,
   "since": "2026-09-26",
   "refresh": "每 3 小时自动刷新（北京时间）",
-  "updatedAt": "2026-10-14T08:18:38+00:00"
+  "updatedAt": "2026-10-14T14:16:03+00:00",
+  "diagnostic": {
+    "accountPageviews": 70,
+    "siteTag": "0bc03350b76542df97ceead3ff7e943e"
+  }
 }
