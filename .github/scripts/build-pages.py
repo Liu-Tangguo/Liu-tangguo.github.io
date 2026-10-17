@@ -3,14 +3,22 @@
 #   - 正文在构建时就渲染进 HTML（社交平台爬虫不执行 JS，必须预渲染）
 #   - 带 og:*/twitter:* 分享标签与 canonical、JSON-LD
 #   - 模板取自 .github/scripts/template-post.html
+# 另外两件事：
+#   - 删掉文章已不存在的旧静态页（只写不删会让已删文章一直挂在线上）
+#   - 把 index.html 里的静态兜底值刷新成最新数据，禁用 JS 时看到的也是准的
 # 同时把 post.html 写成跳转页，保证旧链接 post.html?post=<slug> 仍然可用。
+import datetime
 import html
 import json
 import re
+import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TEMPLATE = Path(__file__).resolve().parent / "template-post.html"
+INDEX = ROOT / "index.html"
+# 与 index.html 里 JS 的 START_DATE 保持一致（建站日）
+START_DATE = datetime.date(2026, 9, 26)
 SITE_NAME = "Tangguo的Blog"
 SITE_URL = "https://liu-tangguo.github.io"
 
@@ -160,6 +168,62 @@ def article_block(post):
             '<div class="article-footer"><a class="back-button" href="/index.html">← 返回首页</a></div>')
 
 
+def plain(md):
+    t = re.sub(r"```.*?```", " ", str(md or ""), flags=re.S)
+    t = re.sub(r"(?m)^\s*[-*+]\s+", "", t)
+    t = re.sub(r"[#>*_`\[\]()!]", "", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def refresh_index(posts, updated):
+    """刷新 index.html 里的静态兜底值（禁用 JS 的访客 / 不执行 JS 的爬虫看到的就是它）。
+    JS 运行时仍会用 posts.json 覆盖这些值，两边保持一致，不会互相打架。"""
+    if not INDEX.exists() or not posts:
+        return
+    text = INDEX.read_text(encoding="utf-8")
+    orig = text
+    first = posts[0]
+    slug = first.get("slug")
+    title = esc(first.get("title") or slug)
+    summary_text = plain(first.get("body"))
+    summary = esc(summary_text[:140] + ("…" if len(summary_text) > 140 else ""))
+    meta = '%s <em>|</em> 分类：<a href="#">%s</a>' % (
+        esc(first.get("date") or ""), esc(first.get("category") or "未分类"))
+    cover = first.get("cover")
+    fig = ('<i>头条</i><img src="%s" alt="%s">' % (esc(cover), esc(title))) if cover else "<i>头条</i>暂无封面图"
+    cats = len({(p.get("category") or "未分类") for p in posts})
+
+    def sub(pattern, repl, text):
+        return re.sub(pattern, lambda m: repl, text, count=1)
+
+    text = sub(r'<h3><a id="featuredTitle" href="[^"]*">.*?</a></h3>',
+               '<h3><a id="featuredTitle" href="/p/%s/">%s</a></h3>' % (slug, title), text)
+    text = sub(r'<p class="sum" id="featuredSummary">.*?</p>',
+               '<p class="sum" id="featuredSummary">%s</p>' % summary, text)
+    text = sub(r'<p class="meta" id="featuredMeta">.*?</p>',
+               '<p class="meta" id="featuredMeta">%s</p>' % meta, text)
+    text = sub(r'<div class="tn-fig" id="featuredFig">.*?</div>',
+               '<div class="tn-fig" id="featuredFig">%s</div>' % fig, text)
+    text = sub(r'<a class="btn btn-primary" id="heroRead" href="[^"]*">',
+               '<a class="btn btn-primary" id="heroRead" href="/p/%s/">' % slug, text)
+    text = sub(r'<b class="bignum" id="postCount">.*?</b>',
+               '<b class="bignum" id="postCount">%d 篇</b>' % len(posts), text)
+    text = sub(r'<b class="bignum" id="tagCount">.*?</b>',
+               '<b class="bignum" id="tagCount">%d 个</b>' % cats, text)
+    if updated:
+        text = sub(r'<span id="lastUpdate">.*?</span>',
+                   '<span id="lastUpdate">%s</span>' % esc(updated), text)
+    days = max(0, (datetime.date.today() - START_DATE).days)
+    text = sub(r'<span id="runDays">\d+</span>', '<span id="runDays">%d</span>' % days, text)
+    text = sub(r'<b class="bignum" id="runDaysSide">\d+ 天</b>', '<b class="bignum" id="runDaysSide">%d 天</b>' % days, text)
+    text = sub(r'<span id="runDaysFooter">\d+</span>', '<span id="runDaysFooter">%d</span>' % days, text)
+    if text != orig:
+        INDEX.write_text(text, encoding="utf-8")
+        print("index.html: 静态兜底已刷新（头条 %s / %d 篇）" % (slug, len(posts)))
+    else:
+        print("index.html: 静态兜底无变化")
+
+
 def main():
     posts = json.loads((ROOT / "posts.json").read_text(encoding="utf-8"))
     tpl = TEMPLATE.read_text(encoding="utf-8")
@@ -179,6 +243,24 @@ def main():
     print("static pages: %d" % len(made))
     for s in made:
         print("  p/%s/" % s)
+
+    # 删掉文章已不存在的旧静态页，否则这些 URL 会一直挂在线上被访问/收录
+    p_root = ROOT / "p"
+    keep = set(made)
+    if p_root.is_dir() and keep:
+        for d in sorted(p_root.iterdir()):
+            if d.is_dir() and d.name not in keep:
+                shutil.rmtree(d)
+                print("  rm p/%s/（文章已删除）" % d.name)
+
+    site_file = ROOT / "site.json"
+    updated = ""
+    if site_file.exists():
+        try:
+            updated = json.loads(site_file.read_text(encoding="utf-8")).get("updatedAt") or ""
+        except ValueError:
+            updated = ""
+    refresh_index(posts, updated)
 
 
 if __name__ == "__main__":
