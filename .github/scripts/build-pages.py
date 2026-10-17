@@ -19,6 +19,8 @@ TEMPLATE = Path(__file__).resolve().parent / "template-post.html"
 INDEX = ROOT / "index.html"
 # 与 index.html 里 JS 的 START_DATE 保持一致（建站日）
 START_DATE = datetime.date(2026, 9, 26)
+# 站点按北京时间算「运行天数」；CI 跑在 UTC，不能直接用 runner 的本地日期
+CST = datetime.timezone(datetime.timedelta(hours=8))
 SITE_NAME = "Tangguo的Blog"
 SITE_URL = "https://liu-tangguo.github.io"
 
@@ -213,7 +215,7 @@ def refresh_index(posts, updated):
     if updated:
         text = sub(r'<span id="lastUpdate">.*?</span>',
                    '<span id="lastUpdate">%s</span>' % esc(updated), text)
-    days = max(0, (datetime.date.today() - START_DATE).days)
+    days = max(0, (datetime.datetime.now(CST).date() - START_DATE).days)
     text = sub(r'<span id="runDays">\d+</span>', '<span id="runDays">%d</span>' % days, text)
     text = sub(r'<b class="bignum" id="runDaysSide">\d+ 天</b>', '<b class="bignum" id="runDaysSide">%d 天</b>' % days, text)
     text = sub(r'<span id="runDaysFooter">\d+</span>', '<span id="runDaysFooter">%d</span>' % days, text)
