@@ -111,7 +111,10 @@ def md_to_html(md):
     return "\n".join(out)
 
 
-def excerpt(post, limit=110):
+def excerpt(post, limit=140):
+    s = str(post.get("summary") or "").strip()
+    if s:
+        return s
     t = re.sub(r"[#>*_`\[\]()!]", "", str(post.get("body") or ""))
     t = re.sub(r"\s+", " ", t).strip()
     return (t[:limit] + "…") if len(t) > limit else t
@@ -189,7 +192,7 @@ def refresh_index(posts, updated):
     title = esc(first.get("title") or slug)
     summary_text = plain(first.get("body"))
     summary = esc(summary_text[:140] + ("…" if len(summary_text) > 140 else ""))
-    meta = '%s <em>|</em> 分类：<a href="#">%s</a>' % (
+    meta = '%s <em>|</em> 分类：%s' % (
         esc(first.get("date") or ""), esc(first.get("category") or "未分类"))
     cover = first.get("cover")
     fig = ('<i>头条</i><img src="%s" alt="%s">' % (esc(cover), esc(title))) if cover else "<i>头条</i>暂无封面图"
@@ -198,8 +201,8 @@ def refresh_index(posts, updated):
     def sub(pattern, repl, text):
         return re.sub(pattern, lambda m: repl, text, count=1)
 
-    text = sub(r'<h3><a id="featuredTitle" href="[^"]*">.*?</a></h3>',
-               '<h3><a id="featuredTitle" href="/p/%s/">%s</a></h3>' % (slug, title), text)
+    text = sub(r'<h1><a id="featuredTitle" href="[^"]*">.*?</a></h1>',
+               '<h1><a id="featuredTitle" href="/p/%s/">%s</a></h1>' % (slug, title), text)
     text = sub(r'<p class="sum" id="featuredSummary">.*?</p>',
                '<p class="sum" id="featuredSummary">%s</p>' % summary, text)
     text = sub(r'<p class="meta" id="featuredMeta">.*?</p>',
@@ -215,10 +218,6 @@ def refresh_index(posts, updated):
     if updated:
         text = sub(r'<span id="lastUpdate">.*?</span>',
                    '<span id="lastUpdate">%s</span>' % esc(updated), text)
-    days = max(0, (datetime.datetime.now(CST).date() - START_DATE).days)
-    text = sub(r'<span id="runDays">\d+</span>', '<span id="runDays">%d</span>' % days, text)
-    text = sub(r'<b class="bignum" id="runDaysSide">\d+ 天</b>', '<b class="bignum" id="runDaysSide">%d 天</b>' % days, text)
-    text = sub(r'<span id="runDaysFooter">\d+</span>', '<span id="runDaysFooter">%d</span>' % days, text)
     if text != orig:
         INDEX.write_text(text, encoding="utf-8")
         print("index.html: 静态兜底已刷新（头条 %s / %d 篇）" % (slug, len(posts)))
@@ -263,6 +262,60 @@ def main():
         except ValueError:
             updated = ""
     refresh_index(posts, updated)
+
+    # /p/ 目录页：GitHub Pages 直接访问 /p/ 会 404，这里给一个纯静态的文章索引
+    items = []
+    for post in posts:
+        slug = post.get("slug")
+        if not slug:
+            continue
+        items.append('<li><a href="/p/%s/">%s</a><span>%s</span></li>' % (
+            esc(slug), esc(post.get("title") or slug), esc(post.get("date") or "")))
+    p_list = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>文章索引 · Tangguo的Blog</title>
+<meta name="robots" content="noindex,follow">
+<link rel="icon" href="/media/logo.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:light dark;--fg:#1d1d1f;--mut:#6b6b70;--bg:#fff;--line:rgba(0,0,0,.08);--blue:#0071e3}
+@media (prefers-color-scheme:dark){:root{--fg:#f5f5f7;--mut:#a1a1a6;--bg:#000;--line:rgba(255,255,255,.14);--blue:#0a84ff}}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:48px 22px}
+main{max-width:720px;margin:0 auto}
+h1{font-size:26px;margin-bottom:6px}
+p.sub{color:var(--mut);font-size:14px;margin-bottom:26px}
+ul{list-style:none}
+li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px}
+a{color:inherit;text-decoration:none;font-weight:600}
+a:hover{color:var(--blue)}
+span{color:var(--mut);font-size:13px;white-space:nowrap}
+</style>
+</head>
+<body>
+<main>
+<h1>文章索引</h1>
+<p class="sub">共 %d 篇 · <a href="/">回首页</a></p>
+<ul>
+%s
+</ul>
+</main>
+</body>
+</html>
+""" % (len(items), "\n".join(items))
+    p_root.mkdir(exist_ok=True)
+    (p_root / "index.html").write_text(p_list, encoding="utf-8")
+
+    # sitemap：首页 + 全部文章页（搜索页 noindex，不进 sitemap）
+    lastmod = updated or datetime.datetime.now(CST).strftime("%Y-%m-%d")
+    urls = [SITE_URL + "/"] + ["%s/p/%s/" % (SITE_URL, s) for s in made]
+    body = "\n".join("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, lastmod) for u in urls)
+    (ROOT / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s\n</urlset>\n' % body,
+        encoding="utf-8")
 
 
 if __name__ == "__main__":

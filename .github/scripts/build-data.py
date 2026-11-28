@@ -64,7 +64,7 @@ def write_json(name, data):
 
 
 # ---------- 读取内容 ----------
-posts = load("posts", ["title", "date", "category", "cover"])
+posts = load("posts", ["title", "date", "category", "cover", "summary"])
 for p in posts:
     p["title"] = p["title"] or p["slug"]
     p["category"] = p["category"] or "未分类"

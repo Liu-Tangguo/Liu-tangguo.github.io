@@ -6,10 +6,15 @@ on:
       - main
     paths:
       - "content/**"
+      - "media/**"
       - ".github/workflows/build-posts.yml"
       - ".github/scripts/**"
       - "index.html"
       - "post.html"
+      - "search.html"
+      - "404.html"
+      - "assets/**"
+      - "robots.txt"
       - ".pages.yml"
 
   schedule:
@@ -19,6 +24,10 @@ on:
 
 permissions:
   contents: write
+
+concurrency:
+  group: build-posts
+  cancel-in-progress: false
 
 jobs:
   build-posts:
@@ -54,7 +63,7 @@ jobs:
 
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add posts.json notices.json updates.json projects.json site.json contributions.json visits.json p index.html
+          git add posts.json notices.json updates.json projects.json site.json contributions.json visits.json sitemap.xml p index.html
 
           if git diff --cached --quiet; then
 

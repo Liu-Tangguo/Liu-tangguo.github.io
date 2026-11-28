@@ -109,6 +109,10 @@ def discover_tag(token, account):
 
 def main():
     out = ROOT / 'visits.json'
+    try:
+        prev = json.loads(out.read_text(encoding='utf-8'))
+    except Exception:
+        prev = {}
     token = (os.environ.get('CF_' + 'API_TOKEN') or '').strip()
     account = (os.environ.get('CF_ACCOUNT_ID') or '').strip()
     try:
@@ -122,7 +126,8 @@ def main():
     pv, uv, err = totals(token, account, tag)
     if err:
         print('visits: 取数失败 -> %s' % err)
-        out.write_text(json.dumps({'error': err, 'refresh': refresh_note(), 'updatedAt': now},
+        stamp = prev.get('updatedAt') if prev.get('error') == err else now
+        out.write_text(json.dumps({'error': err, 'refresh': refresh_note(), 'updatedAt': stamp or now},
                                   ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
         return
     if pv == 0:                     # 兜底：反查正确 siteTag 再试一次
@@ -133,10 +138,15 @@ def main():
                 print('visits: 换用反查到的 siteTag %s' % found[:8])
                 pv, uv, tag = pv2, uv2, found
     data = {'pageviews': pv, 'visits': uv, 'since': SINCE[:10],
-            'refresh': refresh_note(), 'updatedAt': now}
+            'refresh': refresh_note()}
     if pv == 0:                     # 只在没数据时附诊断，正常时保持精简
         probe, _uv, _e = totals(token, account, None)
         data['diagnostic'] = {'accountPageviews': probe, 'siteTag': tag}
+    unchanged = (prev.get('pageviews') == data['pageviews']
+                 and prev.get('visits') == data['visits']
+                 and prev.get('diagnostic') == data.get('diagnostic')
+                 and prev.get('refresh') == data['refresh'])
+    data['updatedAt'] = (prev.get('updatedAt') or now) if unchanged else now
     out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print('visits: 页面浏览 %s / 访问 %s' % (pv, uv))
 

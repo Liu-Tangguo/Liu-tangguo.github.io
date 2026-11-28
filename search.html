@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>搜索 · Tangguo的Blog</title>
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="按标题、正文和分类检索 Tangguo的Blog 里的全部文章。">
 <meta name="color-scheme" content="light dark">
 <script>/* 主题：先于样式设置，避免闪白 */ (function(){try{
   var q=null; try{ q=new URLSearchParams(location.search).get('theme'); }catch(e){}
@@ -19,7 +21,7 @@
   --bg:#fff; --nav-bg:rgba(255,255,255,.72);
   --fill-1:rgba(0,0,0,.05); --fill-2:rgba(0,0,0,.08); --fill-solid:#fff;
   --border-strong:rgba(0,0,0,.16); --mark-bg:rgba(255,214,10,.35);
-  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --ink:#1d1d1f; --ink-2:#5c5c61; --ink-3:#6b6b70;
   --line:rgba(0,0,0,.08);
   --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc;
   --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
@@ -33,6 +35,7 @@ img{max-width:100%;height:auto}
 input,button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;outline:0}
 ::selection{background:var(--blue);color:#fff}
 .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
 
 .topbar{position:sticky;top:0;z-index:30;background:var(--nav-bg);border-bottom:1px solid var(--line);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
 .topbar-inner{max-width:1040px;margin:0 auto;padding:0 22px;height:48px;display:flex;align-items:center;justify-content:space-between;gap:20px}
@@ -98,19 +101,23 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-betw
   .searchbox{flex-wrap:wrap}
   .searchbox button{width:100%}
 }
+@media (max-width:560px){
+  .site-info{display:none}
+  .themebtn{width:44px;height:44px}
+}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <div class="topbar-inner">
-    <a class="site-name" href="index.html"><img src="media/logo.svg" alt="" width="26" height="26"><span>Tangguo的Blog</span></a>
+    <a class="site-name" href="/"><img src="/media/logo.svg" alt="" width="26" height="26"><span>Tangguo的Blog</span></a>
     <div class="topbar-right"><div class="site-info"><span id="clock">--:--:--</span></div><button class="themebtn" id="themebtn" type="button" data-mode="auto" title="主题：跟随系统" aria-label="切换主题"><svg class="ti ti-auto" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor"/></svg><svg class="ti ti-light" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.5 5.5 7.1 7.1M16.9 16.9l1.6 1.6M18.5 5.5 16.9 7.1M7.1 16.9l-1.6 1.6"/></g></svg><svg class="ti ti-dark" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6 8.8 8.8 0 1 0 20.4 14.6z" fill="currentColor"/></svg></button></div>
   </div>
 </div>
 
 <div class="container">
-  <p class="crumb-line"><a href="index.html">‹ 返回首页</a></p>
+  <p class="crumb-line"><a href="/">‹ 返回首页</a></p>
   <h1 class="page-title">搜索</h1>
   <form class="searchbox" id="searchform" role="search">
     <input id="q" type="search" placeholder="搜索标题、正文或分类" autocomplete="off" aria-label="搜索关键词">
@@ -151,71 +158,6 @@ window.OC = window.OC || {};
     OC.contrib = a[5] || null;
     return OC;
   }).catch(function(){ return window.OC; });
-})();
-</script>
-<script>
-/* 主题开关：跟随系统 / 亮色 / 暗色 三态循环，localStorage 记忆（?theme= 可强制预览） */
-(function(){
-  var KEY='oc-theme';
-  function system(){ return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
-  function stored(){ try{ var v=localStorage.getItem(KEY); return (v==='dark'||v==='light')?v:'auto'; }catch(e){ return 'auto'; } }
-  function param(){ try{ var v=new URLSearchParams(location.search).get('theme'); return (v==='dark'||v==='light')?v:null; }catch(e){ return null; } }
-  function label(m){ return m==='auto'?'主题：跟随系统':(m==='dark'?'主题：暗色':'主题：亮色'); }
-  function apply(mode){
-    var t = mode==='auto' ? system() : mode;
-    var root=document.documentElement;
-    root.setAttribute('data-theme',t);
-    root.style.colorScheme=t;
-    var btn=document.getElementById('themebtn');
-    if(btn){ btn.setAttribute('data-mode',mode); btn.title=label(mode); btn.setAttribute('aria-label',label(mode)); }
-  }
-  function save(mode){ try{ if(mode==='auto') localStorage.removeItem(KEY); else localStorage.setItem(KEY,mode); }catch(e){} }
-  var forced=param();
-  var mode=forced||stored();
-  apply(mode);
-  var btn=document.getElementById('themebtn');
-  if(btn){
-    btn.addEventListener('click',function(){
-      if(forced) forced=null;
-      mode = mode==='auto' ? 'light' : (mode==='light' ? 'dark' : 'auto');
-      save(mode); apply(mode);
-    });
-  }
-  try{
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){ if(mode==='auto') apply('auto'); });
-  }catch(e){}
-})();
-</script>
-<script>
-/* 时钟 + 日期/运行天数
-   - #today 在首页由基线脚本填充（格式不同），所以只在内容仍是占位符时才写，避免覆盖
-   - #footer-date / #run-days 只存在于静态文章页，直接算出来写（否则模板里的旧值会一直留着） */
-(function(){
-  var WD=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-  var START=new Date(2026,8,26); /* 建站日 2026-09-26 */
-  function p2(v){ return v<10?'0'+v:''+v; }
-  function dateStr(d){ return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
-  function days(){
-    var now=new Date();
-    var a=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    return Math.max(0, Math.floor((a-START)/86400000));
-  }
-  function isPlaceholder(el){
-    return !el.textContent || /获取|加载|\.\.\.|^\s*$/.test(el.textContent);
-  }
-  function tick(){
-    var d=new Date();
-    var el=document.getElementById('clock');
-    if(el) el.textContent=p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds());
-    var t=document.getElementById('today');
-    if(t && isPlaceholder(t)) t.textContent=dateStr(d)+' '+WD[d.getDay()];
-    var fd=document.getElementById('footer-date');
-    if(fd) fd.textContent=dateStr(d);
-    var rd=document.getElementById('run-days');
-    if(rd) rd.textContent=String(days());
-  }
-  tick();
-  setInterval(tick,1000);
 })();
 </script>
 <script>
@@ -286,40 +228,6 @@ window.OC = window.OC || {};
   else { q.focus(); }
 })();
 </script>
-<script>
-/* 访问统计：只有站点设置里填了 Cloudflare 令牌才会加载 beacon（留空 = 完全不请求外部）
-   接受两种填法：① 只填令牌  ② 整段粘贴 Cloudflare 给的代码（自动提取 token） */
-(function(){
-  var BEACON='https://static.cloudflareinsights.com/beacon.min.js';
-  function extract(raw){
-    var s=String(raw||'').trim();
-    if(!s) return '';
-    var m=s.match(/token["']?\s*[:=]\s*["']([^"']+)["']/i);
-    if(m) return m[1].trim();
-    m=s.match(/[0-9a-f]{16,64}/i);
-    if(m) return m[0];
-    return s.replace(/["'<>\s]/g,'');
-  }
-  function inject(token){
-    if(!token) return;
-    if(document.querySelector('script[data-cf-beacon]')) return;
-    var s=document.createElement('script');
-    s.type='module';
-    s.src=BEACON;
-    var payload={};
-    payload.token=token;
-    s.setAttribute('data-cf-beacon', JSON.stringify(payload));
-    document.head.appendChild(s);
-  }
-  function run(){
-    fetch('site.json?_='+Date.now(),{cache:'no-store'})
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(j){ if(j && j.cfToken) inject(extract(j.cfToken)); })
-      .catch(function(){});
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run);
-  else run();
-})();
-</script>
+<script src="/assets/site.js"></script>
 </body>
 </html>

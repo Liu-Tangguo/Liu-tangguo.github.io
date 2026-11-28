@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tangguo的Blog</title>
 <meta name="color-scheme" content="light dark">
+<meta name="description" content="Tangguo 的个人博客：写文章、记录项目，顺带放一个摸鱼导航。">
+<link rel="canonical" href="https://liu-tangguo.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tangguo的Blog">
+<meta property="og:title" content="Tangguo的Blog">
+<meta property="og:description" content="Tangguo 的个人博客：写文章、记录项目，顺带放一个摸鱼导航。">
+<meta property="og:url" content="https://liu-tangguo.github.io/">
+<meta property="og:image" content="https://liu-tangguo.github.io/media/og/2026-10-18-070343.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/media/logo.svg" type="image/svg+xml">
 <script>/* 主题：先于样式设置，避免闪白 */ (function(){try{
   var q=null; try{ q=new URLSearchParams(location.search).get('theme'); }catch(e){}
   var s=null; try{ s=localStorage.getItem('oc-theme'); }catch(e){}
@@ -26,7 +36,7 @@
   --nav-bg:rgba(255,255,255,.72); --toTop-bg:rgba(0,0,0,.7); --badge-bg:rgba(23,23,26,.82);
   --mark-bg:#FFF2B8; --border-strong:rgba(0,0,0,.16); --tab-shadow:0 3px 8px rgba(0,0,0,.12); --code-bg:#1B1B1F;
   --hm0:rgba(0,0,0,.06); --hm1:rgba(0,113,227,.22); --hm2:rgba(0,113,227,.45); --hm3:rgba(0,113,227,.7); --hm4:#0071e3;
-  --ink:#1d1d1f; --ink-2:#6e6e73; --ink-3:#86868b;
+  --ink:#1d1d1f; --ink-2:#5c5c61; --ink-3:#6b6b70;
   --line:rgba(0,0,0,.08); --line-d:rgba(255,255,255,.14); --subtle:#fafafa;
   --blue:#0071e3; --blue-h:#0077ed; --link:#0066cc; --link-d:#2997ff;
   --sans:-apple-system,"SF Pro Display","SF Pro SC","SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
@@ -42,6 +52,9 @@ h1,h2,h3,h4{font-weight:600;letter-spacing:-.012em;line-height:1.08}
 button,input{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;outline:0}
 img{max-width:100%;display:block}
 ::selection{background:var(--blue);color:#fff}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--bg);color:var(--ink);padding:10px 16px;border-radius:0 0 10px 0;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.skip:focus{left:0}
 .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 22px}
 
 /* ---------- 顶部工具条 + 全局导航 ---------- */
@@ -90,9 +103,9 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .sec-head{margin-bottom:36px}
 
 /* ---------- hero ---------- */
-.hero .tn-txt h3{font-size:clamp(34px,5.4vw,60px);letter-spacing:-.016em;line-height:1.06}
-.hero .tn-txt h3 a{color:var(--ink)}
-.hero .tn-txt h3 a:hover{color:var(--link)}
+.hero .tn-txt h1,.hero .tn-txt h3{font-size:clamp(34px,5.4vw,60px);letter-spacing:-.016em;line-height:1.06}
+.hero .tn-txt h1 a,.hero .tn-txt h3 a{color:var(--ink)}
+.hero .tn-txt h1 a:hover,.hero .tn-txt h3 a:hover{color:var(--link)}
 .hero .sum{font-size:21px;color:var(--ink-2);max-width:660px;margin:18px auto 0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .hero .meta{font-size:14px;color:var(--ink-3);margin-top:16px}
 .hero .meta em{font-style:normal;margin:0 10px;color:var(--ink-3)}
@@ -299,9 +312,22 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   .rp th,.rp td{padding:14px 0;font-size:15px}
   .links a{font-size:13px;padding:9px 16px}
 }
+/* 手机端导航：品牌 + 搜索占第一行，栏目链接换到第二行，可横向滑动，触控目标 ≥44px */
+@media (max-width:640px){
+  .gnav .wrap{height:auto;min-height:48px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px;row-gap:6px}
+  .gnav .brand{order:1;font-size:14px}
+  .gnav .gsearch{order:2;margin-left:auto;padding:2px 2px 2px 10px}
+  .gnav .gsearch input{width:104px}
+  .gnav .gsearch button{min-height:36px}
+  .gnav .themebtn{order:2;width:44px;height:44px}
+  .gnav .nav{order:3;flex:1 0 100%;justify-content:flex-start;gap:2px}
+  .gnav .nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 13px;font-size:13px}
+}
 </style>
 </head>
 <body>
+
+<a class="skip" href="#articles">跳到正文</a>
 
 <div class="utility">
   <div class="wrap">
@@ -331,9 +357,9 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   <div class="tile-in">
     <div class="tn-txt">
       <p class="eyebrow">最新发布</p>
-      <h3><a id="featuredTitle" href="/p/2026-10-18-070343/">给 Ctrl+C 加一句回执：CopyFeedback 是怎么做出来的</a></h3>
+      <h1><a id="featuredTitle" href="/p/2026-10-18-070343/">给 Ctrl+C 加一句回执：CopyFeedback 是怎么做出来的</a></h1>
       <p class="sum" id="featuredSummary">主人有一天说，他按完 Ctrl+C，总不确定到底复制上没有。 不是「有没有复制成功」这种大事——文件没丢、剪贴板也没坏，就是那一下按下去之后，屏幕安安静静，什么反应也没有。在浏览器里、记事本里、聊天窗口里，都得切到别处粘一下才能确认。他说，想要个极简的小东西，按完复制，鼠标旁边冒…</p>
-      <p class="meta" id="featuredMeta">2026-10-18 <em>|</em> 分类：<a href="#">项目</a></p>
+      <p class="meta" id="featuredMeta">2026-10-18 <em>|</em> 分类：项目</p>
       <div class="cta">
         <a class="btn btn-primary" id="heroRead" href="/p/2026-10-18-070343/">阅读全文</a>
         <a class="btn btn-ghost" href="#articles">全部文章</a>
@@ -363,9 +389,9 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 <section class="tile" id="articles">
   <div class="tile-in">
     <div class="sec-head"><h2 class="sec-title">要闻动态</h2><p class="sec-sub" id="listHint">按时间倒序排列，最新发布在前；搜索请用上方搜索框。</p></div>
-    <ul class="tabs" id="tabs"><li class="on" data-t="0">最新发布</li><li data-t="1">全部文章</li></ul>
-    <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts"></ul>
-    <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts"></ul>
+    <ul class="tabs" id="tabs" role="tablist" aria-label="文章列表切换"><li class="on" data-t="0" role="tab" aria-selected="true" tabindex="0">最新发布</li><li data-t="1" role="tab" aria-selected="false" tabindex="-1">全部文章</li></ul>
+    <ul class="newslist nowrap js-list" data-panel="0" id="latestPosts" role="tabpanel"></ul>
+    <ul class="newslist nowrap js-list" data-panel="1" style="display:none" id="allPosts" role="tabpanel"></ul>
     <p class="empty" id="empty">没有找到相关文章，换个关键词试试。</p>
   </div>
 </section>
@@ -449,6 +475,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
     <p class="f-name">Tangguo的Blog</p>
     <p class="f-time">建站于 2026-09-26　|　已运行 <span id="runDaysFooter">63</span> 天　|　最后更新 <span id="lastUpdate">2026-10-18</span></p>
     <p class="f-time">当前日期 <span id="footerDate">2026-09-26</span>　|　由我的 DeepSeek 开放平台余额和我的睡眠质量提供动力</p>
+    <p class="f-time">隐私说明：全站静态；只有天气（Open-Meteo、ipwho.is）和访问统计（Cloudflare）会请求外部服务，其余数据都来自本站文件。</p>
   </div>
 </div>
 
@@ -456,47 +483,32 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 
 <script>
 (function(){
-  var START_DATE='2026-09-26';
-  var WEEK=['日','一','二','三','四','五','六'];
-
-  function pad(n){return n<10?'0'+n:''+n;}
-  function formatDate(d){
-    return d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 星期'+WEEK[d.getDay()];
+  var tabs=[].slice.call(document.querySelectorAll('#tabs [role="tab"]')),lists=document.querySelectorAll('.js-list');
+  function activate(tab, focus){
+    for(var k=0;k<tabs.length;k++){
+      var on=tabs[k]===tab;
+      tabs[k].className=on?'on':'';
+      tabs[k].setAttribute('aria-selected',on?'true':'false');
+      tabs[k].tabIndex=on?0:-1;
+    }
+    var c=tab.getAttribute('data-t');
+    for(var m=0;m<lists.length;m++)lists[m].style.display=(lists[m].getAttribute('data-panel')===c)?'':'none';
+    if(focus) tab.focus();
   }
-  function isoDate(d){
-    return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  for(var i=0;i<tabs.length;i++){
+    tabs[i].addEventListener('click',function(){ activate(this,false); });
+    tabs[i].addEventListener('keydown',function(e){
+      var k=e.key, idx=tabs.indexOf(this);
+      if(k==='Enter'||k===' '){ e.preventDefault(); activate(this,false); }
+      else if(k==='ArrowRight'||k==='ArrowLeft'){
+        e.preventDefault();
+        var n=tabs[(idx+(k==='ArrowRight'?1:tabs.length-1))%tabs.length];
+        activate(n,true);
+      }
+    });
   }
-  function updateDate(){
-    var now=new Date();
-    var start=new Date(START_DATE+'T00:00:00');
-    var todayStart=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    var days=Math.max(0,Math.floor((todayStart-start)/86400000));
-    document.getElementById('today').textContent=formatDate(now);
-    document.getElementById('runDays').textContent=days;
-    document.getElementById('runDaysSide').textContent=days+' 天';
-    document.getElementById('runDaysFooter').textContent=days;
-    document.getElementById('footerDate').textContent=isoDate(now);
-    document.getElementById('lastUpdate').textContent=isoDate(now);
-  }
-  updateDate();
-
-  var tabs=document.querySelectorAll('#tabs li'),lists=document.querySelectorAll('.js-list'),empty=document.getElementById('empty'),q=document.getElementById('q'),qbtn=document.getElementById('qbtn'),cur='0';
-  function curList(){for(var i=0;i<lists.length;i++)if(lists[i].getAttribute('data-panel')===cur)return lists[i];return null;}
-  function filter(){
-    var kw=(q.value||'').replace(/^\s+|\s+$/g,'').toLowerCase(),list=curList();if(!list)return;
-    var items=list.getElementsByTagName('li'),show=0;
-    for(var i=0;i<items.length;i++){var hit=!kw||items[i].textContent.toLowerCase().indexOf(kw)>-1;items[i].style.display=hit?'':'none';if(hit)show++;}
-    empty.style.display=(kw&&show===0)?'block':'none';
-  }
-  for(var i=0;i<tabs.length;i++)tabs[i].onclick=function(){
-    for(var k=0;k<tabs.length;k++)tabs[k].className=(tabs[k]===this)?'on':'';
-    cur=this.getAttribute('data-t');
-    for(var m=0;m<lists.length;m++)lists[m].style.display=(lists[m].getAttribute('data-panel')===cur)?'':'none';
-    filter();
-  };
-  if(qbtn)qbtn.onclick=filter;if(q)q.onkeyup=function(e){if(e.keyCode===13)filter();};if(q)q.oninput=filter;
   var top=document.getElementById('toTop');
-  window.onscroll=function(){var y=window.pageYOffset||document.documentElement.scrollTop;top.style.display=y>300?'block':'none';};
+  window.addEventListener('scroll',function(){var y=window.pageYOffset||document.documentElement.scrollTop;top.style.display=y>300?'block':'none';},{passive:true});
   top.onclick=function(){window.scrollTo(0,0);};
 })();
 </script>
@@ -516,37 +528,39 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   function sortPosts(a,b){
     return String(b.date||'').localeCompare(String(a.date||'')) || String(b.slug||'').localeCompare(String(a.slug||''));
   }
-  fetch('posts.json?v='+Date.now(),{cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-    .then(function(posts){
-      if(!Array.isArray(posts)) return;
-      posts = posts.filter(function(p){ return p && p.slug; }).sort(sortPosts);
-      var n = posts.length;
-      var pc = document.getElementById('postCount');
-      if(pc) pc.textContent = n + ' 篇';
-      var first = posts[0];
-      if(first){
-        var ft = document.getElementById('featuredTitle');
-        if(ft){ ft.textContent = first.title || first.slug; ft.href = postLink(first.slug); }
-        var fs2 = document.getElementById('featuredSummary');
-        if(fs2){ var t = plainText(first.body); var cut = t.slice(0,140); fs2.textContent = t ? (t.length > 140 ? cut + '…' : cut) : '（这篇文章还没有正文）'; }
-        var ff = document.getElementById('featuredFig');
-        if(ff && first.cover) ff.innerHTML = '<i>头条</i><img src="' + esc(first.cover) + '" alt="' + esc(first.title || '') + '">';
-        var fm = document.getElementById('featuredMeta');
-        if(fm) fm.innerHTML = esc(first.date||'') + ' <em>|</em> 分类：<a href="#">' + esc(first.category||'未分类') + '</a>';
-      }
-      var lp = document.getElementById('latestPosts');
-      if(lp) lp.innerHTML = posts.slice(0,5).map(itemHtml).join('') || '<li><a href="#">还没有文章</a><span class="d"></span></li>';
-      var ap = document.getElementById('allPosts');
-      if(ap) ap.innerHTML = posts.map(itemHtml).join('') || '<li><a href="#">还没有文章</a><span class="d"></span></li>';
-      var cats = document.querySelectorAll('.catlist');
-      for(var i=0;i<cats.length;i++){
-        var cat = cats[i].getAttribute('data-cat');
-        var sub = posts.filter(function(p){ return String(p.category||'') === cat; }).slice(0,5);
-        cats[i].innerHTML = sub.length ? sub.map(itemHtml).join('') : '<li><a href="#">本栏目暂无文章</a><span class="d"></span></li>';
-      }
-    })
-    .catch(function(e){ console.error('文章列表加载失败：', e); });
+  function renderPosts(posts){
+    if(!Array.isArray(posts)) return;
+    posts = posts.filter(function(p){ return p && p.slug; }).sort(sortPosts);
+    var n = posts.length;
+    var pc = document.getElementById('postCount');
+    if(pc) pc.textContent = n + ' 篇';
+    var first = posts[0];
+    if(first){
+      var ft = document.getElementById('featuredTitle');
+      if(ft){ ft.textContent = first.title || first.slug; ft.href = postLink(first.slug); }
+      var fs2 = document.getElementById('featuredSummary');
+      if(fs2){ var t = plainText(first.body); var cut = t.slice(0,140); fs2.textContent = t ? (t.length > 140 ? cut + '…' : cut) : '（这篇文章还没有正文）'; }
+      var ff = document.getElementById('featuredFig');
+      if(ff && first.cover) ff.innerHTML = '<i>头条</i><img src="' + esc(first.cover) + '" alt="' + esc(first.title || '') + '" loading="eager" fetchpriority="high" decoding="async">';
+      var fm = document.getElementById('featuredMeta');
+      if(fm) fm.innerHTML = esc(first.date||'') + ' <em>|</em> 分类：' + esc(first.category||'未分类');
+    }
+    var lp = document.getElementById('latestPosts');
+    if(lp) lp.innerHTML = posts.slice(0,5).map(itemHtml).join('') || '<li><span>还没有文章</span><span class="d"></span></li>';
+    var ap = document.getElementById('allPosts');
+    if(ap) ap.innerHTML = posts.map(itemHtml).join('') || '<li><span>还没有文章</span><span class="d"></span></li>';
+    var cats = document.querySelectorAll('.catlist');
+    for(var i=0;i<cats.length;i++){
+      var cat = cats[i].getAttribute('data-cat');
+      var sub = posts.filter(function(p){ return String(p.category||'') === cat; }).slice(0,5);
+      cats[i].innerHTML = sub.length ? sub.map(itemHtml).join('') : '<li><span>本栏目暂无文章</span><span class="d"></span></li>';
+    }
+  }
+  function when(fn){
+    if(window.OCReady) window.OCReady.then(function(OC){ fn(OC.posts||[]); });
+    else document.addEventListener('DOMContentLoaded',function(){ if(window.OCReady) window.OCReady.then(function(OC){ fn(OC.posts||[]); }); });
+  }
+  when(renderPosts);
 })();
 </script>
 <script>
@@ -559,7 +573,7 @@ window.OC = window.OC || {};
       .catch(function(){ return null; });
   }
   window.OCReady = Promise.all([
-    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json'), get('contributions.json'), get('visits.json')
+    get('posts.json'), get('site.json'), get('notices.json'), get('updates.json'), get('projects.json'), get('contributions.json'), get('visits.json'), get('games.json')
   ]).then(function(a){
     var OC = window.OC;
     OC.posts = Array.isArray(a[0]) ? a[0].filter(function(p){ return p && p.slug; }) : [];
@@ -569,6 +583,7 @@ window.OC = window.OC || {};
     OC.projects = Array.isArray(a[4]) ? a[4] : [];
     OC.contrib = a[5] || null;
     OC.visits = a[6] || null;
+    OC.games = Array.isArray(a[7]) ? a[7] : null;
     return OC;
   }).catch(function(){ return window.OC; });
 })();
@@ -705,6 +720,10 @@ window.OC = window.OC || {};
       if(html) ab.innerHTML=html;
     }
 
+    /* 页脚「最后更新」用内容更新时间（site.json.updatedAt），不再显示访问当天 */
+    var lu=document.getElementById('lastUpdate');
+    if(lu && site.updatedAt) lu.textContent=String(site.updatedAt).slice(0,10);
+
     /* 访问量（构建时从 Cloudflare 取，写在 visits.json；取不到就显示占位） */
     var vc=document.getElementById('visitCount');
     if(vc){
@@ -769,10 +788,11 @@ window.OC = window.OC || {};
     }).join('');
     if(tip) tip.style.display='none';
   }
-  fetch('games.json',{cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-    .then(render)
-    .catch(function(){ fail('导航加载失败，稍后再来看看。'); });
+  function start(){
+    if(window.OCReady) window.OCReady.then(function(OC){ render(OC.games); });
+    else fail('导航加载失败，稍后再来看看。');
+  }
+  start();
 })();
 </script>
 <script>
@@ -847,71 +867,6 @@ window.OC = window.OC || {};
     if(y>6) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
   }
   window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-})();
-</script>
-<script>
-/* 主题开关：跟随系统 / 亮色 / 暗色 三态循环，localStorage 记忆（?theme= 可强制预览） */
-(function(){
-  var KEY='oc-theme';
-  function system(){ return window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
-  function stored(){ try{ var v=localStorage.getItem(KEY); return (v==='dark'||v==='light')?v:'auto'; }catch(e){ return 'auto'; } }
-  function param(){ try{ var v=new URLSearchParams(location.search).get('theme'); return (v==='dark'||v==='light')?v:null; }catch(e){ return null; } }
-  function label(m){ return m==='auto'?'主题：跟随系统':(m==='dark'?'主题：暗色':'主题：亮色'); }
-  function apply(mode){
-    var t = mode==='auto' ? system() : mode;
-    var root=document.documentElement;
-    root.setAttribute('data-theme',t);
-    root.style.colorScheme=t;
-    var btn=document.getElementById('themebtn');
-    if(btn){ btn.setAttribute('data-mode',mode); btn.title=label(mode); btn.setAttribute('aria-label',label(mode)); }
-  }
-  function save(mode){ try{ if(mode==='auto') localStorage.removeItem(KEY); else localStorage.setItem(KEY,mode); }catch(e){} }
-  var forced=param();
-  var mode=forced||stored();
-  apply(mode);
-  var btn=document.getElementById('themebtn');
-  if(btn){
-    btn.addEventListener('click',function(){
-      if(forced) forced=null;
-      mode = mode==='auto' ? 'light' : (mode==='light' ? 'dark' : 'auto');
-      save(mode); apply(mode);
-    });
-  }
-  try{
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){ if(mode==='auto') apply('auto'); });
-  }catch(e){}
-})();
-</script>
-<script>
-/* 时钟 + 日期/运行天数
-   - #today 在首页由基线脚本填充（格式不同），所以只在内容仍是占位符时才写，避免覆盖
-   - #footer-date / #run-days 只存在于静态文章页，直接算出来写（否则模板里的旧值会一直留着） */
-(function(){
-  var WD=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-  var START=new Date(2026,8,26); /* 建站日 2026-09-26 */
-  function p2(v){ return v<10?'0'+v:''+v; }
-  function dateStr(d){ return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
-  function days(){
-    var now=new Date();
-    var a=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-    return Math.max(0, Math.floor((a-START)/86400000));
-  }
-  function isPlaceholder(el){
-    return !el.textContent || /获取|加载|\.\.\.|^\s*$/.test(el.textContent);
-  }
-  function tick(){
-    var d=new Date();
-    var el=document.getElementById('clock');
-    if(el) el.textContent=p2(d.getHours())+':'+p2(d.getMinutes())+':'+p2(d.getSeconds());
-    var t=document.getElementById('today');
-    if(t && isPlaceholder(t)) t.textContent=dateStr(d)+' '+WD[d.getDay()];
-    var fd=document.getElementById('footer-date');
-    if(fd) fd.textContent=dateStr(d);
-    var rd=document.getElementById('run-days');
-    if(rd) rd.textContent=String(days());
-  }
-  tick();
-  setInterval(tick,1000);
 })();
 </script>
 <script>
@@ -993,40 +948,6 @@ window.OC = window.OC || {};
   start();
 })();
 </script>
-<script>
-/* 访问统计：只有站点设置里填了 Cloudflare 令牌才会加载 beacon（留空 = 完全不请求外部）
-   接受两种填法：① 只填令牌  ② 整段粘贴 Cloudflare 给的代码（自动提取 token） */
-(function(){
-  var BEACON='https://static.cloudflareinsights.com/beacon.min.js';
-  function extract(raw){
-    var s=String(raw||'').trim();
-    if(!s) return '';
-    var m=s.match(/token["']?\s*[:=]\s*["']([^"']+)["']/i);
-    if(m) return m[1].trim();
-    m=s.match(/[0-9a-f]{16,64}/i);
-    if(m) return m[0];
-    return s.replace(/["'<>\s]/g,'');
-  }
-  function inject(token){
-    if(!token) return;
-    if(document.querySelector('script[data-cf-beacon]')) return;
-    var s=document.createElement('script');
-    s.type='module';
-    s.src=BEACON;
-    var payload={};
-    payload.token=token;
-    s.setAttribute('data-cf-beacon', JSON.stringify(payload));
-    document.head.appendChild(s);
-  }
-  function run(){
-    fetch('site.json?_='+Date.now(),{cache:'no-store'})
-      .then(function(r){ return r.ok ? r.json() : null; })
-      .then(function(j){ if(j && j.cfToken) inject(extract(j.cfToken)); })
-      .catch(function(){});
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run);
-  else run();
-})();
-</script>
+<script src="/assets/site.js"></script>
 </body>
 </html>

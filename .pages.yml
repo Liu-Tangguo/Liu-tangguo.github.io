@@ -40,6 +40,10 @@ content:
         label: 封面图
         type: image
 
+      - name: summary
+        label: 摘要（可选，用于分享卡片和 SEO 描述；留空自动截正文）
+        type: text
+
       - name: body
         label: 正文
         type: rich-text
@@ -127,12 +131,9 @@ content:
 
   - name: site
     label: 站点设置
-    type: collection
-    path: content/site
+    type: file
+    path: content/site/site.md
     format: yaml-frontmatter
-    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
-    exclude:
-      - README.md
 
     fields:
       - name: githubUser
