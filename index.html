@@ -168,6 +168,14 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
 .links a{font-size:14px;color:var(--ink);border:1px solid var(--border-strong);border-radius:980px;padding:10px 20px;transition:border-color .2s var(--ease),color .2s var(--ease)}
 .links a:hover{border-color:var(--blue);color:var(--link)}
 
+/* ---------- 摸鱼导航（站点清单见 games.json，一行一条） ---------- */
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(222px,1fr));gap:14px;max-width:980px;margin:34px auto 0;text-align:left}
+.games a{display:block;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:var(--fill-solid);transition:border-color .22s var(--ease),transform .22s var(--ease),box-shadow .22s var(--ease)}
+.games a:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 12px 26px -20px rgba(0,0,0,.4);color:var(--ink)}
+.games b{display:block;font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.35}
+.games span{display:block;font-size:13px;line-height:1.5;color:var(--ink-3);margin-top:7px}
+@media (max-width:760px){.games{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}.games a{padding:14px 15px;border-radius:14px}.games b{font-size:15px}.games span{font-size:12.5px}}
+
 /* ---------- 页脚 ---------- */
 .footer{background:var(--bg);color:var(--ink-2);font-size:12px;padding:44px 0 34px;border-top:1px solid var(--line)}
 .f-nav{display:flex;flex-wrap:wrap;gap:8px 22px;padding-bottom:20px;border-bottom:1px solid var(--line)}
@@ -305,7 +313,7 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
   <div class="wrap">
     <a class="brand" href="index.html"><img class="logo-img" src="media/logo.svg" alt="" width="34" height="34"><span>Tangguo的Blog</span></a>
     <div class="nav" id="navroot">
-      <a class="on" href="index.html">首页</a><a href="#articles">要闻动态</a><a href="#about" id="navabout">关于本站</a>
+      <a class="on" href="index.html">首页</a><a href="#articles">要闻动态</a><a href="#games">摸鱼导航</a><a href="#about" id="navabout">关于本站</a>
     </div>
     <div class="gsearch"><input id="q" type="text" placeholder="搜索"><button id="qbtn" type="button">搜索</button></div>
     <button class="themebtn" id="themebtn" type="button" data-mode="auto" title="主题：跟随系统" aria-label="切换主题"><svg class="ti ti-auto" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 3.6a8.4 8.4 0 0 1 0 16.8z" fill="currentColor"/></svg><svg class="ti ti-light" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.5 5.5 7.1 7.1M16.9 16.9l1.6 1.6M18.5 5.5 16.9 7.1M7.1 16.9l-1.6 1.6"/></g></svg><svg class="ti ti-dark" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6 8.8 8.8 0 1 0 20.4 14.6z" fill="currentColor"/></svg></button>
@@ -424,6 +432,15 @@ h2.sec-title{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.014em}
       <p>这里是一个还没写完的个人博客。栏目已经摆好，位置已经留出，内容会慢慢填进来。</p>
       <p>建站原则有两条：一是不着急，二是不着急。</p>
     </div>
+  </div>
+</section>
+
+<!-- ===== 摸鱼导航（站点在 games.json，一行一条，改完推送自动生效） ===== -->
+<section class="tile gray" id="games">
+  <div class="tile-in">
+    <div class="sec-head"><h2 class="sec-title">摸鱼导航</h2><p class="sec-sub">信息课自由时间专用：免登录，点开即玩。</p></div>
+    <div class="games" id="gamesGrid"></div>
+    <p class="empty" id="gamesEmpty">正在加载导航…</p>
   </div>
 </section>
 
@@ -734,6 +751,28 @@ window.OC = window.OC || {};
 
     try{ window.dispatchEvent(new CustomEvent('oc:content')); }catch(e){}
   });
+})();
+</script>
+<script>
+/* 摸鱼导航：站点清单在 games.json（数组，一行一条），新增 / 删除只改那个文件 */
+(function(){
+  function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  var grid=document.getElementById('gamesGrid'), tip=document.getElementById('gamesEmpty');
+  function fail(msg){ if(tip){ tip.textContent=msg; tip.style.display='block'; } }
+  function render(list){
+    if(!grid) return;
+    var items=(Array.isArray(list)?list:[]).filter(function(g){ return g && g.url; });
+    if(!items.length){ fail('导航还没配置：在 games.json 里加一行就行。'); return; }
+    grid.innerHTML=items.map(function(g){
+      var desc=esc(g.desc||'');
+      return '<a href="'+esc(g.url)+'" target="_blank" rel="noopener" title="'+desc+'"><b>'+esc(g.name||g.url)+'</b>'+(desc?'<span>'+desc+'</span>':'')+'</a>';
+    }).join('');
+    if(tip) tip.style.display='none';
+  }
+  fetch('games.json',{cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(render)
+    .catch(function(){ fail('导航加载失败，稍后再来看看。'); });
 })();
 </script>
 <script>
